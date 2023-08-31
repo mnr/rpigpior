@@ -4,10 +4,7 @@
 \alias{gpiodetect}
 \title{Find gpiochips on this system}
 \usage{
-gpiodetect(gpio_chip = "")
-}
-\arguments{
-\item{gpio_chip}{}
+gpiodetect()
 }
 \value{
 a (list? data.frame? vector?) with name, label, and number of GPIO lines
