@@ -4,17 +4,7 @@
 # https://libgpiod.readthedocs.io/en/latest/index.html
 # https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/tree/tools/gpiodetect.c
 
-# Usage: %s [OPTIONS] [chip]...\n", get_prog_name());
-# List GPIO chips, print their labels and number of GPIO lines.
-
-# Chips may be identified by number, name, or path.
-# e.g. '0', 'gpiochip0', and '/dev/gpiochip0' all refer to the same chip.
-
-# If no chips are specified then all chips are listed.
-
 #' Find gpiochips on this system
-#'
-#' @param gpio_chip
 #'
 #' @return a (list? data.frame? vector?) with name, label, and number of GPIO lines
 #' @export
@@ -22,7 +12,6 @@
 #' @examples
 #' gpiodetect()
 #' gpiodetect(0)
-gpiodetect <- function(gpio_chip = "") {
-  gpio_sysCall <- paste("gpiodetect",gpio_chip)
-  system(gpio_sysCall, intern = TRUE)
+gpiodetect <- function() {
+  return(system("gpiodetect", intern = TRUE))
 }
