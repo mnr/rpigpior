@@ -1,3 +1,4 @@
 test_that("gpiodetect returns the gpiochips", {
-  expect_equal(2 * 2, 4)
+  # this will obviously fail if libgpiod isn't installed
+  expect_no_error(gpiodetect())
 })
