@@ -39,7 +39,7 @@
 #       --utc    format event timestamps as UTC (default for 'realtime')
 #   -v, --version    output version information and exit
 # print_chip_help();
-We # print_period_help();
+# We print_period_help();
 
 # Format specifiers:
 #   %%o   GPIO line offset
@@ -50,3 +50,11 @@ We # print_period_help();
 #   %%S   event timestamp as seconds
 #   %%U   event timestamp as UTC
 #   %%L   event timestamp as local time
+gpiomon <- function(active = FALSE,
+                    num_events = 1,
+                    silent = FALSE,
+                    rising_edge = FALSE,
+                    falling_edge = FALSE,
+                    format) {
+
+}

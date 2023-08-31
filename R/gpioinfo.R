@@ -17,3 +17,15 @@
 #   -s, --strict    check all lines - don't assume line names are unique
 #       --unquoted\tdon't quote line or consumer names
 #   -v, --version    output version information and exit
+#' gpioinfo
+#'
+#' @param gpio_chip
+#'
+#' @return
+#' @export
+#'
+#' @examples
+gpioinfo <- function(gpio_chip) {
+  gpio_sysCall <- paste("gpioinfo",gpio_chip)
+  system(gpio_sysCall, intern = TRUE)
+}

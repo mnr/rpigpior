@@ -14,7 +14,7 @@
 
 #' Find gpiochips on this system
 #'
-#' @param aChip Chips may be identified by number, name, or path. e.g. '0', 'gpiochip0', and '/dev/gpiochip0' all refer to the same chip.
+#' @param gpio_chip
 #'
 #' @return a (list? data.frame? vector?) with name, label, and number of GPIO lines
 #' @export
@@ -22,7 +22,7 @@
 #' @examples
 #' gpiodetect()
 #' gpiodetect(0)
-gpiodetect <- function(aChip = "") {
-  gpio_sysCall <- paste("gpiodetect",aChip)
+gpiodetect <- function(gpio_chip = "") {
+  gpio_sysCall <- paste("gpiodetect",gpio_chip)
   system(gpio_sysCall, intern = TRUE)
 }
