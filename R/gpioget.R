@@ -3,9 +3,10 @@
 # https://kernel.googlesource.com/pub/scm/libs/libgpiod/libgpiod/+/v0.2.x/README.md
 #' gpioget
 #'
-#' @param gpio_line Retrieve state from this pin
-#' @param gpio_chip Which chip to retrive the pin info from
-#' @param gpio_active Set the line active state. Default to low
+#' @param gpio_line Retrieve state from this pin. Uses BCM numbering.
+#' @param gpio_chip Retrieve the pin info from this chip number. Defaults to chip 0. Chips are listed by gpiodetect()
+#' @param gpio_active Set the line active state.
+#' @param gpio_bias Set the line bias to one of the following: as-is (the default), disable, pull-down, pull-up
 #'
 #' @return
 #' @export
@@ -16,15 +17,15 @@
 #' Read two values at the same time. Set the active state of the lines to low.
 #' gpioget --active-low gpiochip1 23 24
 gpioget <- function(gpio_chip = 0,
-                    gpio_active = FALSE,
+                    gpio_active = TRUE,
                     gpio_line,
                     gpio_bias = "as-is") {
   gpio_sysCall <- paste("gpioget",
-                        ifelse(gpio_active, "", "--active-low"),
+                        if (!gpio_active) {"--active-low"},
+                        "--bias", gpio_bias,
                         gpio_chip,
                         gpio_line)
 
-  print(gpio_sysCall)
   return(system(gpio_sysCall, intern = TRUE))
 }
 
