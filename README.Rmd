@@ -67,7 +67,3 @@ Most documentation will tell you to use devtools, but
 ## Example
 
 ### gpiodetect
-
-```{r}
-gpiodetect()
-```
