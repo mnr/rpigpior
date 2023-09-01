@@ -4,10 +4,14 @@
 \alias{gpioget}
 \title{gpioget}
 \usage{
-gpioget(gpio_chip, gpio_active = FALSE, gpio_line)
+gpioget(gpio_chip = 0, gpio_active = FALSE, gpio_line)
 }
 \arguments{
-\item{gpio_active}{}
+\item{gpio_chip}{Which chip to retrive the pin info from}
+
+\item{gpio_active}{Set the line active state. Default to low}
+
+\item{gpio_line}{Retrieve state from this pin}
 }
 \description{
 gpioget
