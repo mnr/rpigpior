@@ -7,12 +7,11 @@
 gpiodetect()
 }
 \value{
-a (list? data.frame? vector?) with name, label, and number of GPIO lines
+a chr vector with name, label, and number of GPIO lines
 }
 \description{
 Find gpiochips on this system
 }
 \examples{
 gpiodetect()
-gpiodetect(0)
 }
