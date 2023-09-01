@@ -3,9 +3,9 @@
 # https://kernel.googlesource.com/pub/scm/libs/libgpiod/libgpiod/+/v0.2.x/README.md
 #' gpioget
 #'
-#' @param gpio_line
-#' @param gpio_chip
-#' @param gpio_active
+#' @param gpio_line Retrieve state from this pin
+#' @param gpio_chip Which chip to retrive the pin info from
+#' @param gpio_active Set the line active state. Default to low
 #'
 #' @return
 #' @export
@@ -15,10 +15,10 @@
 #' gpioget gpiochip1 23
 #' Read two values at the same time. Set the active state of the lines to low.
 #' gpioget --active-low gpiochip1 23 24
-gpioget <- function(gpio_chip,
+gpioget <- function(gpio_chip = 0,
                     gpio_active = FALSE,
                     gpio_line) {
-  gpio_sysCall <- paste("gpiodetect",gpio_chip, gpio_line,
-                        ifelse(gpio_active, "", "--active-low"))
+  gpio_sysCall <- paste("gpioget", gpio_chip, gpio_line,
+                        ifelse(gpio_active, "--active-high", "--active-low"))
   system(gpio_sysCall, intern = TRUE)
 }
