@@ -11,7 +11,6 @@
 #'
 #' @examples
 #' gpiodetect()
-#' gpiodetect(0)
 gpiodetect <- function() {
   return(system("gpiodetect", intern = TRUE))
 }
