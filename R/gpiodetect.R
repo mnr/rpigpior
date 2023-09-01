@@ -6,7 +6,7 @@
 
 #' Find gpiochips on this system
 #'
-#' @return a (list? data.frame? vector?) with name, label, and number of GPIO lines
+#' @return a chr vector with name, label, and number of GPIO lines
 #' @export
 #'
 #' @examples
