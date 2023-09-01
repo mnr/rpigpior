@@ -17,11 +17,15 @@
 #' gpioget --active-low gpiochip1 23 24
 gpioget <- function(gpio_chip = 0,
                     gpio_active = FALSE,
-                    gpio_line) {
-  gpio_sysCall <- paste0("gpioget ", "gpio_chip=", gpio_chip, ", ",
-                        "gpio_line=", gpio_line, ", ",
-                        ifelse(gpio_active, "--active-high", "--active-low"))
+                    gpio_line,
+                    gpio_bias = "as-is") {
+  gpio_sysCall <- paste("gpioget", gpio_chip, gpio_line,
+                        ifelse(gpio_active, "", "--active-low"))
 
   print(gpio_sysCall)
   return(system(gpio_sysCall, intern = TRUE))
 }
+
+# todo
+# gpio_line is a vector. Address multiple values/lines/pins
+# gpio_bias: as-is, disable, pull-up, pull-down
