@@ -19,8 +19,10 @@ gpioget <- function(gpio_chip = 0,
                     gpio_active = FALSE,
                     gpio_line,
                     gpio_bias = "as-is") {
-  gpio_sysCall <- paste("gpioget", gpio_chip, gpio_line,
-                        ifelse(gpio_active, "", "--active-low"))
+  gpio_sysCall <- paste("gpioget",
+                        ifelse(gpio_active, "", "--active-low"),
+                        gpio_chip,
+                        gpio_line)
 
   print(gpio_sysCall)
   return(system(gpio_sysCall, intern = TRUE))
