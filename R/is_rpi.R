@@ -30,7 +30,7 @@
 #' @return If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running on a Raspberry Pi
 #' @export
 #'
-#' @examplesIF is.rpi()
+#' @examplesIf is.rpi()
 #' is.rpi()
 #' is.rpi("NAME")
 is.rpi <- function(onlyThis = "IsThisRPI") {
