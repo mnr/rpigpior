@@ -6,8 +6,9 @@
 #' @examples
 #' is.rpi()
 is.rpi <- function(onlyThis = "NAME") {
-  system("cat /etc/os-release", intern = TRUE) |>
-    grep(paste0("^",onlyThis,"=")) |>
-    strsplit(split = "=") |>
-    unlist()
+  tmpVal <- system("cat /etc/os-release", intern = TRUE)
+  tmpVal <- grep(paste0("^",onlyThis,"="), tmpVal)
+  tmpVal <- strsplit(tmpVal, split = "=")
+  tmpVal <- unlist(tmpVal)
+  return(tmpVal)
 }
