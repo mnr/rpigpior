@@ -8,12 +8,32 @@
 #' @examples
 #' is.rpi()
 is.rpi <- function(onlyThis = "IsThisRPI") {
-  theResult = tryCatch({read.table("/etc/os-release3", sep="=")},
-                        warning = function(w) {print("warning")},
-                        error = function(e) {print("error")},
-                        finally = {print("cleanup")})
+  theResult <- tryCatch({
+    read.table("/etc/os-release", sep = "=")
+  },
+  warning = function(w) {
+    FALSE
+  },
+  error = function(e) {
+    FALSE
+  },
+  finally = {
+    #cleanup
+  })
 
-  return(theResult)
-  #return(tmpVal[tmpVal[1]==onlyThis,])
+  if (theResult) {
+    # theResult contains os-release
+    if (onlyThis == "IsThisRPI") {
+      theReturnValue <- c(TRUE, theResult)
+    } else {
+      theReturnValue <- c(TRUE, theResult[theResult[1] == onlyThis,])
+    }
+  }
+  else {
+    # theResult contains FALSE
+    theReturnValue <- c(FALSE, "")
+  }
+
+  return(theReturnValue)
 
 }
