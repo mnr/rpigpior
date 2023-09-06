@@ -5,7 +5,7 @@
 #'
 #' @param gpio_line Retrieve state from this pin. Uses BCM numbering.
 #' @param gpio_chip Retrieve the pin info from this chip number. Defaults to chip 0. Chips are listed by gpiodetect()
-#' @param gpio_active Set the line active state.
+#' @param gpio_active Set the line active state, or what value to return when signal is high. gpio_active = FALSE inverts the active state of the line
 #' @param gpio_bias Set the line bias to one of the following: as-is (the default), disable, pull-down, pull-up
 #'
 #' @return
@@ -25,11 +25,9 @@ gpioget <- function(gpio_chip = 0,
                         "--bias", gpio_bias,
                         gpio_chip,
                         paste(gpio_line, collapse = " "))
-  print(gpio_sysCall)
+  # print(gpio_sysCall)
   return(system(gpio_sysCall, intern = TRUE))
 }
 
 # todo
-# gpio_line is a vector. Address multiple values/lines/pins
 # gpio_chip should understand the output of gpiofind. i.e. "gpiochip0 15"
-# explain gpio_active. hint: --active-low returns 0 if button is pushed
