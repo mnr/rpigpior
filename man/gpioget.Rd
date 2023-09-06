@@ -15,6 +15,9 @@ gpioget(gpio_chip = 0, gpio_active = TRUE, gpio_line, gpio_bias = "as-is")
 
 \item{gpio_bias}{Set the line bias to one of the following: as-is (the default), disable, pull-down, pull-up}
 }
+\value{
+A vector of 1 or 0 the same length of gpio_line indicating the state of each pin
+}
 \description{
 gpioget
 }

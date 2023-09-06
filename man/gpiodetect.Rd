@@ -13,5 +13,7 @@ a chr vector with name, label, and number of GPIO lines
 Find gpiochips on this system
 }
 \examples{
+\dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 gpiodetect()
+\dontshow{\}) # examplesIf}
 }

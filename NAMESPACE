@@ -3,3 +3,4 @@
 export(gpiodetect)
 export(gpioget)
 export(gpioinfo)
+export(is.rpi)
