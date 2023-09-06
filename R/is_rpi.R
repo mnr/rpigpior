@@ -1,12 +1,38 @@
-#' is.rpi()
+#' Is this running on a Raspberry Pi
 #'
-#' @param onlyThis Returns this value if specified.
+#' Confirm this code is running on a Raspberry Pi or return information about the operating system.
+#'
+#' @param onlyThis If no value is passed, is.rpi() will return a logical
+#'
+#'     If specified, `is.rpi()` will return the value for that field in /etc/os-release.
+#'
+#'     PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
+#'
+#'     NAME is the name of the OS, typically "Raspbian GNU/LINUX
+#'
+#'     VERSION_ID is the version. Currently = 11
+#'
+#'     VERSION is a concatenation of VERSION_ID and (VERSION_CODENAME)
+#'
+#'     VERSION_CODENAME is the OS Name. Currently = "bullseye"
+#'
+#'     ID is the OS. Currently = "raspbian"
+#'
+#'     ID_LIKE is the OS base. Currently = "debian"
+#'
+#'     HOME_URL Currently = "http://www.raspbian.org"
+#'
+#'     SUPPORT_URL Currently = "http://www.raspbian.org/RaspbianForums"
+#'
+#'     BUG_REPORT Currently = "http://www.raspbian.org/RaspbianBugs"
+#
 #'
 #' @return If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running on a Raspberry Pi
 #' @export
 #'
-#' @examples
+#' @examplesIF is.rpi()
 #' is.rpi()
+#' is.rpi("NAME")
 is.rpi <- function(onlyThis = "IsThisRPI") {
   theResult <- tryCatch({
     read.table("/etc/os-release", sep = "=")
