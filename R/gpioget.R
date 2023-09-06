@@ -24,7 +24,7 @@ gpioget <- function(gpio_chip = 0,
                         if (!gpio_active) {"--active-low"},
                         "--bias", gpio_bias,
                         gpio_chip,
-                        gpio_line)
+                        c(gpio_line))
   print(gpio_sysCall)
   return(system(gpio_sysCall, intern = TRUE))
 }
