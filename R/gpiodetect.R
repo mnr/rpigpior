@@ -9,8 +9,11 @@
 #' @return a chr vector with name, label, and number of GPIO lines
 #' @export
 #'
-#' @examples
+#' @examplesIf is.rpi()
 #' gpiodetect()
 gpiodetect <- function() {
-  return(system("gpiodetect", intern = TRUE))
+  return(system("gpiodetect",
+                intern = TRUE,
+                ignore.stdout = TRUE,
+                ignore.stderr = TRUE))
 }
