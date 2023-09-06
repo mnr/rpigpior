@@ -35,6 +35,9 @@ for GPIO access:
   which changes to watch for, how many events to process before exiting,
   or if the events should be reported to the console
 
+- **gpiofind** - Find a GPIO line by name. The output of this command
+  can be used as input for gpioget & gpioset
+
 ## Installation
 
 `rpigpior` is hosted on github. Until it arrives at cran, you can
@@ -47,6 +50,9 @@ remotes::install_github("mnr/rpigpior")
 
 Most documentation will tell you to use devtools, but
 `install.packages("devtools")` is an onerous task.
+
+[Related mailing list:
+linux-gpio@vger.kernal.org](https://www.spinics.net/lists/linux-gpio/)
 
 ## Example
 
