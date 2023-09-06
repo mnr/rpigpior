@@ -21,19 +21,16 @@ is.rpi <- function(onlyThis = "IsThisRPI") {
     #cleanup
   })
 
-  if (isFALSE(theResult)) {
-    # theResult contains FALSE
-    theReturnValue <- c(FALSE, "")
-  }
-  else {
-    # theResult contains os-release
-    if (onlyThis == "IsThisRPI") {
-      theReturnValue <- c(TRUE, theResult)
+  if (onlyThis == "IsThisRPI") {
+    if (isFALSE(theResult)) {
+      # theResult contains FALSE
+      theReturnValue <- FALSE
     } else {
-      theReturnValue <- c(TRUE, theResult[theResult[1] == onlyThis, ])
+      theReturnValue <- TRUE
     }
+  } else {
+    theReturnValue <- theResult[theResult[1] == onlyThis,2]
   }
 
   return(theReturnValue)
-
 }
