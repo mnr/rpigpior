@@ -12,3 +12,6 @@ TRUE if running on a Raspberry Pi
 \description{
 is.rpi()
 }
+\examples{
+is.rpi()
+}
