@@ -1,14 +1,19 @@
 #' is.rpi()
 #'
-#' @return TRUE if running on a Raspberry Pi
+#' @param onlyThis Returns this value if specified.
+#'
+#' @return If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running on a Raspberry Pi
 #' @export
 #'
 #' @examples
 #' is.rpi()
-is.rpi <- function(onlyThis = "NAME") {
-  tmpVal <- system("cat /etc/os-release", intern = TRUE)
-  tmpVal <- grep(paste0("^",onlyThis,"="), x = tmpVal)
-  tmpVal <- strsplit(tmpVal, split = "=")
-  tmpVal <- unlist(tmpVal)
-  return(tmpVal)
+is.rpi <- function(onlyThis = "IsThisRPI") {
+  theResult = tryCatch({read.table("/etc/os-release", sep="=")},
+                        warning = function(w) {print("warning")},
+                        error = function(e) {print("error")},
+                        finally = {print("cleanup")})
+
+  return(theResult)
+  #return(tmpVal[tmpVal[1]==onlyThis,])
+
 }
