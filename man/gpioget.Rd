@@ -11,7 +11,7 @@ gpioget(gpio_chip = 0, gpio_active = TRUE, gpio_line, gpio_bias = "as-is")
 
 \item{gpio_active}{Set the line active state, or what value to return when signal is high. gpio_active = FALSE inverts the active state of the line}
 
-\item{gpio_line}{Retrieve state from this pin. Uses BCM numbering.}
+\item{gpio_line}{Retrieve state from this pin. Uses BCM numbering. This can be a single number or a vector or line numbers}
 
 \item{gpio_bias}{Set the line bias to one of the following: as-is (the default), disable, pull-down, pull-up}
 }
@@ -20,7 +20,7 @@ gpioget
 }
 \examples{
 read the value of a single gpio line
-gpioget gpiochip1 23
-Read two values at the same time. Set the active state of the lines to low.
-gpioget --active-low gpiochip1 23 24
+gpioget(gpio_chip = 0, gpio_line = 21)
+Read two values at the same time.
+gpioget(gpio_chip = 0, gpio_line = c(21,19))
 }
