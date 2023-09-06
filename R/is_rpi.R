@@ -8,7 +8,7 @@
 #' @examples
 #' is.rpi()
 is.rpi <- function(onlyThis = "IsThisRPI") {
-  theResult = tryCatch({read.table("/etc/os-release", sep="=")},
+  theResult = tryCatch({read.table("/etc/os-release3", sep="=")},
                         warning = function(w) {print("warning")},
                         error = function(e) {print("error")},
                         finally = {print("cleanup")})
