@@ -25,10 +25,11 @@ gpioget <- function(gpio_chip = 0,
                         "--bias", gpio_bias,
                         gpio_chip,
                         gpio_line)
-
+  print(gpio_sysCall)
   return(system(gpio_sysCall, intern = TRUE))
 }
 
 # todo
 # gpio_line is a vector. Address multiple values/lines/pins
-# gpio_bias: as-is, disable, pull-up, pull-down
+# gpio_chip should understand the output of gpiofind. i.e. "gpiochip0 15"
+# explain gpio_active. hint: --active-low returns 0 if button is pushed
