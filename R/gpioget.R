@@ -11,7 +11,7 @@
 #' @return A vector of 1 or 0 the same length of gpio_line indicating the state of each pin
 #' @export
 #'
-#' @examples
+#' @examplesIf is.rpi()
 #' read the value of a single gpio line
 #' gpioget(gpio_chip = 0, gpio_line = 21)
 #' Read two values at the same time.
