@@ -8,7 +8,7 @@
 #' @param gpio_active Set the line active state, or what value to return when signal is high. gpio_active = FALSE inverts the active state of the line
 #' @param gpio_bias Set the line bias to one of the following: as-is (the default), disable, pull-down, pull-up
 #'
-#' @return
+#' @return A vector of 1 or 0 the same length of gpio_line indicating the state of each pin
 #' @export
 #'
 #' @examples
