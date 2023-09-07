@@ -11,7 +11,8 @@ Description: This provides R with access to the Raspberry Pi General Purpose
     well as turning pins on and off via gpioset() and reading the state of pins 
     via gpioget(). No additional libraries need to be installed; Raspbian includes 
     libgpiod as part of the standard installation.
-URL: https://github.com/mnr/rpigpior
+URL: https://github.com/mnr/rpigpior,
+    https://mnr.github.io/rpigpior/
 BugReports: https://github.com/mnr/rpigpior/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
