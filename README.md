@@ -3,6 +3,10 @@
 
 # rpigpior
 
+\<a
+href=“[https://mnr.github.io/rpigpior/”](https://mnr.github.io/rpigpior/%22)\<img
+src=”man/figures/logo.png” align=“right” height=“138” /\>\</a\>
+
 <!-- badges: start -->
 <!-- badges: end -->
 
