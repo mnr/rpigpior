@@ -23,9 +23,10 @@ gpioget
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-read the value of a single gpio line
+# read the value of a single gpio line
 gpioget(gpio_chip = 0, gpio_line = 21)
-Read two values at the same time.
+
+# Read two values at the same time.
 gpioget(gpio_chip = 0, gpio_line = c(21,19))
 \dontshow{\}) # examplesIf}
 }
