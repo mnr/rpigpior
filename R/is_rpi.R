@@ -35,7 +35,7 @@
 #' is.rpi("NAME")
 is.rpi <- function(onlyThis = "IsThisRPI") {
   theResult <- tryCatch({
-    read.table("/etc/os-release", sep = "=")
+    utils::read.table("/etc/os-release", sep = "=")
   },
   warning = function(w) {
     FALSE
