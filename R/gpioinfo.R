@@ -3,7 +3,7 @@
 
 #' List all lines of specified gpiochips, their names, consumers, direction, active state and additional flags
 #'
-#' @param gpio_chip
+#' @param gpio_chip The GPIO chip to search. Probably 0, 1, or something like gpiochip0
 #'
 #' @return
 #' @export
