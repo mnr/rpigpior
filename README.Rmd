@@ -54,6 +54,11 @@ for GPIO access:
 -   **gpiofind** - Find a GPIO line by name. The output of this command
     can be used as input for gpioget & gpioset
 
+`rpigpior` also provides a few utilities for use with the R programming
+language on Raspberry Pi:
+
+-   **is.rpi** - Returns TRUE if this code is running under Raspbian
+
 ## Installation
 
 `rpigpior` is hosted on github. Until it arrives at cran, you can
@@ -65,11 +70,21 @@ remotes::install_github("mnr/rpigpior")
 ```
 
 Most documentation will tell you to use devtools, but
-`install.packages("devtools")` is an onerous task.
+`install.packages("devtools")` on a Raspberry Pi is an onerous task.
+
+Once you've installed, use `library` just like any other R package:
+
+``` r
+library(rpigpior)
+```
 
 [Related mailing list:
 linux-gpio\@vger.kernal.org](https://www.spinics.net/lists/linux-gpio/)
 
-## Example
+## Examples
 
 ### gpiodetect
+
+### gpioget
+
+### is.rpi
