@@ -12,9 +12,10 @@
 #' @export
 #'
 #' @examplesIf is.rpi()
-#' read the value of a single gpio line
+#' # read the value of a single gpio line
 #' gpioget(gpio_chip = 0, gpio_line = 21)
-#' Read two values at the same time.
+#'
+#' # Read two values at the same time.
 #' gpioget(gpio_chip = 0, gpio_line = c(21,19))
 gpioget <- function(gpio_chip = 0,
                     gpio_active = TRUE,
