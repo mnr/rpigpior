@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="This provides R with access to the Raspberry Pi General Purpose 
     Input Output (GPIO) via libgpiod. This includes detecting a gpio chip as 
-    well as turning pins on and off via gpioset() and reading the state of pins 
-    via gpioget(). No additional libraries need to be installed; Raspbian includes 
+    well as turning pins on and off via [gpioset()] and reading the state of pins 
+    via [gpioget()]. No additional libraries need to be installed; Raspbian includes 
     libgpiod as part of the standard installation.">
-<title>Provides R with Access to the Raspberry Pi GPIO • rpigpior</title>
+<title>Provides R with Access to the Raspberry Pi • rpigpior</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -21,11 +21,11 @@
 <link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Provides R with Access to the Raspberry Pi GPIO">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Provides R with Access to the Raspberry Pi">
 <meta property="og:description" content="This provides R with access to the Raspberry Pi General Purpose 
     Input Output (GPIO) via libgpiod. This includes detecting a gpio chip as 
-    well as turning pins on and off via gpioset() and reading the state of pins 
-    via gpioget(). No additional libraries need to be installed; Raspbian includes 
+    well as turning pins on and off via [gpioset()] and reading the state of pins 
+    via [gpioget()]. No additional libraries need to be installed; Raspbian includes 
     libgpiod as part of the standard installation.">
 <meta property="og:image" content="https://mnr.github.io/rpigpior/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -60,6 +60,9 @@
     <a class="dropdown-item" href="articles/how-to-RPi.html">how to RPi</a>
   </div>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -86,22 +89,23 @@
 </div>
 <!--  <a href="https://mnr.github.io/rpigpior/"><img src="man/figures/logo.png" align="right" height="138"></a> -->
 <!-- badges: start -->
+
 <!-- badges: end -->
 <p><code>rpigpior</code> allows the R programming language access to the Raspberry Pi GPIO using libgpiod. Because libgpiod is already included in Raspbian, there is nothing else to install.</p>
 <p>rpigpior implements the six tools provided by <a href="https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/about/" class="external-link">libgpiod</a> for GPIO access:</p>
 <ul>
-<li><p><strong>gpiodetect</strong> - list all gpiochips present on the system, their names, labels and number of GPIO lines</p></li>
-<li><p><strong>gpioinfo</strong> - list lines, their gpiochip, offset, name, and direction, and if in use then the consumer name and any other configured attributes, such as active state, bias, drive, edge detection and debounce period</p></li>
-<li><p><strong>gpioget</strong> - read values of specified GPIO lines</p></li>
-<li><p><strong>gpioset</strong> - set values of specified GPIO lines, holding the lines until the process is killed or otherwise exits</p></li>
-<li><p><strong>gpiomon</strong> - wait for edge events on GPIO lines, specify which edges to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
-<li><p><strong>gpionotify</strong> - wait for changed to the info for GPIO lines, specify which changes to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
-<li><p><strong>gpiofind</strong> - Find a GPIO line by name. The output of this command can be used as input for gpioget &amp; gpioset</p></li>
+<li><p><a href="#gpiodetect">gpiodetect</a> - list all gpiochips present on the system, their names, labels and number of GPIO lines</p></li>
+<li><p>[gpioinfo] - list lines, their gpiochip, offset, name, and direction, and if in use then the consumer name and any other configured attributes, such as active state, bias, drive, edge detection and debounce period</p></li>
+<li><p><a href="#gpioget">gpioget</a> - read values of specified GPIO lines</p></li>
+<li><p>[gpioset] - set values of specified GPIO lines, holding the lines until the process is killed or otherwise exits</p></li>
+<li><p>[gpiomon] - wait for edge events on GPIO lines, specify which edges to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
+<li><p>[gpionotify] - wait for changed to the info for GPIO lines, specify which changes to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
+<li><p>[gpiofind] - Find a GPIO line by name. The output of this command can be used as input for gpioget &amp; gpioset</p></li>
 </ul>
 <p><code>rpigpior</code> also provides a few utilities for use with the R programming language on Raspberry Pi:</p>
 <ul>
 <li>
-<strong>is.rpi</strong> - Returns TRUE if this code is running under Raspbian</li>
+<a href="#is.rpi">is.rpi</a> - Returns TRUE if this code is running under Raspbian</li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -159,11 +163,16 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Mark Niemann-Ross <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3381-4604" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Mark Niemann-Ross <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-3381-4604" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/mnr/rpigpior/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/mnr/rpigpior/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
