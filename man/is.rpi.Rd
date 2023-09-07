@@ -13,7 +13,7 @@ is.rpi(onlyThis = "IsThisRPI")
 
     PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
 
-    NAME is the name of the OS, typically "Raspbian GNU/LINUX
+    NAME is the name of the OS, typically "Raspbian GNU/LINUX"
 
     VERSION_ID is the version. Currently = 11
 
