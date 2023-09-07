@@ -64,7 +64,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>gpio_chip</dt>
-<dd><p>Retrieve the pin info from this chip number. Defaults to chip 0. Chips are listed by gpiodetect()</p></dd>
+<dd><p>Retrieve the pin info from this chip number or chip specification. Defaults to chip 0. This can be a number or a name such as gpiochip0. Chips are listed by gpiodetect()</p></dd>
 
 
 <dt>gpio_active</dt>
@@ -92,8 +92,12 @@
 <span class="r-in"><span><span class="fu">gpioget</span><span class="op">(</span>gpio_chip <span class="op">=</span> <span class="fl">0</span>, gpio_line <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system(gpio_sysCall, intern = TRUE):</span> error in running command</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Read two values at the same time.</span></span></span>
+<span class="r-in"><span><span class="co"># Read two values at the same time</span></span></span>
 <span class="r-in"><span><span class="fu">gpioget</span><span class="op">(</span>gpio_chip <span class="op">=</span> <span class="fl">0</span>, gpio_line <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>,<span class="fl">19</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system(gpio_sysCall, intern = TRUE):</span> error in running command</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Specify gpiochip by name</span></span></span>
+<span class="r-in"><span><span class="fu">gpioget</span><span class="op">(</span>gpio_chip <span class="op">=</span> <span class="st">"gpiochip0"</span>, gpio_line <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system(gpio_sysCall, intern = TRUE):</span> error in running command</span>
 </code></pre></div>
     </div>
