@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_rpi.R
 \name{is.rpi}
 \alias{is.rpi}
-\title{Is this running on a Raspberry Pi}
+\title{Returns TRUE if this code is running on a Raspberry Pi}
 \usage{
 is.rpi(onlyThis = "IsThisRPI")
 }

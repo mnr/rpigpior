@@ -2,7 +2,7 @@
 % Please edit documentation in R/gpioget.R
 \name{gpioget}
 \alias{gpioget}
-\title{gpioget}
+\title{Retrieves the state of a single pin on the GPIO}
 \usage{
 gpioget(gpio_chip = 0, gpio_active = TRUE, gpio_line, gpio_bias = "as-is")
 }
@@ -19,7 +19,7 @@ gpioget(gpio_chip = 0, gpio_active = TRUE, gpio_line, gpio_bias = "as-is")
 A vector of 1 or 0 the same length of gpio_line indicating the state of each pin
 }
 \description{
-gpioget
+Retrieves the state of a single pin on the GPIO
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

@@ -2,13 +2,13 @@
 % Please edit documentation in R/gpioinfo.R
 \name{gpioinfo}
 \alias{gpioinfo}
-\title{gpioinfo}
+\title{List all lines of specified gpiochips, their names, consumers, direction, active state and additional flags}
 \usage{
 gpioinfo(gpio_chip)
 }
 \arguments{
-\item{gpio_chip}{}
+\item{gpio_chip}{The GPIO chip to search. Probably 0, 1, or something like gpiochip0}
 }
 \description{
-gpioinfo
+List all lines of specified gpiochips, their names, consumers, direction, active state and additional flags
 }
