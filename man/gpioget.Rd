@@ -7,7 +7,7 @@
 gpioget(gpio_chip = 0, gpio_active = TRUE, gpio_line, gpio_bias = "as-is")
 }
 \arguments{
-\item{gpio_chip}{Retrieve the pin info from this chip number. Defaults to chip 0. Chips are listed by gpiodetect()}
+\item{gpio_chip}{Retrieve the pin info from this chip number or chip specification. Defaults to chip 0. This can be a number or a name such as gpiochip0. Chips are listed by gpiodetect()}
 
 \item{gpio_active}{Set the line active state, or what value to return when signal is high. gpio_active = FALSE inverts the active state of the line}
 
@@ -26,7 +26,10 @@ Retrieves the state of a single pin on the GPIO
 # read the value of a single gpio line
 gpioget(gpio_chip = 0, gpio_line = 21)
 
-# Read two values at the same time.
+# Read two values at the same time
 gpioget(gpio_chip = 0, gpio_line = c(21,19))
+
+# Specify gpiochip by name
+gpioget(gpio_chip = "gpiochip0", gpio_line = 21)
 \dontshow{\}) # examplesIf}
 }

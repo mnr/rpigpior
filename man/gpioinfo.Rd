@@ -2,13 +2,21 @@
 % Please edit documentation in R/gpioinfo.R
 \name{gpioinfo}
 \alias{gpioinfo}
-\title{List all lines of specified gpiochips, their names, consumers, direction, active state and additional flags}
+\title{List all lines of a gpio chip}
 \usage{
 gpioinfo(gpio_chip)
 }
 \arguments{
 \item{gpio_chip}{The GPIO chip to search. Probably 0, 1, or something like gpiochip0}
 }
+\value{
+a character vector. The first element identifies the chip and number of lines. The following elements consist of columns for line number, line name, used/unused status, input/output, active-high/active-low
+}
 \description{
-List all lines of specified gpiochips, their names, consumers, direction, active state and additional flags
+List all lines of specified gpio chips, their names, consumers, direction, active state and additional flags
+}
+\examples{
+\dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+gpioinfo(0)
+\dontshow{\}) # examplesIf}
 }
