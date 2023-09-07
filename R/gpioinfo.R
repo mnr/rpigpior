@@ -1,7 +1,7 @@
 # gpioinfo - list all lines of specified gpiochips, their names, consumers, direction, active state and additional flags
 # https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/tree/tools/gpioinfo.c
 
-#' gpioinfo
+#' List all lines of specified gpiochips, their names, consumers, direction, active state and additional flags
 #'
 #' @param gpio_chip
 #'

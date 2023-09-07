@@ -1,7 +1,7 @@
 # gpioget - read values of specified GPIO lines
 # https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/tree/tools/gpioget.c
 # https://kernel.googlesource.com/pub/scm/libs/libgpiod/libgpiod/+/v0.2.x/README.md
-#' gpioget
+#' Retrieves the state of a single pin on the GPIO
 #'
 #' @param gpio_line Retrieve state from this pin. Uses BCM numbering. This can be a single number or a vector or line numbers
 #' @param gpio_chip Retrieve the pin info from this chip number. Defaults to chip 0. Chips are listed by gpiodetect()

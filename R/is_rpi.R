@@ -1,4 +1,4 @@
-#' Is this running on a Raspberry Pi
+#' Returns TRUE if this code is running on a Raspberry Pi
 #'
 #' Confirm this code is running on a Raspberry Pi or return information about the operating system.
 #'
