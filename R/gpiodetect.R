@@ -15,9 +15,9 @@
 #' @examplesIf is.rpi()
 #' gpiodetect()
 gpiodetect <- function() {
-  syscall <- "gpiodetect"
-  return(system(syscall,
+  gpio_sysCall <- "gpiodetect"
+  system(gpio_sysCall,
                 intern = TRUE,
                 ignore.stdout = TRUE,
-                ignore.stderr = TRUE))
+                ignore.stderr = TRUE)
 }
