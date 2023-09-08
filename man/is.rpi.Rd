@@ -2,40 +2,33 @@
 % Please edit documentation in R/is_rpi.R
 \name{is.rpi}
 \alias{is.rpi}
-\title{Returns TRUE if this code is running on a Raspberry Pi}
+\title{Provide information about the Operating System}
 \usage{
 is.rpi(onlyThis = "IsThisRPI")
 }
 \arguments{
-\item{onlyThis}{If no value is passed, is.rpi() will return a logical
+\item{onlyThis}{If no value is passed to onlyThis, is.rpi() will return a logical
 
-    If specified, `is.rpi()` will return the value for that field in /etc/os-release.
+If 'onlyThis' is specified, 'is.rpi()' will return the value for that field in /etc/os-release. Here are some typical values found in os-release
 
-    PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
-
-    NAME is the name of the OS, typically "Raspbian GNU/LINUX"
-
-    VERSION_ID is the version. Currently = 11
-
-    VERSION is a concatenation of VERSION_ID and (VERSION_CODENAME)
-
-    VERSION_CODENAME is the OS Name. Currently = "bullseye"
-
-    ID is the OS. Currently = "raspbian"
-
-    ID_LIKE is the OS base. Currently = "debian"
-
-    HOME_URL Currently = "http://www.raspbian.org"
-
-    SUPPORT_URL Currently = "http://www.raspbian.org/RaspbianForums"
-
-    BUG_REPORT Currently = "http://www.raspbian.org/RaspbianBugs"}
+\itemize{
+  \item PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
+  \item NAME is the name of the OS, typically "Raspbian GNU/LINUX"
+  \item VERSION_ID is the version. Currently = 11
+  \item VERSION is a concatenation of VERSION_ID and (VERSION_CODENAME)
+  \item VERSION_CODENAME is the OS Name. Currently = "bullseye"
+  \item ID is the OS. Currently = "raspbian"
+  \item ID_LIKE is the OS base. Currently = "debian"
+  \item HOME_URL Currently = "http://www.raspbian.org"
+  \item SUPPORT_URL Currently = "http://www.raspbian.org/RaspbianForums"
+  \item BUG_REPORT Currently = "http://www.raspbian.org/RaspbianBugs"
+}}
 }
 \value{
-If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running on a Raspberry Pi
+If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running Raspbian
 }
 \description{
-Confirm this code is running on a Raspberry Pi or return information about the operating system.
+Confirm (TRUE/FALSE) this code is running Raspbian or return information about the operating system.
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
