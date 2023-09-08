@@ -1,6 +1,6 @@
 #' Provide information about the Operating System
 #'
-#' Confirm (TRUE/FALSE) this code is running Raspbian or return information about the operating system.
+#' Returns TRUE if this code is running under Raspbian or return information about the operating system.
 #'
 #' @param onlyThis If no value is passed to onlyThis, is.rpi() will return a logical
 #'

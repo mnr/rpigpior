@@ -28,7 +28,7 @@ If 'onlyThis' is specified, 'is.rpi()' will return the value for that field in /
 If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running Raspbian
 }
 \description{
-Confirm (TRUE/FALSE) this code is running Raspbian or return information about the operating system.
+Returns TRUE if this code is running under Raspbian or return information about the operating system.
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
