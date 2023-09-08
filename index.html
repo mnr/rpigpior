@@ -94,18 +94,17 @@
 <p><code>rpigpior</code> allows the R programming language access to the Raspberry Pi GPIO using libgpiod. Because libgpiod is already included in Raspbian, there is nothing else to install.</p>
 <p>rpigpior implements the six tools provided by <a href="https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/about/" class="external-link">libgpiod</a> for GPIO access:</p>
 <ul>
-<li><p><a href="#gpiodetect">gpiodetect</a> - list all gpiochips present on the system, their names, labels and number of GPIO lines</p></li>
-<li><p>[gpioinfo] - list lines, their gpiochip, offset, name, and direction, and if in use then the consumer name and any other configured attributes, such as active state, bias, drive, edge detection and debounce period</p></li>
-<li><p><a href="#gpioget">gpioget</a> - read values of specified GPIO lines</p></li>
-<li><p>[gpioset] - set values of specified GPIO lines, holding the lines until the process is killed or otherwise exits</p></li>
-<li><p>[gpiomon] - wait for edge events on GPIO lines, specify which edges to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
-<li><p>[gpionotify] - wait for changed to the info for GPIO lines, specify which changes to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
-<li><p>[gpiofind] - Find a GPIO line by name. The output of this command can be used as input for gpioget &amp; gpioset</p></li>
+<li><p>gpiodetect - list all gpiochips present on the system, their names, labels and number of GPIO lines</p></li>
+<li><p>gpioinfo - list lines, their gpiochip, offset, name, and direction, and if in use then the consumer name and any other configured attributes, such as active state, bias, drive, edge detection and debounce period</p></li>
+<li><p>gpioget - read values of specified GPIO lines</p></li>
+<li><p>gpioset - set values of specified GPIO lines, holding the lines until the process is killed or otherwise exits</p></li>
+<li><p>gpiomon - wait for edge events on GPIO lines, specify which edges to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
+<li><p>gpionotify - wait for changed to the info for GPIO lines, specify which changes to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
+<li><p>gpiofind - Find a GPIO line by name. The output of this command can be used as input for gpioget &amp; gpioset</p></li>
 </ul>
 <p><code>rpigpior</code> also provides a few utilities for use with the R programming language on Raspberry Pi:</p>
 <ul>
-<li>
-<a href="#is.rpi">is.rpi</a> - Returns TRUE if this code is running under Raspbian</li>
+<li>is.rpi - Returns TRUE if this code is running under Raspbian</li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
