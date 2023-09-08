@@ -2,15 +2,15 @@
 #'
 #' Confirm this code is running on a Raspberry Pi or return information about the operating system.
 #'
-#' @param onlyThis If no value is passed, is.rpi() will return a logical
+#' @param onlyThis If no value is passed to onlyThis, is.rpi() will return a logical
 #'
-#'     If specified, `is.rpi()` will return the value for that field in /etc/os-release.
+#'     If 'onlyThis' is specified, 'is.rpi()' will return the value for that field in /etc/os-release.
 #'
-#'     PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
+#'     - PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
 #'
-#'     NAME is the name of the OS, typically "Raspbian GNU/LINUX"
+#'     - NAME is the name of the OS, typically "Raspbian GNU/LINUX"
 #'
-#'     VERSION_ID is the version. Currently = 11
+#'     - VERSION_ID is the version. Currently = 11
 #'
 #'     VERSION is a concatenation of VERSION_ID and (VERSION_CODENAME)
 #'
