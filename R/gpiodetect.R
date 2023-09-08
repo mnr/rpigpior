@@ -16,8 +16,5 @@
 #' gpiodetect()
 gpiodetect <- function() {
   gpio_sysCall <- "gpiodetect"
-  system(gpio_sysCall,
-                intern = TRUE,
-                ignore.stdout = TRUE,
-                ignore.stderr = TRUE)
+  system(gpio_sysCall, intern = TRUE)
 }
