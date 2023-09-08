@@ -6,13 +6,17 @@
 
 #' Find gpiochips on this system
 #'
-#' @return a chr vector with name, label, and number of GPIO lines
+#' @return a chr vector with name, label, and number of GPIO lines. Typically this will return something like the following:
+#'     gpiochip0 [pinctrl-bcm2711] (58 lines)
+#'     gpiochip1 [raspberrypi-exp-gpio] (8 lines)
+#'
 #' @export
 #'
 #' @examplesIf is.rpi()
 #' gpiodetect()
 gpiodetect <- function() {
-  return(system("gpiodetect",
+  syscall <- "gpiodetect"
+  return(system(syscall,
                 intern = TRUE,
                 ignore.stdout = TRUE,
                 ignore.stderr = TRUE))
