@@ -7,12 +7,32 @@
 #'
 #' @param gpio_chip The GPIO chip to search. Probably 0, 1, or something like gpiochip0
 #'
-#' @return a character vector. The first element identifies the chip and number of lines. The following elements consist of columns for line number, line name, used/unused status, input/output, active-high/active-low
+#' @return a character vector. The first element identifies the chip and number of lines. The following elements consist of columns for line number, line name, used/unused status, input/output, active-high/active-low. Typically in this format:
+#'
 #' @export
 #'
 #' @examplesIf is.rpi()
 #' gpioinfo(0)
 gpioinfo <- function(gpio_chip) {
+  # read gpio info
   gpio_sysCall <- paste("gpioinfo",gpio_chip)
-  system(gpio_sysCall, intern = TRUE)
+  allLines <- system(gpio_sysCall, intern = TRUE)
+
+  # set up receiver data.frame
+  df_forReturn_names <- c("line","name","usedUnused","input_output","active")
+  df_forReturn <- data.frame(matrix(ncol = length(df_forReturn_names), nrow = 0))
+  names(df_forReturn) <- df_forReturn_names
+
+  # read each line into df_forReturn
+  for(aLine in allLines) {
+    gInfoLine <- as.numeric(substr(aLine, start = 8, stop = 10))
+    gInfoName <- substr(aLine, start = 11, stop = 24)
+    gInfoUsedUnused <- substr(aLine, start = 27, stop = 39)
+    gInfoInOut <- substr(aLine, start = 40, stop = 46)
+    gInfoActive <- substr(aLine, start = 41, stop = 54)
+
+    tmpDF <- data.frame(gInfoLine, gInfoName, gInfoUsedUnused, gInfoInOut, gInfoActive)
+    df_forReturn <- rbind(df_forReturn, tmpDf)
+  }
+  return(df_forReturn)
 }
