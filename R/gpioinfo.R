@@ -32,7 +32,7 @@ gpioinfo <- function(gpio_chip) {
     gInfoActive <- substr(aLine, start = 41, stop = 54)
 
     tmpDF <- data.frame(gInfoLine, gInfoName, gInfoUsedUnused, gInfoInOut, gInfoActive)
-    df_forReturn <- rbind(df_forReturn, tmpDf)
+    df_forReturn <- rbind(df_forReturn, tmpDF)
   }
   return(df_forReturn)
 }
