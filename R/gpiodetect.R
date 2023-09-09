@@ -7,7 +7,9 @@
 #' Find gpiochips on this system
 #'
 #' @return a chr vector with name, label, and number of GPIO lines. Typically this will return something like the following:
+#'
 #'     gpiochip0 [pinctrl-bcm2711] (58 lines)
+#'
 #'     gpiochip1 [raspberrypi-exp-gpio] (8 lines)
 #'
 #' @export
