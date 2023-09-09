@@ -10,7 +10,8 @@ gpioinfo(gpio_chip)
 \item{gpio_chip}{The GPIO chip to search. Probably 0, 1, or something like gpiochip0}
 }
 \value{
-a character vector. The first element identifies the chip and number of lines. The following elements consist of columns for line number, line name, used/unused status, input/output, active-high/active-low. Typically in this format:
+a data.frame. The first row identifies the chip and number of lines.
+    The following rows identify line number, line name, used/unused status, input/output, active-high/active-low.
 }
 \description{
 List all lines of specified gpio chips, their names, consumers, direction, active state and additional flags
