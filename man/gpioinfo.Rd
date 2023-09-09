@@ -10,11 +10,19 @@ gpioinfo(gpio_chip)
 \item{gpio_chip}{The GPIO chip to search. Probably 0, 1, or something like gpiochip0}
 }
 \value{
-a data.frame. The first row identifies the chip and number of lines.
-    The following rows identify line number, line name, used/unused status, input/output, active-high/active-low.
+a vector. The first element identifies the chip and number of lines.
+    The following elements contain information about each gpio line
+
+\itemize{
+  \item Line Number - The BCM number. This may be different than pinout number. For example, Raspberry Pi Pin 1 is 3.3 volts, not ID_SCL
+  \item Line Name - The descriptive name of this line. For example, BCM Line 0 is identified as ID_SDA and shows up as Raspberry Pi pin 3
+  \item Used/unused status - Is something talking to this line?
+  \item Input/Output mode - Some Raspberry Pi pins can be set to input or output
+  \item Active-High, Active-Low - When this line is closed, does it indicate ON or OFF?
+}
 }
 \description{
-List all lines of specified gpio chips, their names, consumers, direction, active state and additional flags
+List all lines of specified gpio chips, their names, consumers, direction, active state and additional flags. Be aware not all of these lines are available to the Raspberry Pi pins.
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
