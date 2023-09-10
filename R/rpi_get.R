@@ -25,7 +25,7 @@ rpi_get <- function(pin_number,
 
   if(startsWith( pin_description, prefix = "GPIO")) {
     bcm_line <- substr(pin_description,start = 5, stop = 6)
-    bcm_line <- as.numeric(bcm_value)
+    bcm_line <- as.numeric(bcm_line)
   } else {
     stop("Pin ", pin_number, " is ", pin_description, " and is not a valid data line.")
   }
