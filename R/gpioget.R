@@ -45,7 +45,6 @@ gpioget <- function(gpio_chip = 0,
     gpio_line <- gpio_found_split[[2]][2]
   }
 
-
   gpio_sysCall <- paste("gpioget",
                         if (!gpio_active) {
                           "--active-low"
