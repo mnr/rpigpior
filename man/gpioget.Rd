@@ -4,14 +4,14 @@
 \alias{gpioget}
 \title{Retrieves the state of a single pin on the GPIO}
 \usage{
-gpioget(gpio_chip = 0, gpio_active = TRUE, gpio_line, gpio_bias = "as-is")
+gpioget(gpio_line, gpio_chip = 0, gpio_active = TRUE, gpio_bias = "as-is")
 }
 \arguments{
+\item{gpio_line}{Retrieve state from this pin. Uses BCM numbering. This can be a single number or a vector or line numbers}
+
 \item{gpio_chip}{Retrieve the pin info from this chip number or chip specification. Defaults to chip 0. This can be a number or a name such as gpiochip0. Chips are listed by gpiodetect()}
 
 \item{gpio_active}{Set the line active state, or what value to return when signal is high. gpio_active = FALSE inverts the active state of the line}
-
-\item{gpio_line}{Retrieve state from this pin. Uses BCM numbering. This can be a single number or a vector or line numbers}
 
 \item{gpio_bias}{Set the line bias to one of the following: as-is (the default), disable, pull-down, pull-up}
 }
