@@ -10,16 +10,16 @@ gpiofind(gpio_name)
 \item{gpio_name}{}
 }
 \value{
-The chip name and line number. This can be used as input for 'gpioget()'
+The chip name and line number.
 }
 \description{
-Find the chip and line for a named function
+Identifies the gpiochip and gpioline. For example, `gpiofind("SCL0")` will return "gpiochip0 45". Note that gpioset and gpioget both accept line names in place of line numbers and will identify the proper gpiochip using gpiofind behind the scenes.
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-gpiofind(SCL0) # returns "gpiochip0 45"
+gpiofind("SCL0") # returns "gpiochip0 45"
 
-gpioget(gpiofind(SCL0)) # returns status of "gpiochip0 45"
+gpioget(gpiofind("SCL0")) # returns status of "gpiochip0 45"
 \dontshow{\}) # examplesIf}
 }
