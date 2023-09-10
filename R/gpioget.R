@@ -24,35 +24,34 @@ gpioget <- function(gpio_chip = 0,
                     gpio_active = TRUE,
                     gpio_line,
                     gpio_bias = "as-is") {
-
-  if(is.na(as.numeric(gpio_line))) {
+  if (is.na(as.numeric(gpio_line))) {
     # if gpio_line is a string, then use gpiofind() to identify gpio_chip and gpio_line
     # this will override gpio_chip
     gpio_found <- tryCatch({
       gpiofind(gpio_line)
     },
     warning = function(w) {
-      message(paste("Unable to find",gpio_line))
+      message(paste("Unable to find", gpio_line))
       print(w)
       return(NA)
     },
     error = function(e) {
-      message(paste("Unable to find",gpio_line))
+      message(paste("Unable to find", gpio_line))
       print(e)
       return(NA)
-    },
-    finally = {
-      #cleanup
     })
-
     gpio_found_split <- strsplit(gpio_found, split = " ")
     gpio_chip <- gpio_found_split[[1]][1]
     gpio_line <- gpio_found_split[[2]][2]
   }
 
+
   gpio_sysCall <- paste("gpioget",
-                        if (!gpio_active) {"--active-low"},
-                        "--bias", gpio_bias,
+                        if (!gpio_active) {
+                          "--active-low"
+                        },
+                        "--bias",
+                        gpio_bias,
                         gpio_chip,
                         paste(gpio_line, collapse = " "))
   return(system(gpio_sysCall, intern = TRUE))
