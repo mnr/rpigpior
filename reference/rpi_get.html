@@ -83,9 +83,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">rpi_get</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="co"># produces error since pin #1 is not data</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rpi_get(1):</span> Pin 1 is 3.3v and is not a valid data line.</span>
 <span class="r-in"><span><span class="fu">rpi_get</span><span class="op">(</span><span class="fl">40</span><span class="op">)</span> <span class="co"># returns the state of GPIO21 (0 or 1)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rpi_get(40):</span> object 'bcm_value' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system(gpio_sysCall, intern = TRUE):</span> error in running command</span>
 <span class="r-in"><span><span class="fu">rpi_get</span><span class="op">(</span><span class="fl">40</span>, describe <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># returns a vector of two values: state of GPIO21 and description. i.e. c("0", "GPIO21")</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rpi_get(40, describe = TRUE):</span> object 'bcm_value' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system(gpio_sysCall, intern = TRUE):</span> error in running command</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
