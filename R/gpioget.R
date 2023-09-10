@@ -20,9 +20,9 @@
 #'
 #' # Specify gpiochip by name
 #' gpioget(gpio_chip = "gpiochip0", gpio_line = 21)
-gpioget <- function(gpio_chip = 0,
+gpioget <- function(gpio_line,
+                    gpio_chip = 0,
                     gpio_active = TRUE,
-                    gpio_line,
                     gpio_bias = "as-is") {
   if (is.na(as.numeric(gpio_line))) {
     # if gpio_line is a string, then use gpiofind() to identify gpio_chip and gpio_line
@@ -52,6 +52,6 @@ gpioget <- function(gpio_chip = 0,
                         "--bias",
                         gpio_bias,
                         gpio_chip,
-                        paste(gpio_line, collapse = " "))
+                        gpio_line)
   return(system(gpio_sysCall, intern = TRUE))
 }
