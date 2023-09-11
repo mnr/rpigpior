@@ -99,12 +99,12 @@
 <li><p>gpioget - read values of specified GPIO lines</p></li>
 <li><p>gpioset - set values of specified GPIO lines, holding the lines until the process is killed or otherwise exits</p></li>
 <li><p>gpiomon - wait for edge events on GPIO lines, specify which edges to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
-<li><p>gpionotify - wait for changed to the info for GPIO lines, specify which changes to watch for, how many events to process before exiting, or if the events should be reported to the console</p></li>
 <li><p>gpiofind - Find a GPIO line by name. The output of this command can be used as input for gpioget &amp; gpioset</p></li>
 </ul>
 <p><code>rpigpior</code> also provides a few utilities for use with the R programming language on Raspberry Pi:</p>
 <ul>
 <li>is.rpi - Returns TRUE if this code is running under Raspbian</li>
+<li>rpi_get - Returns the value of a board level pin (1-40) or an error if the pin isn’t a data line (3.3v, 5v, or GROUND)</li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
