@@ -88,8 +88,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">rpi_pinToBCM</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="co"># produces error since pin #1 is not data</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rpi_pinToBCM(1):</span> Pin 1 provides 3.3v and is not a data line.</span>
 <span class="r-in"><span><span class="fu">rpi_pinToBCM</span><span class="op">(</span><span class="fl">40</span><span class="op">)</span> <span class="co"># returns a named vector where bcm_line = 21 and pin_name = GPIO21</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> bcm_line pin_name </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     "21" "GPIO21" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GPIO21 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     21 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
