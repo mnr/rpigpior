@@ -37,5 +37,7 @@ rpi_pinToBCM <- function(pin_number) {
     }
   }
 
-  return(c(bcm_line=bcm_line,pin_name=pin_name))
+  bcm_line <- as.numeric(bcm_line)
+  names(bcm_line) <- pin_name
+  return(bcm_line)
 }
