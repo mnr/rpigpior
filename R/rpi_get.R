@@ -41,7 +41,9 @@ rpi_get <- function(pin_number) {
 
   pin_value <- system(gpio_sysCall, intern = TRUE)
 
-  #names(pin_value) <- pin_name
+  pin_value <- unlist(strsplit(pin_value, split = " "))
+
+  names(pin_value) <- pin_name
 
   return(pin_value)
 }
