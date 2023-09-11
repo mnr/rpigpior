@@ -10,7 +10,7 @@
 #' @examples
 #' rpi_get(1) # produces error since pin #1 is not data
 #' rpi_get(40) # returns a named vector of the state of GPIO21. i.e. return["GPIO21"] = 1
-#' rpi_get(7, 40) # returns a named vector of values from pins 7 and 40
+#' rpi_get(c(7, 40)) # returns a named vector of values from pins 7 and 40
 rpi_get <- function(pin_number) {
 
   # check pin number. Are all values valid data lines?
@@ -41,7 +41,7 @@ rpi_get <- function(pin_number) {
 
   pin_value <- system(gpio_sysCall, intern = TRUE)
 
-  names(pin_value) <- pin_name
+  #names(pin_value) <- pin_name
 
   return(pin_value)
 }
