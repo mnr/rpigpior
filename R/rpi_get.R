@@ -32,16 +32,17 @@ rpi_get <- function(pin_number) {
     }
   }
 
-  # bcm_line <- as.numeric(bcm_line) # bcm_line from "07" to 7
-
   gpio_sysCall <- paste("gpioget",
                         gpio_chip = 0,
                         paste(bcm_line, collapse = " ")
                         )
 
+  # I wish |> was available on RPi!
   pin_value <- system(gpio_sysCall, intern = TRUE)
 
   pin_value <- unlist(strsplit(pin_value, split = " "))
+
+  pin_value <- as.numeric(pin_value)
 
   names(pin_value) <- pin_name
 
