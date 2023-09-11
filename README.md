@@ -35,10 +35,6 @@ for GPIO access:
   watch for, how many events to process before exiting, or if the events
   should be reported to the console
 
-- gpionotify - wait for changed to the info for GPIO lines, specify
-  which changes to watch for, how many events to process before exiting,
-  or if the events should be reported to the console
-
 - gpiofind - Find a GPIO line by name. The output of this command can be
   used as input for gpioget & gpioset
 
@@ -46,6 +42,8 @@ for GPIO access:
 language on Raspberry Pi:
 
 - is.rpi - Returns TRUE if this code is running under Raspbian
+- rpi_get - Returns the value of a board level pin (1-40) or an error if
+  the pin isn’t a data line (3.3v, 5v, or GROUND)
 
 ## Installation
 
