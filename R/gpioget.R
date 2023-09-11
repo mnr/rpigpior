@@ -52,6 +52,6 @@ gpioget <- function(gpio_line,
                         "--bias",
                         gpio_bias,
                         gpio_chip,
-                        gpio_line)
+                        paste(gpio_line, collapse = " "))
   return(system(gpio_sysCall, intern = TRUE))
 }
