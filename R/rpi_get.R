@@ -15,24 +15,6 @@ rpi_get <- function(pin_number) {
 
   bcm_line <- rpi_pinToBCM(pin_number)
   pin_name <- names(bcm_line)
-  # # check pin number. Are all values valid data lines?
-  # bcm_line <- c() # ensure that bcm_line is empty
-  # pin_name <- c() # ensure that pin_name is empty
-  # for (eachPin in pin_number) {
-  #   # is eachpin in range of 1:40?
-  #   if(eachPin < 1 || eachPin > 40) {
-  #     stop(paste("Pin",eachPin,"is an invalid number (1:40)"))
-  #   }
-  #   # does eachpin start with "GPIO"?
-  #   pinDesc <- rpi_pin_desc[eachPin,"Description"]
-  #   if (startsWith(pinDesc, prefix = "GPIO")) {
-  #     # if this is a GPIO line, add it to bcm_line and pin_name
-  #     bcm_line <- c(bcm_line, substr(pinDesc,start = 5, stop = 6))
-  #     pin_name <- c(pin_name, pinDesc)
-  #   } else {
-  #     stop(paste("Pin",eachPin,"provides",pinDesc,"and is not a data line."))
-  #   }
-  # }
 
   gpio_sysCall <- paste("gpioget",
                         gpio_chip = 0,
