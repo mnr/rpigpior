@@ -12,8 +12,7 @@
 #' rpi_set(pin_number = c(9,10,11), onOff = c(1,0,1))
 rpi_set <- function(pin_number, onOff) {
 
-  bcmInfo <- rpi_pinToBCM(pin_number)
-  bcm_line <- bcmInfo["bcm_line"]
+  bcm_line <- rpi_pinToBCM(pin_number)
 
   pinAndValue <- paste0(bcm_line,"=",onOff)
 

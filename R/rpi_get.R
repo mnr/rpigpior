@@ -13,9 +13,8 @@
 #' rpi_get(c(7, 40)) # returns a named vector of values from pins 7 and 40
 rpi_get <- function(pin_number) {
 
-  bcmInfo <- rpi_pinToBCM(pin_number)
-  bcm_line <- bcmInfo["bcm_line"]
-  pin_name <- bcmInfo["pin_name"]
+  bcm_line <- rpi_pinToBCM(pin_number)
+  pin_name <- names(bcm_line)
   # # check pin number. Are all values valid data lines?
   # bcm_line <- c() # ensure that bcm_line is empty
   # pin_name <- c() # ensure that pin_name is empty
