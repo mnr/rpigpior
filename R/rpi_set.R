@@ -8,7 +8,7 @@
 #' @return no value is returned
 #' @export
 #'
-#' @examples
+#' @examplesIf is.rpi()
 #' # turns pin 19 on, 21 off, and 23 on.
 #' # This corresponds to gpio09, gpio10, and gpio11
 #' rpi_set(pin_number = c(19, 21, 23), onOff = c(1,0,1))
