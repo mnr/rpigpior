@@ -32,11 +32,11 @@ rpi_get <- function(pin_number) {
     }
   }
 
-  bcm_line <- as.numeric(bcm_line) # bcm_line from "07" to 7
+  # bcm_line <- as.numeric(bcm_line) # bcm_line from "07" to 7
 
   gpio_sysCall <- paste("gpioget",
                         gpio_chip = 0,
-                        bcm_line
+                        paste(bcm_line, collapse = " ")
                         )
 
   pin_value <- system(gpio_sysCall, intern = TRUE)
