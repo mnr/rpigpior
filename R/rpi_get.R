@@ -1,44 +1,47 @@
 #' Retrieve the value of a RPi Pin
 #'
-#' Returns the value of a board-level pin number (0-40). Stops if the pin is not a valid data line.
+#' Returns the value of one or more specified board-level pin number (0-40). Stops if the pin is not a valid data line.
 #'
 #' @param pin_number a Raspberry Pi GPIO board level pin number between 1 and 40. For example, Pin #1 is located upper left and provides 3.3 volts. Pin #40 is located lower right and is the location of GPIO21.
-#' @param describe Logical. TRUE will return the pin description along with the value.
 #'
-#' @return vector with the value of a pin number. Includes the description if `describe = TRUE`
+#' @return named vector with the value of each pin number.
 #' @export
 #'
 #' @examples
 #' rpi_get(1) # produces error since pin #1 is not data
-#' rpi_get(40) # returns the state of GPIO21 (0 or 1)
-#' rpi_get(40, describe = TRUE) # returns a vector of two values: state of GPIO21 and description. i.e. c("0", "GPIO21")
-rpi_get <- function(pin_number,
-                    describe = FALSE) {
+#' rpi_get(40) # returns a named vector of the state of GPIO21. i.e. return["GPIO21"] = 1
+#' rpi_get(7, 40) # returns a named vector of values from pins 7 and 40
+rpi_get <- function(pin_number) {
 
-  # check this pin number. Is it a valid data line?
-  if(pin_number < 1 || pin_number > 40) {
-    print("invalid number")
-    #stop("This is not a valid pin number (1:40)")
+  # check pin number. Are all values valid data lines?
+  bcm_line <- c() # ensure that bcm_line is empty
+  pin_name <- c() # ensure that pin_name is empty
+  for (eachPin in pin_number) {
+    # is eachpin in range of 1:40?
+    if(eachPin < 1 || eachPin > 40) {
+      stop(paste("Pin",eachPin,"is an invalid number (1:40)"))
+    }
+    # does eachpin start with "GPIO"?
+    pinDesc <- rpi_pin_desc[eachPin,"Description"]
+    if (startsWith(pinDesc, prefix = "GPIO")) {
+      # if this is a GPIO line, add it to bcm_line and pin_name
+      bcm_line <- c(bcm_line, substr(pinDesc,start = 5, stop = 6))
+      pin_name <- c(pin_name, pinDesc)
+    } else {
+      stop(paste("Pin",eachPin,"provides",pinDesc,"and is not a data line."))
+    }
   }
 
-  pin_description <- rpi_pin_desc[pin_number,"Description"]
-
-  if(startsWith( pin_description, prefix = "GPIO")) {
-    bcm_line <- substr(pin_description,start = 5, stop = 6)
-    bcm_line <- as.numeric(bcm_line)
-  } else {
-    stop("Pin ", pin_number, " is ", pin_description, " and is not a valid data line.")
-  }
+  bcm_line <- as.numeric(bcm_line) # bcm_line from "07" to 7
 
   gpio_sysCall <- paste("gpioget",
                         gpio_chip = 0,
-                        bcm_line)
+                        bcm_line
+                        )
 
   pin_value <- system(gpio_sysCall, intern = TRUE)
 
-  if(describe == TRUE) {
-    return(c(pin_value, pin_description))
-  } else {
-    return(pin_value)
-  }
+  names(pin_value) <- pin_name
+
+  return(pin_value)
 }

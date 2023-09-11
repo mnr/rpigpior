@@ -4,21 +4,19 @@
 \alias{rpi_get}
 \title{Retrieve the value of a RPi Pin}
 \usage{
-rpi_get(pin_number, describe = FALSE)
+rpi_get(pin_number)
 }
 \arguments{
 \item{pin_number}{a Raspberry Pi GPIO board level pin number between 1 and 40. For example, Pin #1 is located upper left and provides 3.3 volts. Pin #40 is located lower right and is the location of GPIO21.}
-
-\item{describe}{Logical. TRUE will return the pin description along with the value.}
 }
 \value{
-vector with the value of a pin number. Includes the description if `describe = TRUE`
+named vector with the value of each pin number.
 }
 \description{
-Returns the value of a board-level pin number (0-40). Stops if the pin is not a valid data line.
+Returns the value of one or more specified board-level pin number (0-40). Stops if the pin is not a valid data line.
 }
 \examples{
 rpi_get(1) # produces error since pin #1 is not data
-rpi_get(40) # returns the state of GPIO21 (0 or 1)
-rpi_get(40, describe = TRUE) # returns a vector of two values: state of GPIO21 and description. i.e. c("0", "GPIO21")
+rpi_get(40) # returns a named vector of the state of GPIO21. i.e. return["GPIO21"] = 1
+rpi_get(7, 40) # returns a named vector of values from pins 7 and 40
 }
