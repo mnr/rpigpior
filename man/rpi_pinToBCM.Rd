@@ -22,6 +22,8 @@ Look up a board pin number and return BCM_line and line_name
 This checks for a valid range of pins (1:40) and for valid input/output lines. This prevents trying to read a 3.3v or ground line.
 }
 \examples{
+\dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 rpi_pinToBCM(1) # produces error since pin #1 is not data
 rpi_pinToBCM(40) # returns a named vector where bcm_line = 21 and pin_name = GPIO21
+\dontshow{\}) # examplesIf}
 }
