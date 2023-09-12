@@ -16,7 +16,7 @@
 #' toggleThesePins <- c(19,21,23)
 #' rpi_set(toggleThesePins, 1) # turns all three pins on. onOff is recycled
 #' Sys.sleep(1)
-#' rpi_set(toggleThesePins, c(0,1,0))) # turns off pins 19 and 23
+#' rpi_set(toggleThesePins, c(0,1,0)) # turns off pins 19 and 23
 #' Sys.sleep(1)
 #' rpi_set(toggleThesePins, 0) # turns off all pins
 rpi_set <- function(pin_number, onOff) {
