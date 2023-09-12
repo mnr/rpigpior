@@ -27,7 +27,7 @@ rpi_pinToBCM <- function(pin_number) {
       stop(paste("Pin",eachPin,"is an invalid number (1:40)"))
     }
     # does eachpin start with "GPIO"?
-    pinDesc <- rpi_pin_desc[eachPin,"Description"]
+    pinDesc <- rpigpior::rpi_pin_desc[eachPin,"Description"]
     if (startsWith(pinDesc, prefix = "GPIO")) {
       # if this is a GPIO line, add it to bcm_line and pin_name
       bcm_line <- c(bcm_line, substr(pinDesc,start = 5, stop = 6))
