@@ -13,7 +13,7 @@
 #' rpi_get(c(7, 40)) # returns a named vector of values from pins 7 and 40
 rpi_get <- function(pin_number) {
 
-  bcm_line <- rpi_pinToBCM(pin_number)
+  bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
   pin_name <- names(bcm_line)
 
   gpio_sysCall <- paste("gpioget gpiochip0",

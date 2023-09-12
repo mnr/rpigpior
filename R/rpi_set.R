@@ -21,7 +21,7 @@
 #' rpi_set(toggleThesePins, 0) # turns off all pins
 rpi_set <- function(pin_number, onOff) {
 
-  bcm_line <- rpi_pinToBCM(pin_number)
+  bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
 
   pinAndValue <- paste0(bcm_line,"=",onOff)
 
