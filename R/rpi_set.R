@@ -25,8 +25,7 @@ rpi_set <- function(pin_number, onOff) {
 
   pinAndValue <- paste0(bcm_line,"=",onOff)
 
-  gpio_sysCall <- paste("gpioset",
-                        gpio_chip = 0,
+  gpio_sysCall <- paste("gpioset 0",
                         paste(pinAndValue, collapse = " ")
   )
 
