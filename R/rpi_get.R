@@ -16,8 +16,7 @@ rpi_get <- function(pin_number) {
   bcm_line <- rpi_pinToBCM(pin_number)
   pin_name <- names(bcm_line)
 
-  gpio_sysCall <- paste("gpioget",
-                        gpio_chip = 0,
+  gpio_sysCall <- paste("gpioget 0",
                         paste(bcm_line, collapse = " ")
                         )
 
