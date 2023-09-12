@@ -5,9 +5,9 @@
 #'
 #' @format ## `rpi_pin_desc`
 #' A data frame with 40 rows and two columns:
-#' \describe{
-#' \item {description}{secondary}
-#' \item {Primary function of the pin}{Secondary function of the pin}
+#' \itemize{
+#'    \item description. Primary function of the pin
+#'    \item secondary. Secondary function of the pin
 #' }
 #'
 #' @source https://www.raspberrypi.com/documentation/computers/os.html#gpio-and-the-40-pin-header
