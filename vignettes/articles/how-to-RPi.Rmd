@@ -1,5 +1,5 @@
 ---
-title: "how to RPi"
+title: "How to Setup R on Raspberry Pi"
 ---
 
 ```{r, include = FALSE}
@@ -9,6 +9,95 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(rpigpior)
+# How to set up R for a Raspberry Pi
+
+This document describes how to set up the R programming language on a Raspberry Pi.
+
+## A brief overview of the Raspberry Pi
+
+![Raspberry Pi Model 4](raspberry-pi-4-model-b%20crop.jpg){fig-alt="An image showing the Raspberry Pi Model 4" fig-align="left" width="393"}
+
+Hopefully this really isn't necessary, but you may wonder why there's a fuss about the [Raspberry Pi](https://www.raspberrypi.com). Here's a few tidbits to get you started:
+
+-   It's a full-blown Linux computer, supports HDMI, ethernet, audio, a camera, USB and runs on five volts DC. It consumes somewhere around 3 to 6 watts.
+
+-   See those dual rows of pins? That's the *General Purpose Input/Output* (GPIO) pins. You can read and write to the outside world, plus support a wide array of sensors.
+
+-   There is lots of support for programming with Python
+
+-   Depending on the model you need, you could get your hands on a Raspberry Pi for somewhere between \$5 and \$45 USD.
+
+## Install R
+
+The Raspberry Pi doesn't come with R so you'll need to install it. You might want to check out [R4Pi](https://r4pi.org), a website that provides precompiled binaries.
+
+If the R4Pi website isn't up and running, simply fall back to apt-get...
+
+``` r
+sudo apt-get update
+sudo apt-get install r-base r-base-core
 ```
+
+That's dependable.
+
+## Fix the App Menu
+
+Unfortunately, the installer places R in the graphic menu instead of programming tools.
+
+![R appears in the graphic menu](fixtheapp.png){fig-alt="Image showing how to fix the app location in Raspbian"}
+
+That works, but it's just annoying. To move it to the programming menu:
+
+1.  Go to the RPi menu (Raspberry Pi in the upper left).
+
+2.  Select Preferences
+
+3.  Select Main Menu Editor. This provides a dialog.
+
+4.  In that dialog, select programming.
+
+5.  On the right, select New Item:
+
+6.  In the dialog, fill in the fields with:
+
+    1.  Name=R
+
+    2.  Command=R
+
+    3.  Launch in terminal. OK
+
+Presto change-O. R is now in the programming menu.
+
+## Fix the Icon
+
+Almost done with this trivial stuff, but the Icon for the R app is wrong. Let's fix it...
+
+![](fixtheicon.png){fig-alt="Image showing how to fix the icon for R"}
+
+1.  In the Raspberry Pi menu, right click on R.
+
+2.  Choose Properties
+
+3.  Click on the Icon to bring up the chooser
+
+4.  In the System Theme, select *rlogo.icon*
+
+## Setup geany
+
+Apparently posit is working on a version of RStudio for Raspberry Pi. But as of the creation of this document, it's not ready for prime time. I use Geany instead - it's installed on the Raspberry Pi, it's an IDE, and it's better than a poke in the eye.
+
+![Configuring geany for R](geany_config.png){fig-alt="An image showing how to configure Geany to run the R programming language"}
+
+::: notes +-----------------------------------+---------------------------------------------------------+ \| Command \| What it does \| +===================================+=========================================================+ \| edit/preferences/terminal... \| This runs an R file in the geany terminal \| \| \| \| \| check - *execute programs in VTE* \| \| +-----------------------------------+---------------------------------------------------------+ \| build -\> set build commands... \| this runs the R file as a batch command \| \| \| \| \| execute: `Rscript ./%f` \| output saved to .Rout in /home/pi or next to input file \| +-----------------------------------+---------------------------------------------------------+ \| build -\> set build commands... \| \| \| \| \| \| `R CMD BATCH: R CMD BATCH ./%f` \| \| +-----------------------------------+---------------------------------------------------------+
+
+::: notes
+
+<div>
+
+NOTE: file names cannot have spaces
+
+<https://wiki.geany.org/howtos/using_geany_with_r>
+
+<https://wiki.geany.org/howtos/configurebuildmenu>
+
+</div>
