@@ -56,6 +56,7 @@ rpi_monitor <-
            numEvents = 0,
            edge = "both",
            timeout = 0) {
+
     bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
 
     gpio_sysCall <- paste(
@@ -65,7 +66,6 @@ rpi_monitor <-
       } else {
         paste0("--num-events=", 10)
       },
-      "--silent",
       if (edge == "rising") {
         "--rising-edge"
       } else if (edge == "falling") {
