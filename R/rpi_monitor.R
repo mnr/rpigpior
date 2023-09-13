@@ -67,6 +67,7 @@ rpi_monitor <- function(pin_number, numEvents = 0, edge = "both", timeout = 0) {
                         } else if (edge == "falling") {
                           "--falling-edge"
                         } else if (edge == "both") {},
+                        "gpiochip0",
                         paste(bcm_line, collapse = " "))
 
   monitored_events <- system(gpio_sysCall, intern = TRUE)
