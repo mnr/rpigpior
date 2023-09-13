@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   R_and_RPi: R_and_RPi.html
   how-to-RPi: how-to-RPi.html
-last_built: 2023-09-13T02:20Z
+last_built: 2023-09-13T02:30Z
 urls:
   reference: https://mnr.github.io/rpigpior/reference
   article: https://mnr.github.io/rpigpior/articles
