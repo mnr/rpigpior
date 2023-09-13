@@ -44,4 +44,4 @@ library(rpigpior)
 [Related mailing list:
 linux-gpio@vger.kernal.org](https://www.spinics.net/lists/linux-gpio/)
 
-## 
+## How to use rpigpior
