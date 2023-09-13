@@ -21,7 +21,7 @@ When you stray into the world of Raspberry Pi, it's with the intent to connect s
 
 Let's talk about this illustration.
 
-![](hello_gpio_bb.png){fig-alt="Schematic showing how to connect a pushbutton to Raspberry pi" width="296"}
+![Connecting a switch to Raspberry Pi](hello_gpio_bb.png){fig-alt="Schematic showing how to connect a pushbutton to Raspberry pi" width="296"}
 
 ### Pins and Identifiers
 
