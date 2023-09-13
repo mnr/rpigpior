@@ -45,3 +45,41 @@ library(rpigpior)
 linux-gpio@vger.kernal.org](https://www.spinics.net/lists/linux-gpio/)
 
 ## How to use rpigpior
+
+It’s helpful to check if your code is running on a Raspberry Pi.
+
+``` r
+if ( is.rpi() ) {
+   print("Yes, this is a RPi")
+} else {
+   print ("No, this is not a RPi")
+}
+```
+
+If you connect a switch to board pin 40, this code will read it:
+
+``` r
+library(rpigpior)
+
+rpi_get(40) # reads board pin 40
+rpi_get(c(7,40)) # reads board pins 7 and 40
+
+> GPIO004  GPIO21
+        0       1
+```
+
+That assumes the switch to board pin 40 is “pushed” or closed. By the
+way, there is a diagram of this located in the *articles* section of the
+website (as identified in the package description)
+
+If you have a LEDs connected to board pin 19, 21, and 23, this code will
+turn them on, then one of them off, then all of them off
+
+    library(rpigpior)
+
+    toggleThese <- c(19,21,23)
+    rpi_set(toggleThese,1)
+    Sys.sleep(1)
+    rpi_set(toggleThese, c(1,0,1))
+    Sys.sleep(1)
+    rpi_set(toggleThese, 0)
