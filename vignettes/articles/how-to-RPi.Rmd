@@ -38,7 +38,7 @@ sudo apt-get update
 sudo apt-get install r-base r-base-core
 ```
 
-That's dependable.
+Unfortunately, this installs R as Root, which will cause problems when you `install.packages( )` since you don't have access to the library folder. *I fixed this on my Raspberry Pi, but didn't take notes on what I did. When I figure that out, I'll update this document. My apologies.*
 
 ## Fix the App Menu
 
@@ -82,22 +82,31 @@ Almost done with this trivial stuff, but the Icon for the R app is wrong. Let's 
 
 4.  In the System Theme, select *rlogo.icon*
 
-## Setup geany
+## Setup Geany
 
 Apparently posit is working on a version of RStudio for Raspberry Pi. But as of the creation of this document, it's not ready for prime time. I use Geany instead - it's installed on the Raspberry Pi, it's an IDE, and it's better than a poke in the eye.
 
 ![Configuring geany for R](geany_config.png){fig-alt="An image showing how to configure Geany to run the R programming language"}
 
-::: notes +-----------------------------------+---------------------------------------------------------+ \| Command \| What it does \| +===================================+=========================================================+ \| edit/preferences/terminal... \| This runs an R file in the geany terminal \| \| \| \| \| check - *execute programs in VTE* \| \| +-----------------------------------+---------------------------------------------------------+ \| build -\> set build commands... \| this runs the R file as a batch command \| \| \| \| \| execute: `Rscript ./%f` \| output saved to .Rout in /home/pi or next to input file \| +-----------------------------------+---------------------------------------------------------+ \| build -\> set build commands... \| \| \| \| \| \| `R CMD BATCH: R CMD BATCH ./%f` \| \| +-----------------------------------+---------------------------------------------------------+
+There are a few things to set up before using Geany for R. I learned how to do this at the Geany documentation:
 
-::: notes
+-   <https://wiki.geany.org/howtos/using_geany_with_r>
 
-<div>
+-   <https://wiki.geany.org/howtos/configurebuildmenu>
 
-NOTE: file names cannot have spaces
+Start with `edit -> preferences -> terminal` and check `execute programs in VTE`. This runs R in the Geany terminal rather than opening up a separate terminal window. This isn't necessary, just a nice-to-have.
 
-<https://wiki.geany.org/howtos/using_geany_with_r>
+Next is `Build -> Set Build Commands` which opens up a dialog. Enter `Rscript ./%f` in `Execute : Command`. With this setup, run an R program in by selecting `Build -> Execute`. Graphs and other output are saved next to the input file.
 
-<https://wiki.geany.org/howtos/configurebuildmenu>
+In the same dialog, go to the first row. Click on the cell for Label and enter something descriptive like "R CMD." In the next cell (COMMAND) enter `R CMD BATCH ./f` . This command now appears at the top of the Build menu. Selecting this option will run the command, capturing the STDOUT to a `xxx.Rout` file.
 
-</div>
+Note that file names cannot have spaces.
+
+## Install libgpiod
+
+Current versions of Raspbian have `libgpiod` installed by default. If you get errors, use this to install the necessary files:
+
+```         
+sudo apt-get update
+sudo apt-get install libgpiod-dev gpiod
+```
