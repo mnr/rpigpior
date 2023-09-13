@@ -1,0 +1,38 @@
+---
+title: "How to write GPIO Code with rpigpiodr and R"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rpigpior)
+```
+
+## GPIO implies connecting wires
+
+When you stray into the world of Raspberry Pi, it's with the intent to connect sensors and devices to the GPIO pins. This implies circuits and wires. I can show you what to do, but I assume you have already gone through some of the excellent tutorials from the [Raspberry Pi foundation](https://raspberrypi.org) or other places such as [LinkedIn Learning](https://www.linkedin.com/learning/raspberry-pi-essential-training-14476312/welcome-to-raspberry-pi-essential-training).
+
+## Reading a switch
+
+Let's talk about this illustration.
+
+![](hello_gpio_bb.png){fig-alt="Schematic showing how to connect a pushbutton to Raspberry pi" width="296"}
+
+### Pins and Identifiers
+
+At the bottom is a picture of a Raspberry Pi. Along the top is a cartoon of the two rows of pins that expose the GPIO. There are several ways to [identify these pins](https://pinout.xyz):
+
+-   Physical/Board - This is the identification scheme used by `rpigpior`. It is the number of the pin on the board. Pin 1 is on the inner (lower) left side. Pin 2 is on the outer (upper) left side. Pin 40 is on the outer right side. In this diagram, you'll see it has a yellow wire connected.
+
+-   BCM - This is the signal as found on the Broadcom chip (BCM2835 and others) used to power the GPIO. For example, Board pin 5 (the third pin from the left on the lower (inside) row) is connected to BCM signal line 3. You'll often see this referred to as GPIO03. Yes, this is confusing, it does make sense when you understand why the designers did this.
+
+-   Wiring Pi - A system written for admirers of Arduino. [Wiring Pi](http://wiringpi.com) is popular among the C programming crowd. I don't use it for `rpigpior`.
+
+### Schematics
+
+At the top of the illustration is a white box with a grid of dots. This is called a [*breadboard*](https://www.adafruit.com/product/4539) and this is exactly what they look like.
