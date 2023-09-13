@@ -41,8 +41,8 @@
 #' @return a list of events
 #'   \itemize{
 #'      \item raw text of each event
-#'      \item event: rising|falling
-#'      \item line: the bcm (not board pin) line exhibiting change
+#'      \item event: RISING EDGE|FALLING EDGE
+#'      \item line: the bcm line (not board pin) exhibiting change
 #'      \item timestamp: seconds component
 #'      \item timestamp: nanoseconds component
 #'   }
@@ -61,17 +61,20 @@ rpi_monitor <-
 
     gpio_sysCall <- paste(
       "gpiomon",
+
       if (numEvents != 0) {
         paste0("--num-events=", numEvents)
       } else {
         paste0("--num-events=", 10)
       },
+
       if (edge == "rising") {
         "--rising-edge"
       } else if (edge == "falling") {
         "--falling-edge"
       } else if (edge == "both") {
       },
+
       "gpiochip0",
       paste(bcm_line, collapse = " ")
     )
