@@ -57,6 +57,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/R_and_RPi.html">R_and_RPi</a>
+    <a class="dropdown-item" href="articles/gpioCode.html">How to write GPIO Code with rpigpiodr and R</a>
     <a class="dropdown-item" href="articles/how-to-RPi.html">How to Setup R on Raspberry Pi</a>
   </div>
 </li>
@@ -114,6 +115,31 @@
 <div class="section level2">
 <h2 id="how-to-use-rpigpior">How to use rpigpior<a class="anchor" aria-label="anchor" href="#how-to-use-rpigpior"></a>
 </h2>
+<p>It’s helpful to check if your code is running on a Raspberry Pi.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span> <span class="fu"><a href="reference/is.rpi.html">is.rpi</a></span><span class="op">(</span><span class="op">)</span> <span class="op">)</span> <span class="op">{</span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Yes, this is a RPi"</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span> <span class="op">(</span><span class="st">"No, this is not a RPi"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>If you connect a switch to board pin 40, this code will read it:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_get</span>(<span class="dv">40</span>) <span class="co"># reads board pin 40</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_get</span>(<span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">40</span>)) <span class="co"># reads board pins 7 and 40</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> GPIO004  GPIO21</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span>       <span class="dv">1</span></span></code></pre></div>
+<p>That assumes the switch to board pin 40 is “pushed” or closed. By the way, there is a diagram of this located in the <em>articles</em> section of the website (as identified in the package description)</p>
+<p>If you have a LEDs connected to board pin 19, 21, and 23, this code will turn them on, then one of them off, then all of them off</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>toggleThese <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">19</span>,<span class="dv">21</span>,<span class="dv">23</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese,<span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">1</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese, <span class="dv">0</span>)</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

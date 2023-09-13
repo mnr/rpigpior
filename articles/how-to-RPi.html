@@ -49,6 +49,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/R_and_RPi.html">R_and_RPi</a>
+    <a class="dropdown-item" href="../articles/gpioCode.html">How to write GPIO Code with rpigpiodr and R</a>
     <a class="dropdown-item" href="../articles/how-to-RPi.html">How to Setup R on Raspberry Pi</a>
   </div>
 </li>
@@ -124,7 +125,11 @@ website that provides precompiled binaries.</p>
 apt-get…</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sudo apt<span class="sc">-</span>get update</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install r<span class="sc">-</span>base r<span class="sc">-</span>base<span class="sc">-</span>core</span></code></pre></div>
-<p>That’s dependable.</p>
+<p>Unfortunately, this installs R as Root, which will cause problems
+when you <code><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages( )</a></code> since you don’t have access to
+the library folder. <em>I fixed this on my Raspberry Pi, but didn’t take
+notes on what I did. When I figure that out, I’ll update this document.
+My apologies.</em></p>
 </div>
 <div class="section level3">
 <h3 id="fix-the-app-menu">Fix the App Menu<a class="anchor" aria-label="anchor" href="#fix-the-app-menu"></a>
@@ -167,7 +172,7 @@ wrong. Let’s fix it…</p>
 </ol>
 </div>
 <div class="section level3">
-<h3 id="setup-geany">Setup geany<a class="anchor" aria-label="anchor" href="#setup-geany"></a>
+<h3 id="setup-geany">Setup Geany<a class="anchor" aria-label="anchor" href="#setup-geany"></a>
 </h3>
 <p>Apparently posit is working on a version of RStudio for Raspberry Pi.
 But as of the creation of this document, it’s not ready for prime time.
@@ -176,23 +181,35 @@ and it’s better than a poke in the eye.</p>
 <div class="figure">
 <img src="geany_config.png" fig-alt="An image showing how to configure Geany to run the R programming language" alt=""><p class="caption">Configuring geany for R</p>
 </div>
-<p>::: notes +———————————–+———————————————————+ | Command | What it does
-|
-+===================================+=========================================================+
-| edit/preferences/terminal… | This runs an R file in the geany terminal
-| | | | | check - <em>execute programs in VTE</em> | |
-+———————————–+———————————————————+ | build -&gt; set build commands… |
-this runs the R file as a batch command | | | | | execute:
-<code>Rscript ./%f</code> | output saved to .Rout in /home/pi or next to
-input file | +———————————–+———————————————————+ | build -&gt; set build
-commands… | | | | | | <code>R CMD BATCH: R CMD BATCH ./%f</code> | |
-+———————————–+———————————————————+</p>
-<p>::: notes</p>
-<div>
-<p>NOTE: file names cannot have spaces</p>
-<p><a href="https://wiki.geany.org/howtos/using_geany_with_r" class="external-link uri">https://wiki.geany.org/howtos/using_geany_with_r</a></p>
-<p><a href="https://wiki.geany.org/howtos/configurebuildmenu" class="external-link uri">https://wiki.geany.org/howtos/configurebuildmenu</a></p>
+<p>There are a few things to set up before using Geany for R. I learned
+how to do this at the Geany documentation:</p>
+<ul>
+<li><p><a href="https://wiki.geany.org/howtos/using_geany_with_r" class="external-link uri">https://wiki.geany.org/howtos/using_geany_with_r</a></p></li>
+<li><p><a href="https://wiki.geany.org/howtos/configurebuildmenu" class="external-link uri">https://wiki.geany.org/howtos/configurebuildmenu</a></p></li>
+</ul>
+<p>Start with <code>edit -&gt; preferences -&gt; terminal</code> and
+check <code>execute programs in VTE</code>. This runs R in the Geany
+terminal rather than opening up a separate terminal window. This isn’t
+necessary, just a nice-to-have.</p>
+<p>Next is <code>Build -&gt; Set Build Commands</code> which opens up a
+dialog. Enter <code>Rscript ./%f</code> in
+<code>Execute : Command</code>. With this setup, run an R program in by
+selecting <code>Build -&gt; Execute</code>. Graphs and other output are
+saved next to the input file.</p>
+<p>In the same dialog, go to the first row. Click on the cell for Label
+and enter something descriptive like “R CMD.” In the next cell (COMMAND)
+enter <code>R CMD BATCH ./f</code> . This command now appears at the top
+of the Build menu. Selecting this option will run the command, capturing
+the STDOUT to a <code>xxx.Rout</code> file.</p>
+<p>Note that file names cannot have spaces.</p>
 </div>
+<div class="section level3">
+<h3 id="install-libgpiod">Install libgpiod<a class="anchor" aria-label="anchor" href="#install-libgpiod"></a>
+</h3>
+<p>Current versions of Raspbian have <code>libgpiod</code> installed by
+default. If you get errors, use this to install the necessary files:</p>
+<pre><code>sudo apt-get update
+sudo apt-get install libgpiod-dev gpiod</code></pre>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

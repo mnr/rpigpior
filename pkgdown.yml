@@ -3,8 +3,9 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   R_and_RPi: R_and_RPi.html
+  gpioCode: gpioCode.html
   how-to-RPi: how-to-RPi.html
-last_built: 2023-09-13T06:44Z
+last_built: 2023-09-13T12:45Z
 urls:
   reference: https://mnr.github.io/rpigpior/reference
   article: https://mnr.github.io/rpigpior/articles
