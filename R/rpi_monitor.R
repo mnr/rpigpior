@@ -84,5 +84,5 @@ rpi_monitor <-
                          text = monitored_events,
                          perl = TRUE)
     rxvalues <- regmatches(x = monitored_events, m = rxmatches)
-    return(rxmatches)
+    return(rxvalues)
   }
