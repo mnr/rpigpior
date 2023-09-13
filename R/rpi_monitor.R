@@ -76,7 +76,6 @@ rpi_monitor <-
       paste(bcm_line, collapse = " ")
     )
 
-    print(gpio_sysCall)
     monitored_events <- system(gpio_sysCall, intern = TRUE)
 
     myPattern <-
