@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="rpigpior">
-<title>how to RPi • rpigpior</title>
+<title>How to Setup R on Raspberry Pi • rpigpior</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="how to RPi">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="How to Setup R on Raspberry Pi">
 <meta property="og:description" content="rpigpior">
 <meta property="og:image" content="https://mnr.github.io/rpigpior/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -49,7 +49,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/R_and_RPi.html">R_and_RPi</a>
-    <a class="dropdown-item" href="../articles/how-to-RPi.html">how to RPi</a>
+    <a class="dropdown-item" href="../articles/how-to-RPi.html">How to Setup R on Raspberry Pi</a>
   </div>
 </li>
 <li class="nav-item">
@@ -79,7 +79,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>how to RPi</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>How to Setup R on Raspberry Pi</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/mnr/rpigpior/blob/HEAD/vignettes/articles/how-to-RPi.Rmd" class="external-link"><code>vignettes/articles/how-to-RPi.Rmd</code></a></small>
@@ -88,9 +88,115 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mnr/rpigpior" class="external-link">rpigpior</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<div class="section level2">
+<h2 id="how-to-set-up-r-for-a-raspberry-pi">How to set up R for a Raspberry Pi<a class="anchor" aria-label="anchor" href="#how-to-set-up-r-for-a-raspberry-pi"></a>
+</h2>
+<p>This document describes how to set up the R programming language on a
+Raspberry Pi.</p>
+<div class="section level3">
+<h3 id="a-brief-overview-of-the-raspberry-pi">A brief overview of the Raspberry Pi<a class="anchor" aria-label="anchor" href="#a-brief-overview-of-the-raspberry-pi"></a>
+</h3>
+<div class="figure">
+<img src="raspberry-pi-4-model-b%20crop.jpg" fig-alt="An image showing the Raspberry Pi Model 4" fig-align="left" width="393" alt=""><p class="caption">Raspberry Pi Model 4</p>
+</div>
+<p>Hopefully this really isn’t necessary, but you may wonder why there’s
+a fuss about the <a href="https://www.raspberrypi.com" class="external-link">Raspberry Pi</a>.
+Here’s a few tidbits to get you started:</p>
+<ul>
+<li><p>It’s a full-blown Linux computer, supports HDMI, ethernet, audio,
+a camera, USB and runs on five volts DC. It consumes somewhere around 3
+to 6 watts.</p></li>
+<li><p>See those dual rows of pins? That’s the <em>General Purpose
+Input/Output</em> (GPIO) pins. You can read and write to the outside
+world, plus support a wide array of sensors.</p></li>
+<li><p>There is lots of support for programming with Python</p></li>
+<li><p>Depending on the model you need, you could get your hands on a
+Raspberry Pi for somewhere between $5 and $45 USD.</p></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="install-r">Install R<a class="anchor" aria-label="anchor" href="#install-r"></a>
+</h3>
+<p>The Raspberry Pi doesn’t come with R so you’ll need to install it.
+You might want to check out <a href="https://r4pi.org" class="external-link">R4Pi</a>, a
+website that provides precompiled binaries.</p>
+<p>If the R4Pi website isn’t up and running, simply fall back to
+apt-get…</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sudo apt<span class="sc">-</span>get update</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install r<span class="sc">-</span>base r<span class="sc">-</span>base<span class="sc">-</span>core</span></code></pre></div>
+<p>That’s dependable.</p>
+</div>
+<div class="section level3">
+<h3 id="fix-the-app-menu">Fix the App Menu<a class="anchor" aria-label="anchor" href="#fix-the-app-menu"></a>
+</h3>
+<p>Unfortunately, the installer places R in the graphic menu instead of
+programming tools.</p>
+<div class="figure">
+<img src="fixtheapp.png" fig-alt="Image showing how to fix the app location in Raspbian" alt=""><p class="caption">R appears in the graphic menu</p>
+</div>
+<p>That works, but it’s just annoying. To move it to the programming
+menu:</p>
+<ol style="list-style-type: decimal">
+<li><p>Go to the RPi menu (Raspberry Pi in the upper left).</p></li>
+<li><p>Select Preferences</p></li>
+<li><p>Select Main Menu Editor. This provides a dialog.</p></li>
+<li><p>In that dialog, select programming.</p></li>
+<li><p>On the right, select New Item:</p></li>
+<li>
+<p>In the dialog, fill in the fields with:</p>
+<ol style="list-style-type: decimal">
+<li><p>Name=R</p></li>
+<li><p>Command=R</p></li>
+<li><p>Launch in terminal. OK</p></li>
+</ol>
+</li>
+</ol>
+<p>Presto change-O. R is now in the programming menu.</p>
+</div>
+<div class="section level3">
+<h3 id="fix-the-icon">Fix the Icon<a class="anchor" aria-label="anchor" href="#fix-the-icon"></a>
+</h3>
+<p>Almost done with this trivial stuff, but the Icon for the R app is
+wrong. Let’s fix it…</p>
+<p><img src="fixtheicon.png" fig-alt="Image showing how to fix the icon for R"></p>
+<ol style="list-style-type: decimal">
+<li><p>In the Raspberry Pi menu, right click on R.</p></li>
+<li><p>Choose Properties</p></li>
+<li><p>Click on the Icon to bring up the chooser</p></li>
+<li><p>In the System Theme, select <em>rlogo.icon</em></p></li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="setup-geany">Setup geany<a class="anchor" aria-label="anchor" href="#setup-geany"></a>
+</h3>
+<p>Apparently posit is working on a version of RStudio for Raspberry Pi.
+But as of the creation of this document, it’s not ready for prime time.
+I use Geany instead - it’s installed on the Raspberry Pi, it’s an IDE,
+and it’s better than a poke in the eye.</p>
+<div class="figure">
+<img src="geany_config.png" fig-alt="An image showing how to configure Geany to run the R programming language" alt=""><p class="caption">Configuring geany for R</p>
+</div>
+<p>::: notes +———————————–+———————————————————+ | Command | What it does
+|
++===================================+=========================================================+
+| edit/preferences/terminal… | This runs an R file in the geany terminal
+| | | | | check - <em>execute programs in VTE</em> | |
++———————————–+———————————————————+ | build -&gt; set build commands… |
+this runs the R file as a batch command | | | | | execute:
+<code>Rscript ./%f</code> | output saved to .Rout in /home/pi or next to
+input file | +———————————–+———————————————————+ | build -&gt; set build
+commands… | | | | | | <code>R CMD BATCH: R CMD BATCH ./%f</code> | |
++———————————–+———————————————————+</p>
+<p>::: notes</p>
+<div>
+<p>NOTE: file names cannot have spaces</p>
+<p><a href="https://wiki.geany.org/howtos/using_geany_with_r" class="external-link uri">https://wiki.geany.org/howtos/using_geany_with_r</a></p>
+<p><a href="https://wiki.geany.org/howtos/configurebuildmenu" class="external-link uri">https://wiki.geany.org/howtos/configurebuildmenu</a></p>
+</div>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
