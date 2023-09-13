@@ -29,7 +29,29 @@
 #                     format) {
 #
 # }
-rpi_monitor <- function(pin_number, numEvents = 0, edge = "", timeout = 0) {
+#' Monitor an RPi pin
+#'
+#' Watch a Raspberry pi GPIO pin (or pins) for changes.
+#'
+#' @param pin_number one or more pin numbers as found on the Raspberry pi GPIO. Use the actual pin numbers (i.e. 1:40)
+#' @param numEvents a number of events to collect. Defaults to 10
+#' @param edge rising|falling|both
+#' @param timeout number of seconds to collect events
+#'
+#' @return a list of events
+#'   \itemize{
+#'      \item raw text of each event
+#'      \item event: rising|falling
+#'      \item line: the bcm (not board pin) line exhibiting change
+#'      \item timestamp: seconds component
+#'      \item timestamp: nanoseconds component
+#'   }
+#' @export
+#'
+#' @examplesIf is.rpi()
+#' rpi_monitor(21)
+#' rpi_monitor(21, numEvents=20)
+rpi_monitor <- function(pin_number, numEvents = 0, edge = "both", timeout = 0) {
 
   bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
 
@@ -44,7 +66,7 @@ rpi_monitor <- function(pin_number, numEvents = 0, edge = "", timeout = 0) {
                           "--rising-edge"
                         } else if (edge == "falling") {
                           "--falling-edge"
-                        },
+                        } else if (edge == "both") {},
                         paste(bcm_line, collapse = " "))
 
   monitored_events <- system(gpio_sysCall, intern = TRUE)
