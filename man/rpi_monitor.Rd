@@ -19,8 +19,8 @@ rpi_monitor(pin_number, numEvents = 0, edge = "both", timeout = 0)
 a list of events
   \itemize{
      \item raw text of each event
-     \item event: rising|falling
-     \item line: the bcm (not board pin) line exhibiting change
+     \item event: RISING EDGE|FALLING EDGE
+     \item line: the bcm line (not board pin) exhibiting change
      \item timestamp: seconds component
      \item timestamp: nanoseconds component
   }
