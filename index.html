@@ -113,7 +113,7 @@
 <p><a href="https://www.spinics.net/lists/linux-gpio/" class="external-link">Related mailing list: linux-gpio@vger.kernal.org</a></p>
 </div>
 <div class="section level2">
-<h2 id="how-to-use-rpigpior">How to use rpigpior<a class="anchor" aria-label="anchor" href="#how-to-use-rpigpior"></a>
+<h2 id="is-this-a-raspberry-pi">Is this a Raspberry Pi?<a class="anchor" aria-label="anchor" href="#is-this-a-raspberry-pi"></a>
 </h2>
 <p>It’s helpful to check if your code is running on a Raspberry Pi.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -122,6 +122,10 @@
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span> <span class="op">(</span><span class="st">"No, this is not a RPi"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="reading-a-pin">Reading a pin<a class="anchor" aria-label="anchor" href="#reading-a-pin"></a>
+</h2>
 <p>If you connect a switch to board pin 40, this code will read it:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -131,6 +135,10 @@
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> GPIO004  GPIO21</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span>       <span class="dv">1</span></span></code></pre></div>
 <p>That assumes the switch to board pin 40 is “pushed” or closed. By the way, there is a diagram of this located in the <em>articles</em> section of the website (as identified in the package description)</p>
+</div>
+<div class="section level2">
+<h2 id="turning-pins-on-and-off">Turning pins on and off<a class="anchor" aria-label="anchor" href="#turning-pins-on-and-off"></a>
+</h2>
 <p>If you have a LEDs connected to board pin 19, 21, and 23, this code will turn them on, then one of them off, then all of them off</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>

@@ -111,9 +111,8 @@ Learning</a>.</p>
 <div class="section level3">
 <h3 id="pins-and-identifiers">Pins and Identifiers<a class="anchor" aria-label="anchor" href="#pins-and-identifiers"></a>
 </h3>
-<p>At the bottom is a picture of a Raspberry Pi. Along the top is a
-cartoon of the two rows of pins that expose the GPIO. There are several
-ways to <a href="https://pinout.xyz" class="external-link">identify these pins</a>:</p>
+<p>At the bottom is a picture of a Raspberry Pi. Along the top are the
+two rows of pins that expose the GPIO. There are several ways to <a href="https://pinout.xyz" class="external-link">identify these pins</a>:</p>
 <ul>
 <li><p>Physical/Board - This is the identification scheme used by
 <code>rpigpior</code>. It is the number of the pin on the board. Pin 1
@@ -136,7 +135,120 @@ programming crowd. I don’t use it for <code>rpigpior</code>.</p></li>
 <p>At the top of the illustration is a white box with a grid of dots.
 This is called a <a href="https://www.adafruit.com/product/4539" class="external-link"><em>breadboard</em></a> and
 this is exactly what they look like.</p>
+<p>At the top and bottom are two horizontal rows (four rows total). All
+of the holes in each horizontal row are electrically connected together.
+These are called <strong>rails.</strong> If I were to attach five volts
+to the top right corner hole, I would read five volts at the top left
+corner.</p>
+<p>In the middle are two grids separated by a gutter. Each grid is five
+rows by thirty columns. All of the holes in each column are connected -
+but not across the grid. If I attached five volts to the first column,
+first row, I would read five volts in the first column, fifth row.</p>
+<p>Breadboards are used with wires, resistors, capacitors, switches,
+lights, and microcircuits (such as transistors) to quickly prototype
+electrical circuits. In this case, a switch is connected to the
+Raspberry Pi with a yellow and red wire.</p>
 </div>
+<div class="section level3">
+<h3 id="connect-a-switch-to-the-raspberry-pi">Connect a switch to the Raspberry Pi<a class="anchor" aria-label="anchor" href="#connect-a-switch-to-the-raspberry-pi"></a>
+</h3>
+<p>The illustration shows how to connect a pushbutton to the Raspberry
+Pi. In this case,</p>
+<ul>
+<li><p>A red wire connects board pin 17 to one side of the pushbutton.
+Board pin 17 supplies 3.3 volts DC.</p></li>
+<li><p>A yellow wire connects board pin 40 to the other side of the
+pushbutton. Board pin 40 connects to the Broadcom microcircuit and
+exposes GPIO21. This allows the Raspberry Pi to read the state of the
+pushbutton.</p></li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="programming">Programming<a class="anchor" aria-label="anchor" href="#programming"></a>
+</h2>
+<p>Consider this code:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mnr/rpigpior" class="external-link">rpigpior</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/rpi_get.html">rpi_get</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Button pushed"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Button not pushed"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>On each pass through the <code>while()</code> loop, this program will
+read the state of board pin 40 with <code>rpi_get(40)</code>. If the
+button is pushed, it will <code>print("Button Pushed")</code>. If pin 40
+is not pushed, it will <code>print("Button not pushed")</code></p>
+</div>
+<div class="section level2">
+<h2 id="setting-a-pin">Setting a pin<a class="anchor" aria-label="anchor" href="#setting-a-pin"></a>
+</h2>
+<p>Now consider this new illustration, which adds to the previous
+circuit.</p>
+<p><img src="hello_gpio_control_bb.png" fig-alt="schematic to control light bulb with Raspberry Pi" width="296"></p>
+<p>There is all sorts of new things happening.</p>
+<ul>
+<li><p>A red wire connects board pin 17 to the lowest rail. This
+supplies 3.3 volts.</p></li>
+<li><p>A black wire connects board pin 14 to the next lowest rail. This
+supplies ground.</p></li>
+</ul>
+<p>The wiring for the switch is electrically the same as in the previous
+illustration:</p>
+<ul>
+<li><p>A yellow wire connects one side of the switch to board pin 40
+(same as before)</p></li>
+<li><p>A red wire connects the 3.3 volt rail to the other side of the
+switch.</p></li>
+</ul>
+<p>An <strong>LED</strong> (Light Emitting Diode) has been added to the
+breadboard.</p>
+<ul>
+<li><p>A black wire connects the top rail (ground) to the cathode of the
+LED.</p></li>
+<li><p>A 220 ohm resistor is connected to the anode of the LED. This is
+then connected via a green wire to board pin 3.</p></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="code-to-blink-an-led">Code to blink an LED<a class="anchor" aria-label="anchor" href="#code-to-blink-an-led"></a>
+</h2>
+<p>Given the above circuit, this code will then blink the LED</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mnr/rpigpior" class="external-link">rpigpior</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/rpi_get.html">rpi_get</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>    <span class="fu"><a href="../reference/rpi_set.html">rpi_set</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="fu"><a href="../reference/rpi_set.html">rpi_set</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">0</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Notice the addition of <code>rpi_set(3,1)</code>. This tells the
+Raspberry Pi to turn board pin 3 <strong>on</strong>.
+<code>rpi_set(3,0)</code> tells the Raspberry Pi to turn board pin 3
+<strong>off</strong>.</p>
+<p>The loop reads the state of the switch <code>rpi_get(40)</code>. If
+the button is pushed, the LED attached to pin 3 will blink; 1 second on,
+3 seconds off.</p>
+</div>
+<div class="section level2">
+<h2 id="hello-world">hello world<a class="anchor" aria-label="anchor" href="#hello-world"></a>
+</h2>
+<p>There you have it, the Raspberry Pi equivalent of a <strong>hello
+world</strong> program. You’ve just learned:</p>
+<ul>
+<li><p>How to wire a simple Raspberry Pi circuit with a switch and an
+LED.</p></li>
+<li><p>How to use the R programming language to control the LED based on
+the Raspberry Pi</p></li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
