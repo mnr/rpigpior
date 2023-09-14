@@ -44,7 +44,7 @@ library(rpigpior)
 [Related mailing list:
 linux-gpio@vger.kernal.org](https://www.spinics.net/lists/linux-gpio/)
 
-## How to use rpigpior
+## Is this a Raspberry Pi?
 
 It’s helpful to check if your code is running on a Raspberry Pi.
 
@@ -55,6 +55,8 @@ if ( is.rpi() ) {
    print ("No, this is not a RPi")
 }
 ```
+
+## Reading a pin
 
 If you connect a switch to board pin 40, this code will read it:
 
@@ -71,6 +73,8 @@ rpi_get(c(7,40)) # reads board pins 7 and 40
 That assumes the switch to board pin 40 is “pushed” or closed. By the
 way, there is a diagram of this located in the *articles* section of the
 website (as identified in the package description)
+
+## Turning pins on and off
 
 If you have a LEDs connected to board pin 19, 21, and 23, this code will
 turn them on, then one of them off, then all of them off
