@@ -55,7 +55,7 @@ The illustration shows how to connect a pushbutton to the Raspberry Pi. In this 
 
 Consider this code:
 
-```{r}
+```{r, eval=FALSE}
 library(rpigpior)
 
 while (TRUE) {
@@ -78,7 +78,7 @@ Now consider this new illustration, which adds to the previous circuit.
 
 There is all sorts of new things happening.
 
--    A red wire connects board pin 17 to the lowest rail. This supplies 3.3 volts.
+-   A red wire connects board pin 17 to the lowest rail. This supplies 3.3 volts.
 
 -   A black wire connects board pin 14 to the next lowest rail. This supplies ground.
 
@@ -98,7 +98,7 @@ An **LED** (Light Emitting Diode) has been added to the breadboard.
 
 Given the above circuit, this code will then blink the LED
 
-```{r}
+```{r, eval=FALSE}
 library(rpigpior)
 
 while (TRUE) {
