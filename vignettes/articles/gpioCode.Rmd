@@ -25,7 +25,7 @@ Let's talk about this illustration.
 
 ### Pins and Identifiers
 
-At the bottom is a picture of a Raspberry Pi. Along the top is a cartoon of the two rows of pins that expose the GPIO. There are several ways to [identify these pins](https://pinout.xyz):
+At the bottom is a picture of a Raspberry Pi. Along the top are the two rows of pins that expose the GPIO. There are several ways to [identify these pins](https://pinout.xyz):
 
 -   Physical/Board - This is the identification scheme used by `rpigpior`. It is the number of the pin on the board. Pin 1 is on the inner (lower) left side. Pin 2 is on the outer (upper) left side. Pin 40 is on the outer right side. In this diagram, you'll see it has a yellow wire connected.
 
@@ -36,3 +36,91 @@ At the bottom is a picture of a Raspberry Pi. Along the top is a cartoon of the 
 ### Schematics
 
 At the top of the illustration is a white box with a grid of dots. This is called a [*breadboard*](https://www.adafruit.com/product/4539) and this is exactly what they look like.
+
+At the top and bottom are two horizontal rows (four rows total). All of the holes in each horizontal row are electrically connected together. These are called **rails.** If I were to attach five volts to the top right corner hole, I would read five volts at the top left corner.
+
+In the middle are two grids separated by a gutter. Each grid is five rows by thirty columns. All of the holes in each column are connected - but not across the grid. If I attached five volts to the first column, first row, I would read five volts in the first column, fifth row.
+
+Breadboards are used with wires, resistors, capacitors, switches, lights, and microcircuits (such as transistors) to quickly prototype electrical circuits. In this case, a switch is connected to the Raspberry Pi with a yellow and red wire.
+
+### Connect a switch to the Raspberry Pi
+
+The illustration shows how to connect a pushbutton to the Raspberry Pi. In this case,
+
+-   A red wire connects board pin 17 to one side of the pushbutton. Board pin 17 supplies 3.3 volts DC.
+
+-   A yellow wire connects board pin 40 to the other side of the pushbutton. Board pin 40 connects to the Broadcom microcircuit and exposes GPIO21. This allows the Raspberry Pi to read the state of the pushbutton.
+
+## Programming
+
+Consider this code:
+
+```{r}
+library(rpigpior)
+
+while (TRUE) {
+  if (rpi_get(40)) {
+    print("Button pushed")
+  } else {
+    print("Button not pushed")
+  }
+}
+
+```
+
+On each pass through the `while()` loop, this program will read the state of board pin 40 with `rpi_get(40)`. If the button is pushed, it will `print("Button Pushed")`. If pin 40 is not pushed, it will `print("Button not pushed")`
+
+## Setting a pin
+
+Now consider this new illustration, which adds to the previous circuit.
+
+![](hello_gpio_control_bb.png){fig-alt="schematic to control light bulb with Raspberry Pi" width="296"}
+
+There is all sorts of new things happening.
+
+-    A red wire connects board pin 17 to the lowest rail. This supplies 3.3 volts.
+
+-   A black wire connects board pin 14 to the next lowest rail. This supplies ground.
+
+The wiring for the switch is electrically the same as in the previous illustration:
+
+-   A yellow wire connects one side of the switch to board pin 40 (same as before)
+
+-   A red wire connects the 3.3 volt rail to the other side of the switch.
+
+An **LED** (Light Emitting Diode) has been added to the breadboard.
+
+-   A black wire connects the top rail (ground) to the cathode of the LED.
+
+-   A 220 ohm resistor is connected to the anode of the LED. This is then connected via a green wire to board pin 3.
+
+## Code to blink an LED
+
+Given the above circuit, this code will then blink the LED
+
+```{r}
+library(rpigpior)
+
+while (TRUE) {
+  if (rpi_get(40)) {
+    
+    rpi_set(3,1)
+    Sys.sleep(1)
+    
+    rpi_set(3,0)
+    Sys.sleep(3)
+  }
+}
+```
+
+Notice the addition of `rpi_set(3,1)`. This tells the Raspberry Pi to turn board pin 3 **on**. `rpi_set(3,0)` tells the Raspberry Pi to turn board pin 3 **off**.
+
+The loop reads the state of the switch `rpi_get(40)`. If the button is pushed, the LED attached to pin 3 will blink; 1 second on, 3 seconds off.
+
+## hello world
+
+There you have it, the Raspberry Pi equivalent of a **hello world** program. You've just learned:
+
+-   How to wire a simple Raspberry Pi circuit with a switch and an LED.
+
+-   How to use the R programming language to control the LED based on the Raspberry Pi
