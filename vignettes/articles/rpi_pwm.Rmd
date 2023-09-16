@@ -1,0 +1,79 @@
+---
+title: "Raspberry Pi and PWM"
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rpigpior)
+```
+
+# Pulse Width Modulation on the Raspberry Pi
+
+## Hardware PWM vs Software PWM
+
+The Raspberry Pi exposes two PWM channels from the Broadcom chip. These
+appear on lines which also supply GPIO connections and so the Broadcom
+ALT functions need to be called.
+
+PWM0 appears on board pins 12 (GPIO18) and 32 (GPIO12). PWM1 appears on
+board pins 33 (GPIO13) and 35 (GPIO19). This causes a confusing
+situation in two ways:
+
+-   Don't confuse board pin 12 with GPIO12 (board pin 32). Both are
+    connected to BCM PWM0
+
+The Raspberry Pi analog audio output uses both PWM channels. You can't
+use hardware PWM and audio output at the same time.
+
+Although it is possible to create software PWM, this isn't advised due
+to latency of linux and R.
+
+`rpi_pwm()` handles all of these issues. If you stick to board pin
+numbers, it will all work out. If you go astray, `rpi_pwm()` will `stop`
+and warn you.
+
+## Enabling hardware PWM on the Raspberry Pi
+
+edit /boot/config.txt as root
+
+`sudo nano /boot/config.txt`
+
+`rpi_pwm(pin_number = 12, mode = "enable")`
+
+[Enabling one PWM
+channel](https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L925)
+
+[Enabling a dual pwm
+channel](https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L944)
+
+If you need more details on the PWM channels on the Raspberry Pi, [here
+is an excellent
+write-up](https://github.com/dotnet/iot/blob/main/Documentation/raspi-pwm.md).
+
+## How to use `rpi_pwm()`
+
+<https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html> \<\> GPIO18
+(pin 12) and GPIO12 (pin 32) = PWM0 GPIO13 (pin 33) and GPIO19 (pin 35)
+= PWM1
+
+Only two PWM lines are available on the Raspberry Pi - pwm0 and pwm1.
+
+Select one or two of four hardware PWM lines (12, 32, 33, or 35).
+Generates an error message if a pwm channel is selected twice. \#' Since
+PWM0 appears on both pins 12 and 32, and PWM1 appears on pins 33 and 35,
+a valid selection of two pins is one from PWM0 and one from PWM1. \#' In
+other words, only these combinations are valid: \#' \itemize{
+#'        \item pin_number = c(12,33)
+#'        \item pin_number = c(32,33)
+#'        \item pin_number = c(12,35)
+#'        \item pin_number = c(32,35)
+#'     }
