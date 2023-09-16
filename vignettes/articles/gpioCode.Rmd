@@ -13,6 +13,12 @@ knitr::opts_chunk$set(
 library(rpigpior)
 ```
 
+## Understanding GPIO
+
+**GPIO** stands for **General Purpose Input/Output**. You can "see" it on the Raspberry Pi; it's that dual row of pins along one edge. There are two rows of twenty pins for a total of forty pins.
+
+GPIO pins can deliver 3.3 volts direct current (DC), 5 volts DC, ground, or multipurpose input and output pins. Some pins also deliver specialty functions such as [I2C](https://en.wikipedia.org/wiki/I²C), [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface), [UART](https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter), [1-wire](https://en.wikipedia.org/wiki/1-Wire), or [PWM](https://en.wikipedia.org/wiki/Pulse-width_modulation). If you don't pay attention to pin functions before you connect *things* to the GPIO, you will zap your Raspberry Pi. That's a bad thing.
+
 ## GPIO implies connecting wires
 
 When you stray into the world of Raspberry Pi, it's with the intent to connect sensors and devices to the GPIO pins. This implies circuits and wires. I can show you what to do, but I assume you have already gone through some of the excellent tutorials from the [Raspberry Pi foundation](https://raspberrypi.org) or other places such as [LinkedIn Learning](https://www.linkedin.com/learning/raspberry-pi-essential-training-14476312/welcome-to-raspberry-pi-essential-training).
