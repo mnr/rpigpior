@@ -51,6 +51,7 @@
     <a class="dropdown-item" href="../articles/R_and_RPi.html">R_and_RPi</a>
     <a class="dropdown-item" href="../articles/gpioCode.html">How to write GPIO Code with rpigpiodr and R</a>
     <a class="dropdown-item" href="../articles/how-to-RPi.html">How to Setup R on Raspberry Pi</a>
+    <a class="dropdown-item" href="../articles/rpi_pwm.html">Raspberry Pi and PWM</a>
   </div>
 </li>
 <li class="nav-item">
@@ -91,6 +92,22 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mnr/rpigpior" class="external-link">rpigpior</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="understanding-gpio">Understanding GPIO<a class="anchor" aria-label="anchor" href="#understanding-gpio"></a>
+</h2>
+<p><strong>GPIO</strong> stands for <strong>General Purpose
+Input/Output</strong>. You can “see” it on the Raspberry Pi; it’s that
+dual row of pins along one edge. There are two rows of twenty pins for a
+total of forty pins.</p>
+<p>GPIO pins can deliver 3.3 volts direct current (DC), 5 volts DC,
+ground, or multipurpose input and output pins. Some pins also deliver
+specialty functions such as <a href="https://en.wikipedia.org/wiki/I%C2%B2C" class="external-link">I2C</a>, <a href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface" class="external-link">SPI</a>,
+<a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter" class="external-link">UART</a>,
+<a href="https://en.wikipedia.org/wiki/1-Wire" class="external-link">1-wire</a>, or <a href="https://en.wikipedia.org/wiki/Pulse-width_modulation" class="external-link">PWM</a>. If
+you don’t pay attention to pin functions before you connect
+<em>things</em> to the GPIO, you will zap your Raspberry Pi. That’s a
+bad thing.</p>
+</div>
 <div class="section level2">
 <h2 id="gpio-implies-connecting-wires">GPIO implies connecting wires<a class="anchor" aria-label="anchor" href="#gpio-implies-connecting-wires"></a>
 </h2>

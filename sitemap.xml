@@ -22,6 +22,9 @@
     <loc>https://mnr.github.io/rpigpior/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://mnr.github.io/rpigpior/articles/rpi_pwm.html</loc>
+  </url>
+  <url>
     <loc>https://mnr.github.io/rpigpior/authors.html</loc>
   </url>
   <url>
@@ -47,6 +50,9 @@
   </url>
   <url>
     <loc>https://mnr.github.io/rpigpior/reference/rpi_pin_desc.html</loc>
+  </url>
+  <url>
+    <loc>https://mnr.github.io/rpigpior/reference/rpi_pwm.html</loc>
   </url>
   <url>
     <loc>https://mnr.github.io/rpigpior/reference/rpi_set.html</loc>

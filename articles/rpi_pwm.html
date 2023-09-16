@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="rpigpior">
-<title>R_and_RPi • rpigpior</title>
+<title>Raspberry Pi and PWM • rpigpior</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="R_and_RPi">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Raspberry Pi and PWM">
 <meta property="og:description" content="rpigpior">
 <meta property="og:image" content="https://mnr.github.io/rpigpior/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -81,19 +81,71 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>R_and_RPi</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Raspberry Pi and PWM</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/mnr/rpigpior/blob/HEAD/vignettes/R_and_RPi.Rmd" class="external-link"><code>vignettes/R_and_RPi.Rmd</code></a></small>
-      <div class="d-none name"><code>R_and_RPi.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/mnr/rpigpior/blob/HEAD/vignettes/articles/rpi_pwm.Rmd" class="external-link"><code>vignettes/articles/rpi_pwm.Rmd</code></a></small>
+      <div class="d-none name"><code>rpi_pwm.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mnr/rpigpior" class="external-link">rpigpior</a></span><span class="op">)</span></span></code></pre></div>
-<p>to be written…</p>
-  </main>
+<div class="section level2">
+<h2 id="pulse-width-modulation-on-the-raspberry-pi">Pulse Width Modulation on the Raspberry Pi<a class="anchor" aria-label="anchor" href="#pulse-width-modulation-on-the-raspberry-pi"></a>
+</h2>
+<div class="section level3">
+<h3 id="hardware-pwm-vs-software-pwm">Hardware PWM vs Software PWM<a class="anchor" aria-label="anchor" href="#hardware-pwm-vs-software-pwm"></a>
+</h3>
+<p>The Raspberry Pi exposes two PWM channels from the Broadcom chip.
+These appear on lines which also supply GPIO connections and so the
+Broadcom ALT functions need to be called.</p>
+<p>PWM0 appears on board pins 12 (GPIO18) and 32 (GPIO12). PWM1 appears
+on board pins 33 (GPIO13) and 35 (GPIO19). This causes a confusing
+situation in two ways:</p>
+<ul>
+<li>Don’t confuse board pin 12 with GPIO12 (board pin 32). Both are
+connected to BCM PWM0</li>
+</ul>
+<p>The Raspberry Pi analog audio output uses both PWM channels. You
+can’t use hardware PWM and audio output at the same time.</p>
+<p>Although it is possible to create software PWM, this isn’t advised
+due to latency of linux and R.</p>
+<p><code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> handles all of these issues. If you stick to
+board pin numbers, it will all work out. If you go astray,
+<code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> will <code>stop</code> and warn you.</p>
+</div>
+<div class="section level3">
+<h3 id="enabling-hardware-pwm-on-the-raspberry-pi">Enabling hardware PWM on the Raspberry Pi<a class="anchor" aria-label="anchor" href="#enabling-hardware-pwm-on-the-raspberry-pi"></a>
+</h3>
+<p>edit /boot/config.txt as root</p>
+<p><code>sudo nano /boot/config.txt</code></p>
+<p><code>rpi_pwm(pin_number = 12, mode = "enable")</code></p>
+<p><a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L925" class="external-link">Enabling
+one PWM channel</a></p>
+<p><a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L944" class="external-link">Enabling
+a dual pwm channel</a></p>
+<p>If you need more details on the PWM channels on the Raspberry Pi, <a href="https://github.com/dotnet/iot/blob/main/Documentation/raspi-pwm.md" class="external-link">here
+is an excellent write-up</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="how-to-use-rpi_pwm">How to use <code>rpi_pwm()</code><a class="anchor" aria-label="anchor" href="#how-to-use-rpi_pwm"></a>
+</h3>
+<p><a href="https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html" class="external-link uri">https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html</a>
+&lt;&gt; GPIO18 (pin 12) and GPIO12 (pin 32) = PWM0 GPIO13 (pin 33) and
+GPIO19 (pin 35) = PWM1</p>
+<p>Only two PWM lines are available on the Raspberry Pi - pwm0 and
+pwm1.</p>
+<p>Select one or two of four hardware PWM lines (12, 32, 33, or 35).
+Generates an error message if a pwm channel is selected twice. #’ Since
+PWM0 appears on both pins 12 and 32, and PWM1 appears on pins 33 and 35,
+a valid selection of two pins is one from PWM0 and one from PWM1. #’ In
+other words, only these combinations are valid: #’ </p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
