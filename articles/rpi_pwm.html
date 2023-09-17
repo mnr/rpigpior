@@ -101,27 +101,49 @@
 <p>The Raspberry Pi exposes two PWM channels from the Broadcom chip.
 These appear on lines which also supply GPIO connections and so the
 Broadcom ALT functions need to be called.</p>
-<p>PWM0 appears on board pins 12 (GPIO18) and 32 (GPIO12). PWM1 appears
-on board pins 33 (GPIO13) and 35 (GPIO19). This causes a confusing
-situation in two ways:</p>
+<ul>
+<li><p>PWM0 appears on board pins 12 (GPIO18) and 32 (GPIO12).</p></li>
+<li><p>PWM1 appears on board pins 33 (GPIO13) and 35 (GPIO19).</p></li>
+</ul>
+<p>This causes a confusing situation in two ways:</p>
 <ul>
 <li>Don’t confuse board pin 12 with GPIO12 (board pin 32). Both are
 connected to BCM PWM0</li>
+<li>If you want to use two PWM channels, there are only certain
+combinations of pins that will provide the two channels. These
+combinations are board pins (12,33), (32,33), (12,35), or (32,35)</li>
 </ul>
+<p><code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> handles these issues. If you stick to board
+pin numbers, it will all work out. If you go astray,
+<code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> will <code>stop</code> and warn you.</p>
 <p>The Raspberry Pi analog audio output uses both PWM channels. You
 can’t use hardware PWM and audio output at the same time.</p>
 <p>Although it is possible to create software PWM, this isn’t advised
-due to latency of linux and R.</p>
-<p><code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> handles all of these issues. If you stick to
-board pin numbers, it will all work out. If you go astray,
-<code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> will <code>stop</code> and warn you.</p>
+due to latency of linux and R. <code>rpigpior</code> does not supply any
+software PWM channels.</p>
 </div>
 <div class="section level3">
 <h3 id="enabling-hardware-pwm-on-the-raspberry-pi">Enabling hardware PWM on the Raspberry Pi<a class="anchor" aria-label="anchor" href="#enabling-hardware-pwm-on-the-raspberry-pi"></a>
 </h3>
-<p>edit /boot/config.txt as root</p>
-<p><code>sudo nano /boot/config.txt</code></p>
-<p><code>rpi_pwm(pin_number = 12, mode = "enable")</code></p>
+<p><em>Raspberry Pi OS</em> uses the device tree to enable hardware PWM.
+You’ll need to do a bit of behind-the-scenes editing to set this up.</p>
+<p>To do this, edit /boot/config.txt as root.</p>
+<ol style="list-style-type: decimal">
+<li><p>On the Raspberry Pi, open a terminal window</p></li>
+<li><p>Use the command <code>sudo nano /boot/config.txt</code>. This
+will open the nano text editor and display the contents of
+/boot/config.txt.</p></li>
+<li><p>Past the <code>dtoverlay</code> command at the end of the file.
+The easiest way to determine the command to add to
+<code>/boot/config.txt</code> is to ask <code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> for help.
+Select the pins you want to use and if they aren’t enabled,
+<code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> will stop and provide you with the correct
+<code>dtoverlay</code> string.</p></li>
+<li><p>Use <em>control-o</em> to write the file, then <em>control-x</em>
+to exit <code>nano</code></p></li>
+</ol>
+<p>If you’re curious about how or why this <code>dtoverlay</code> is
+built, take a look at this excellent reference.</p>
 <p><a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L925" class="external-link">Enabling
 one PWM channel</a></p>
 <p><a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L944" class="external-link">Enabling
@@ -142,6 +164,26 @@ Generates an error message if a pwm channel is selected twice. #’ Since
 PWM0 appears on both pins 12 and 32, and PWM1 appears on pins 33 and 35,
 a valid selection of two pins is one from PWM0 and one from PWM1. #’ In
 other words, only these combinations are valid: #’ </p>
+</div>
+<div class="section level3">
+<h3 id="handling-errors">Handling Errors:<a class="anchor" aria-label="anchor" href="#handling-errors"></a>
+</h3>
+<div class="section level4">
+<h4 id="invalid-pwm-pin">Invalid PWM pin:<a class="anchor" aria-label="anchor" href="#invalid-pwm-pin"></a>
+</h4>
+</div>
+<div class="section level4">
+<h4 id="invalid-pwm-pin-combination">Invalid PWM pin combination:<a class="anchor" aria-label="anchor" href="#invalid-pwm-pin-combination"></a>
+</h4>
+</div>
+<div class="section level4">
+<h4 id="pwm-not-enabled">PWM not enabled:<a class="anchor" aria-label="anchor" href="#pwm-not-enabled"></a>
+</h4>
+<p>The PWM channel (or channels) you have selected are not yet enabled.
+Enabling PWM is described in the above section titled <a href="#enabling-hardware-pwm-on-the-raspberry-pi">Enabling hardware PWM
+on the Raspberry Pi</a> . The error message supplies the string you’ll
+need to paste into <code>/boot/config.txt</code>.</p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
