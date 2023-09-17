@@ -37,7 +37,17 @@ valid_PWM_pair_2 <- c("FALSE","FALSE","FALSE","FALSE","FALSE",
                       "FALSE","35","32","FALSE","32",
                       "FALSE","FALSE","FALSE","FALSE","FALSE")
 
+PWM_channel <- c("FALSE","FALSE","FALSE","FALSE","FALSE",
+                 "FALSE","FALSE","FALSE","FALSE","FALSE",
+                 "FALSE","0","FALSE","FALSE","FALSE",
+                 "FALSE","FALSE","FALSE","FALSE","FALSE",
+                 "FALSE","FALSE","FALSE","FALSE","FALSE",
+                 "FALSE","FALSE","FALSE","FALSE","FALSE",
+                 "FALSE","0","1","FALSE","1",
+                 "FALSE","FALSE","FALSE","FALSE","FALSE")
 
-rpi_pin_desc <- data.frame(Description, Secondary, valid_PWM_pair_1, valid_PWM_pair_2)
+
+rpi_pin_desc <- data.frame(Description, Secondary,
+                           valid_PWM_pair_1, valid_PWM_pair_2, PWM_channel)
 
 usethis::use_data(rpi_pin_desc, overwrite = TRUE)
