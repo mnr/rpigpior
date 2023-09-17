@@ -8,7 +8,8 @@
 #' \itemize{
 #'    \item description. Primary function of the pin
 #'    \item secondary. Secondary function of the pin
-#'    \item valid_PWM_pair_1, valid_PWM_pair_2. Used by rpi_pwm() to determine valid PWM pins and channels.
+#'    \item valid_PWM_pair_1, valid_PWM_pair_2. Used by rpi_pwm() to determine valid PWM pins and channel combinations.
+#'    \item PWM_channel. Unambiguously relates the PWM channel to each board pin
 #' }
 #'
 #' @source https://www.raspberrypi.com/documentation/computers/os.html#gpio-and-the-40-pin-header
