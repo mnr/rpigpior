@@ -4,28 +4,24 @@
 \alias{rpi_pwm}
 \title{Provide R with access to PWM}
 \usage{
-rpi_pwm(pin_number = 12, mode = "help")
+rpi_pwm(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000)
 }
 \arguments{
-\item{pin_number.}{Select one or two of four hardware PWM lines (12, 32, 33, or 35). Generates an error message if a pwm channel is selected twice.
-Since PWM0 appears on both pins 12 and 32, and PWM1 appears on pins 33 and 35, a valid selection of two pins is one from PWM0 and one from PWM1.
-In other words, only these combinations are valid:
-\itemize{
-   \item pin_number = c(12,33)
-   \item pin_number = c(32,33)
-   \item pin_number = c(12,35)
-   \item pin_number = c(32,35)
-}}
+\item{pin_number.}{One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
+If two pins are selected, they must be one of these combinations: (12,33), (32,33), (12,35), or (32,35)}
 
-\item{mode.}{An activity related to PWM
+\item{pwm_period.}{The length of a cycle. aka Frequency}
 
-    \itemize{
-     \item help. Prints an informative message
-     \item enable. Prints instructions for enabling the selected PWM pin. This requires root access which R doesn't have
-   }}
+\item{pwm_dutycycle.}{The amount of time a cycle is on.}
 }
 \value{
 void
+    `rpi_pwm()` provides extensive error checking. Possible errors include:
+    \itemize{
+     \item Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.
+     \item Invalid PWM pin combination: The combination of pins both select PWM0 or PWM1
+     \item PWM not enabled: This PWM channel is not enabled
+     }
 }
 \description{
 Provides the R programming language with access to Raspberry Pi hardware Pulse Width Modulation (PWM)
@@ -36,6 +32,8 @@ Only two PWM lines are available on the Raspberry Pi - pwm0 and pwm1. Although i
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+rpi_pwm(12) # provides 50\% PWM to pin 12 (PWM0)
 
+rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000) # provides 20\% PWM to pin 12 (PWM0) and pin 33 (PWM1)
 \dontshow{\}) # examplesIf}
 }
