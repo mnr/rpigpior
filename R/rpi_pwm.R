@@ -27,7 +27,7 @@
 rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 ) {
   # check that pin_number == 12, 32, 33, or 35 ---------
   for (aPin in pin_number) {
-    if(!rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_1"]) {
+    if(!(rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_1"])) {
       stop(paste("Invalid PWM pin:", pin_number, "is not a valid PWM channel. Use 12, 32, 33, or 35"))
     }
   }
