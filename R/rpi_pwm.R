@@ -79,6 +79,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
 
       # dtoverlayString contains the string to place in /boot/config.txt
       print(paste("Add this string to /boot/config:", dtoverlayString))
+      print("Refer to https://mnr.github.io/rpigpior/articles/rpi_pwm.html")
 
       stop(paste("PWM not enabled: Channel", rpigpior::rpi_pin_desc[aPin,"PWM_channel"], "has not been enabled"))}
   }

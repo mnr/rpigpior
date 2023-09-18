@@ -67,6 +67,11 @@ To do this, edit /boot/config.txt as root.
 
 4.  Use *control-o* to write the file, then *control-x* to exit `nano`
 
+5.  Reboot your Raspberry Pi to enact this change.
+
+Note that if you rebuild your SD card or reinstall Raspberry Pi OS on
+the OS card, you'll need to repeat this step.
+
 If you're curious about how or why this `dtoverlay` is built, take a
 look at this excellent reference.
 
@@ -111,3 +116,4 @@ The PWM channel (or channels) you have selected are not yet enabled.
 Enabling PWM is described in the above section titled [Enabling hardware
 PWM on the Raspberry Pi] . The error message supplies the string you'll
 need to paste into `/boot/config.txt`.
+
