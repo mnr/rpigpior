@@ -25,14 +25,14 @@
 #' rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000) # provides 20% PWM to pin 12 (PWM0) and pin 33 (PWM1)
 #'
 rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 ) {
-  # check that pin_number == 12, 32, 33, or 35
+  # check that pin_number == 12, 32, 33, or 35 ---------
   for (aPin in pin_number) {
     if(!rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_1"]) {
       stop(paste("Invalid PWM pin:", pin_number, "is not a valid PWM channel. Use 12, 32, 33, or 35"))
     }
   }
 
-  # Check that combinations of pins are one of (12,33), (32,33), (12,35), or (32,35)
+  # Check that combinations of pins are one of (12,33), (32,33), (12,35), or (32,35) ------------
   if(length(pin_number) == 2) {
     if(! (rpigpior::rpi_pin_desc[pin_number[1,"valid_PWM_pair_1"]] == pin_number[2]
           || rpigpior::rpi_pin_desc[pin_number[1,"valid_PWM_pair_2"]] == pin_number[2]
@@ -81,7 +81,19 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
       print(paste("Add this string to /boot/config:", dtoverlayString))
 
       stop(paste("PWM not enabled: Channel", rpigpior::rpi_pin_desc[aPin,"PWM_channel"], "has not been enabled"))}
-    }
+  }
+
+  # do we need to disable audio? ---------
+  # Sound must be disabled to use GPIO18.
+  # This can be done in /boot/config.txt by changing "dtparam=audio=on"
+  # to "dtparam=audio=off" and rebooting.
+  # Failing to do so can result in a segmentation fault.
+
+  # Start PWM --------
+  # sudo echo 0 > /sys/class/pwm/pwmchip0/export
+  # sudo echo 50000 > /sys/class/pwm/pwmchip0/pwm0/period
+  # sudo echo 25000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+  # sudo echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
 
 } # end of rpi_pwm
 
