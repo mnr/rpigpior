@@ -35,8 +35,8 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
 
   # Check that combinations of pins are one of (12,33), (32,33), (12,35), or (32,35) ------------
   if(length(pin_number) == 2) {
-    if( !(any(rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_1"] == pin_number[2]
-          || rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_2"] == pin_number[2]
+    if( !(any(c(rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_1"] == pin_number[2],
+                rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_2"] == pin_number[2])
          ) )
       ) {
            # the pin set isn't a valid combination
