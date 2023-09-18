@@ -44,7 +44,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
 
     }
 
-  if (length(pin_number2) > 2) {
+  if (length(pin_number) > 2) {
     stop("Invalid PWM pin combination: You have specified more than two pins for PWM.")
   }
 
