@@ -59,11 +59,13 @@ To do this, edit /boot/config.txt as root.
 2.  Use the command `sudo nano /boot/config.txt`. This will open the
     nano text editor and display the contents of /boot/config.txt.
 
-3.  Past the `dtoverlay` command at the end of the file. The easiest way
+3.  Add the `dtoverlay` command at the end of the file. The easiest way
     to determine the command to add to `/boot/config.txt` is to ask
     `rpi_pwm()` for help. Select the pins you want to use and if they
     aren't enabled, `rpi_pwm()` will stop and provide you with the
-    correct `dtoverlay` string.
+    correct `dtoverlay` string. This looks something like
+    `dtoverlay=pwm,pin18,func-2` but will change depending on the pins
+    you have chosen.
 
 4.  Use *control-o* to write the file, then *control-x* to exit `nano`
 
@@ -87,6 +89,37 @@ write-up](https://github.com/dotnet/iot/blob/main/Documentation/raspi-pwm.md).
 
 ## How to use `rpi_pwm()`
 
+Here's an example:
+
+```{r}
+rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 25000)
+
+# This will enable PWM0 and PWM1 with a period (frequency) of 50000 and a duty cycle of 25000. That is to say, 50% power.
+```
+
+Or...
+
+```{r}
+rpi_pwm(12, pwm_period = 50000, pwm_dutycycle = 10000)
+
+# This will turn PWM0 down to 20%
+```
+
+## Handling Errors:
+
+### Invalid PWM pin:
+
+### Invalid PWM pin combination:
+
+### PWM not enabled:
+
+The PWM channel (or channels) you have selected are not yet enabled.
+Enabling PWM is described in the above section titled [Enabling hardware
+PWM on the Raspberry Pi] . The error message supplies the string you'll
+need to paste into `/boot/config.txt`.
+
+## Notes to delete:
+
 <https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html> \<\> GPIO18
 (pin 12) and GPIO12 (pin 32) = PWM0 GPIO13 (pin 33) and GPIO19 (pin 35)
 = PWM1
@@ -103,17 +136,3 @@ other words, only these combinations are valid: \#' \itemize{
 #'        \item pin_number = c(12,35)
 #'        \item pin_number = c(32,35)
 #'     }
-
-## Handling Errors:
-
-### Invalid PWM pin:
-
-### Invalid PWM pin combination:
-
-### PWM not enabled:
-
-The PWM channel (or channels) you have selected are not yet enabled.
-Enabling PWM is described in the above section titled [Enabling hardware
-PWM on the Raspberry Pi] . The error message supplies the string you'll
-need to paste into `/boot/config.txt`.
-
