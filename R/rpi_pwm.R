@@ -16,6 +16,7 @@
 #'      \item Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.
 #'      \item Invalid PWM pin combination: The combination of pins both select PWM0 or PWM1
 #'      \item PWM not enabled: This PWM channel is not enabled
+#'      \item (see https://mnr.github.io/rpigpior/articles/rpi_pwm.html for fixing errors)
 #'      }
 #' @export
 #'
@@ -34,8 +35,8 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
 
   # Check that combinations of pins are one of (12,33), (32,33), (12,35), or (32,35) ------------
   if(length(pin_number) == 2) {
-    if( !(any(rpigpior::rpi_pin_desc[pin_number[1,"valid_PWM_pair_1"]] == pin_number[2]
-          || rpigpior::rpi_pin_desc[pin_number[1,"valid_PWM_pair_2"]] == pin_number[2]
+    if( !(any(rpigpior::rpi_pin_desc[1,"valid_PWM_pair_1"] == pin_number[2]
+          || rpigpior::rpi_pin_desc[1,"valid_PWM_pair_2"] == pin_number[2]
          ) )
       ) {
            # the pin set isn't a valid combination
@@ -50,52 +51,82 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
 
 
 # Is PWM enabled? ---------------------------------------------------------
-  for (aPin in pin_number) {
-    if (!(dir.exists(paste0("/sys/class/pwm/pwmchip0/pwm",
-                             rpigpior::rpi_pin_desc[aPin,"PWM_channel"]
-                             )
-                      )
+    if (!(dir.exists(paste0("/sys/class/pwm/pwmchip0")
+                     )
            )
-    ) {
-      # oops. This PWM channel isn't configured. Print a helpful message then stop
-      print("PWM not enabled:")
+        ) {
+          # PWM isn't enabled. Print a helpful message then stop
 
-      # Print a message that describes how to enable a pin
-      dtoverlayString <- if (length(pin_number) > 1) {
-                              "dtoverlay=pwm-2chan"
-                            } else {
-                              "dtoverlay=pwm"
-                            }
+          # Print a message that describes how to enable a pin
+          dtoverlayString <- if (length(pin_number) > 1) {
+                                  "dtoverlay=pwm-2chan"
+                                } else {
+                                  "dtoverlay=pwm"
+                                }
 
-      dtoverlayString <- paste0(dtoverlayString, ",")
+          dtoverlayString <- paste0(dtoverlayString, ",")
 
-      for(aPin in pin_number) {
-          dtoverlayString <- paste0(dtoverlayString,
-                                     "pin=", rpigpior::rpi_pinToBCM(aPin), ",",
-                                     "func=", pwm_func(aPin), ","
-                                    )
-        }
-      dtoverlayString <- substring(dtoverlayString, first = 0, last=nchar(dtoverlayString)-1)# remove trailing comma
+          for(aPin in pin_number) {
+              dtoverlayString <- paste0(dtoverlayString,
+                                         "pin=", rpigpior::rpi_pinToBCM(aPin), ",",
+                                         "func=", pwm_func(aPin), ","
+                                        )
+            }
+          dtoverlayString <- substring(dtoverlayString, first = 0, last=nchar(dtoverlayString)-1)# remove trailing comma
 
-      # dtoverlayString contains the string to place in /boot/config.txt
-      print(paste("Add this string to /boot/config:", dtoverlayString))
-      print("Refer to https://mnr.github.io/rpigpior/articles/rpi_pwm.html")
+          # dtoverlayString contains the string to place in /boot/config.txt
+          print(paste("Add this string to /boot/config:", dtoverlayString))
+          print("Refer to https://mnr.github.io/rpigpior/articles/rpi_pwm.html#handling-errors")
 
-      stop(paste("PWM not enabled: Channel", rpigpior::rpi_pin_desc[aPin,"PWM_channel"], "has not been enabled"))}
+          stop(paste("PWM not enabled"))
+      }
+
+     # Is the channel or channels exported? -----
+     for (aPin in pin_number) {
+       if (!(dir.exists(paste0("/sys/class/pwm/pwmchip0/pwm",
+                               rpigpior::rpi_pin_desc[aPin,"PWM_channel"]
+                               )
+                        )
+            )
+       ) {
+         # if not enabled, do so by sending...
+         # sudo echo 0 > /sys/class/pwm/pwmchip0/export
+
+         gpio_sysCall <- paste("echo",
+                               rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
+                               "> /sys/class/pwm/pwmchip0/export")
+         system(gpio_sysCall, intern = TRUE)
+       }
+     }
+
+  for (aPin in pin_number) {
+      # start PWM ---------
+      # sudo echo 50000 > /sys/class/pwm/pwmchip0/pwm0/period
+      gpio_sysCall <- paste0("echo ",
+                            pwm_period,
+                            " > /sys/class/pwm/pwmchip0/pwm",
+                            rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
+                            "/period"
+                      )
+      system(gpio_sysCall, intern = TRUE)
+
+      # sudo echo 25000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+      gpio_sysCall <- paste0("echo ",
+                             pwm_dutycycle,
+                             " > /sys/class/pwm/pwmchip0/pwm",
+                             rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
+                             "/duty_cycle"
+      )
+      system(gpio_sysCall, intern = TRUE)
+
+      # sudo echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+      gpio_sysCall <- paste0("echo 1 > /sys/class/pwm/pwmchip0/pwm",
+                             rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
+                             "/enable"
+      )
+      system(gpio_sysCall, intern = TRUE)
+
   }
-
-  # do we need to disable audio? ---------
-  # Sound must be disabled to use GPIO18.
-  # This can be done in /boot/config.txt by changing "dtparam=audio=on"
-  # to "dtparam=audio=off" and rebooting.
-  # Failing to do so can result in a segmentation fault.
-
-  # Start PWM --------
-  # sudo echo 0 > /sys/class/pwm/pwmchip0/export
-  # sudo echo 50000 > /sys/class/pwm/pwmchip0/pwm0/period
-  # sudo echo 25000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
-  # sudo echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
-
 } # end of rpi_pwm
 
 
@@ -107,5 +138,12 @@ pwm_func <- function(pin_number) {
           "33" = "4", # GPIO13, PWM1
           "35" = "2"  # GPIO19, PWM1
 ) }
+
+
+# do we need to disable audio? ---------
+# Sound must be disabled to use GPIO18.
+# This can be done in /boot/config.txt by changing "dtparam=audio=on"
+# to "dtparam=audio=off" and rebooting.
+# Failing to do so can result in a segmentation fault.
 
 
