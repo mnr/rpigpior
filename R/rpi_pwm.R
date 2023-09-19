@@ -77,11 +77,15 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
             }
           dtoverlayString <- substring(dtoverlayString, first = 0, last=nchar(dtoverlayString)-1)# remove trailing comma
 
+          # is dtoverlayString already in /boot/config.txt ?
+          # There might be a different version...
+          if (!any(grepl(dtoverlayString, readLines("/boot/config.txt")))) {
+
           # dtoverlayString contains the string to place in /boot/config.txt
           print(paste("Add this string to /boot/config:", dtoverlayString))
           print("Refer to https://mnr.github.io/rpigpior/articles/rpi_pwm.html#handling-errors")
 
-          stop(paste("PWM not enabled"))
+          stop(paste("PWM not enabled")) }
       }
 
      # Is the channel or channels exported? -----
