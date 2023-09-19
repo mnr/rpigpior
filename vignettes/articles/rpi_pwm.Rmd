@@ -61,11 +61,11 @@ To do this, edit /boot/config.txt as root.
 
 3.  Add the `dtoverlay` command at the end of the file. The easiest way
     to determine the command to add to `/boot/config.txt` is to ask
-    `rpi_pwm()` for help. Select the pins you want to use and if they
-    aren't enabled, `rpi_pwm()` will stop and provide you with the
-    correct `dtoverlay` string. This looks something like
-    `dtoverlay=pwm,pin18,func-2` but will change depending on the pins
-    you have chosen.
+    `rpi_pwm()` for help. Set `pwm_debug=TRUE` then select the pins you
+    want to use. If they aren't enabled, `rpi_pwm()` will stop and
+    provide you with the correct `dtoverlay` string. This looks
+    something like `dtoverlay=pwm,pin18,func-2` but will change
+    depending on the pins you have chosen.
 
 4.  Use *control-o* to write the file, then *control-x* to exit `nano`
 
@@ -106,6 +106,13 @@ rpi_pwm(12, pwm_period = 50000, pwm_dutycycle = 10000)
 ```
 
 ## Handling Errors:
+
+If you set `pwm_debug = TRUE` then `rpi_pwm()` will run diagnostics as
+it goes.
+
+```{r}
+rpi_pwm(12, pwm_period = 50000, pwm_dutycycle = 10000, pwm_debug = TRUE)
+```
 
 ### Invalid PWM pin:
 
