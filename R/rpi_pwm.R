@@ -9,6 +9,7 @@
 #'    If two pins are selected, they must be one of these combinations: (12,33), (32,33), (12,35), or (32,35)
 #' @param pwm_period. The length of a cycle. aka Frequency
 #' @param pwm_dutycycle. The amount of time a cycle is on.
+#' @param pwm_debug. If TRUE, checks Raspberry Pi OS settings for PWM and provides diagnostics
 #'
 #' @return void
 #'     `rpi_pwm()` provides extensive error checking. Possible errors include:
@@ -25,16 +26,18 @@
 #'
 #' rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000) # provides 20% PWM to pin 12 (PWM0) and pin 33 (PWM1)
 #'
-rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 ) {
+rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, pwm_debug = FALSE ) {
   # check that pin_number == 12, 32, 33, or 35 ---------
-  for (aPin in pin_number) {
+  if (pwm_debug) {
+    for (aPin in pin_number) {
     if(isFALSE(rpigpior::rpi_pin_desc[aPin,"valid_PWM_pair_1"])) {
       stop(paste("Invalid PWM pin:", pin_number, "is not a valid PWM channel. Use 12, 32, 33, or 35"))
+    }
     }
   }
 
   # Check that combinations of pins are one of (12,33), (32,33), (12,35), or (32,35) ------------
-  if(length(pin_number) == 2) {
+  if(pwm_debug && length(pin_number) == 2) {
     if( !(any(c(rpigpior::rpi_pin_desc[pin_number[1],"valid_PWM_pair_1"] == pin_number[2],
                 rpigpior::rpi_pin_desc[pin_number[1],"valid_PWM_pair_2"] == pin_number[2])
          ) )
@@ -45,13 +48,13 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
 
     }
 
-  if (length(pin_number) > 2) {
+  if (pwm_debug && length(pin_number) > 2) {
     stop("Invalid PWM pin combination: You have specified more than two pins for PWM.")
   }
 
 
 # Is PWM enabled? ---------------------------------------------------------
-    if (!(dir.exists(paste0("/sys/class/pwm/pwmchip0")
+      if (pwm_debug && !(dir.exists(paste0("/sys/class/pwm/pwmchip0")
                      )
            )
         ) {
@@ -82,7 +85,8 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
       }
 
      # Is the channel or channels exported? -----
-     for (aPin in pin_number) {
+     if (pwm_debug) {
+       for (aPin in pin_number) {
        if (!(dir.exists(paste0("/sys/class/pwm/pwmchip0/pwm",
                                rpigpior::rpi_pin_desc[aPin,"PWM_channel"]
                                )
@@ -96,6 +100,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000 )
                                rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
                                "> /sys/class/pwm/pwmchip0/export")
          system(gpio_sysCall, intern = TRUE)
+       }
        }
      }
 
