@@ -54,13 +54,10 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
 
 
 # Is PWM enabled? ---------------------------------------------------------
-      if (pwm_debug && !(dir.exists(paste0("/sys/class/pwm/pwmchip0")
-                     )
-           )
-        ) {
-          # PWM isn't enabled. Print a helpful message then stop
+  # Check if PWM is enabled and that the correct channels are open
+      if (pwm_debug ) {
 
-          # Print a message that describes how to enable a pin
+          # construct the correct dtoverlay string for this pin_number
           dtoverlayString <- if (length(pin_number) > 1) {
                                   "dtoverlay=pwm-2chan"
                                 } else {
@@ -78,7 +75,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
           dtoverlayString <- substring(dtoverlayString, first = 0, last=nchar(dtoverlayString)-1)# remove trailing comma
 
           # is dtoverlayString already in /boot/config.txt ?
-          # There might be a different version...
+          # There might be no version or a different version...
           if (!any(grepl(dtoverlayString, readLines("/boot/config.txt")))) {
 
           # dtoverlayString contains the string to place in /boot/config.txt
