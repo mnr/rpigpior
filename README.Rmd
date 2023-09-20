@@ -32,11 +32,14 @@ there is nothing else to install.
 
 `rpigpior` provides these tools:
 
--   is.rpi - Returns TRUE if this code is running under Raspbian
--   rpi_get - Returns the value of a board level pin (1-40) or an error
-    if the pin isn't a data line (3.3v, 5v, or GROUND)
--   rpi_set - Sets a pin to on or off
--   rpi_monitor - watches a pin for a number of rising or falling events
+-   `is.rpi` - Returns TRUE if this code is running under Raspbian
+-   `rpi_get` - Returns the value of a board level pin (1-40) or an
+    error if the pin isn't a data line (3.3v, 5v, or GROUND)
+-   `rpi_set` - Sets a pin to on or off
+-   `rpi_monitor` - watches a pin for a number of rising or falling
+    events
+-   `rpi_pwm` - provides diagnostics and support for hardware pulse
+    width modulation
 
 ## Installation
 
