@@ -5,11 +5,11 @@
 #'     Only two PWM lines are available on the Raspberry Pi - pwm0 and pwm1. Although it is possible to create software PWM, this isn't advised due to latency of linux and R.
 #'     It might be helpful to read the article on `rpi_pwm()` located at the [rpigpior website](https://mnr.github.io/rpigpior/articles/rpi_pwm.html).
 #'
-#' @param pin_number. One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
+#' @param pin_number  One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
 #'    If two pins are selected, they must be one of these combinations: (12,33), (32,33), (12,35), or (32,35)
-#' @param pwm_period. The length of a cycle. aka Frequency
-#' @param pwm_dutycycle. The amount of time a cycle is on.
-#' @param pwm_debug. If TRUE, checks Raspberry Pi OS settings for PWM and provides diagnostics
+#' @param pwm_period  The length of a cycle. aka Frequency
+#' @param pwm_dutycycle  The amount of time a cycle is on.
+#' @param pwm_debug  If TRUE, checks Raspberry Pi OS settings for PWM and provides diagnostics
 #'
 #' @return void
 #'     `rpi_pwm()` provides extensive error checking. Possible errors include:

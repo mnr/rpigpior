@@ -4,15 +4,22 @@
 \alias{rpi_pwm}
 \title{Provide R with access to PWM}
 \usage{
-rpi_pwm(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000)
+rpi_pwm(
+  pin_number = 12,
+  pwm_period = 50000,
+  pwm_dutycycle = 25000,
+  pwm_debug = FALSE
+)
 }
 \arguments{
-\item{pin_number.}{One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
+\item{pin_number}{One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
 If two pins are selected, they must be one of these combinations: (12,33), (32,33), (12,35), or (32,35)}
 
-\item{pwm_period.}{The length of a cycle. aka Frequency}
+\item{pwm_period}{The length of a cycle. aka Frequency}
 
-\item{pwm_dutycycle.}{The amount of time a cycle is on.}
+\item{pwm_dutycycle}{The amount of time a cycle is on.}
+
+\item{pwm_debug}{If TRUE, checks Raspberry Pi OS settings for PWM and provides diagnostics}
 }
 \value{
 void
@@ -21,6 +28,7 @@ void
      \item Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.
      \item Invalid PWM pin combination: The combination of pins both select PWM0 or PWM1
      \item PWM not enabled: This PWM channel is not enabled
+     \item (see https://mnr.github.io/rpigpior/articles/rpi_pwm.html for fixing errors)
      }
 }
 \description{
