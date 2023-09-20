@@ -59,15 +59,15 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
 
           # construct the correct dtoverlay string for this pin_number
           dtoverlayString <- if (length(pin_number) == 1) {
-                                    paste0("dtoverlay=pwm,"
+                                    paste0("dtoverlay=pwm,",
                                            "pin=", rpigpior::rpi_pinToBCM(pin_number[1]), ",",
                                            "func=", pwm_func(pin_number[1])
                                           )
                                 } else {
                                   # pin_number has 2 pins
-                                  paste0("dtoverlay=pwm-2chan,"
+                                  paste0("dtoverlay=pwm-2chan,",
                                          "pin=", rpigpior::rpi_pinToBCM(pin_number[1]), ",",
-                                         "func=", pwm_func(pin_number[1]), ","
+                                         "func=", pwm_func(pin_number[1]), ",",
                                          "pin2=", rpigpior::rpi_pinToBCM(pin_number[2]), ",",
                                          "func2=", pwm_func(pin_number[2])
                                         )
