@@ -96,10 +96,16 @@
 <p><code>rpigpior</code> allows the R programming language access to the Raspberry Pi GPIO using libgpiod. Because libgpiod is already included in Raspbian, there is nothing else to install.</p>
 <p><code>rpigpior</code> provides these tools:</p>
 <ul>
-<li>is.rpi - Returns TRUE if this code is running under Raspbian</li>
-<li>rpi_get - Returns the value of a board level pin (1-40) or an error if the pin isn’t a data line (3.3v, 5v, or GROUND)</li>
-<li>rpi_set - Sets a pin to on or off</li>
-<li>rpi_monitor - watches a pin for a number of rising or falling events</li>
+<li>
+<code>is.rpi</code> - Returns TRUE if this code is running under Raspbian</li>
+<li>
+<code>rpi_get</code> - Returns the value of a board level pin (1-40) or an error if the pin isn’t a data line (3.3v, 5v, or GROUND)</li>
+<li>
+<code>rpi_set</code> - Sets a pin to on or off</li>
+<li>
+<code>rpi_monitor</code> - watches a pin for a number of rising or falling events</li>
+<li>
+<code>rpi_pwm</code> - provides diagnostics and support for hardware pulse width modulation</li>
 </ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
