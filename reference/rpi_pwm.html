@@ -60,22 +60,31 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rpi_pwm</span><span class="op">(</span>pin_number <span class="op">=</span> <span class="fl">12</span>, pwm_period <span class="op">=</span> <span class="fl">50000</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">25000</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rpi_pwm</span><span class="op">(</span></span>
+<span>  pin_number <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  pwm_period <span class="op">=</span> <span class="fl">50000</span>,</span>
+<span>  pwm_dutycycle <span class="op">=</span> <span class="fl">25000</span>,</span>
+<span>  pwm_debug <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>pin_number.</dt>
+    <dl><dt>pin_number</dt>
 <dd><p>One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
 If two pins are selected, they must be one of these combinations: (12,33), (32,33), (12,35), or (32,35)</p></dd>
 
 
-<dt>pwm_period.</dt>
+<dt>pwm_period</dt>
 <dd><p>The length of a cycle. aka Frequency</p></dd>
 
 
-<dt>pwm_dutycycle.</dt>
+<dt>pwm_dutycycle</dt>
 <dd><p>The amount of time a cycle is on.</p></dd>
+
+
+<dt>pwm_debug</dt>
+<dd><p>If TRUE, checks Raspberry Pi OS settings for PWM and provides diagnostics</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -88,6 +97,7 @@ If two pins are selected, they must be one of these combinations: (12,33), (32,3
 <ul><li><p>Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.</p></li>
 <li><p>Invalid PWM pin combination: The combination of pins both select PWM0 or PWM1</p></li>
 <li><p>PWM not enabled: This PWM channel is not enabled</p></li>
+<li><p>(see https://mnr.github.io/rpigpior/articles/rpi_pwm.html for fixing errors)</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

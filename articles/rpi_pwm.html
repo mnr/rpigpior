@@ -133,60 +133,94 @@ You’ll need to do a bit of behind-the-scenes editing to set this up.</p>
 <li><p>Use the command <code>sudo nano /boot/config.txt</code>. This
 will open the nano text editor and display the contents of
 /boot/config.txt.</p></li>
-<li><p>Past the <code>dtoverlay</code> command at the end of the file.
+<li><p>Add the <code>dtoverlay</code> command at the end of the file.
 The easiest way to determine the command to add to
 <code>/boot/config.txt</code> is to ask <code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> for help.
-Select the pins you want to use and if they aren’t enabled,
-<code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> will stop and provide you with the correct
-<code>dtoverlay</code> string.</p></li>
+Set <code>pwm_debug=TRUE</code> then select the pins you want to use. If
+they aren’t enabled, <code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> will stop and provide you
+with the correct <code>dtoverlay</code> string. This looks something
+like <code>dtoverlay=pwm,pin18,func-2</code> but will change depending
+on the pins you have chosen.<br><br>
+If you want to do the math yourself, there is an excellent guide
+available at <a href="https://github.com/dotnet/iot/blob/main/Documentation/raspi-pwm.md" class="external-link">github.com/dotnet</a>.
+There is also linux documentation that discusses <a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L925" class="external-link">Enabling
+one PWM channel</a> or <a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L944" class="external-link">Enabling
+a dual pwm channel</a></p></li>
 <li><p>Use <em>control-o</em> to write the file, then <em>control-x</em>
 to exit <code>nano</code></p></li>
 <li><p>Reboot your Raspberry Pi to enact this change.</p></li>
 </ol>
 <p>Note that if you rebuild your SD card or reinstall Raspberry Pi OS on
 the OS card, you’ll need to repeat this step.</p>
-<p>If you’re curious about how or why this <code>dtoverlay</code> is
-built, take a look at this excellent reference.</p>
-<p><a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L925" class="external-link">Enabling
-one PWM channel</a></p>
-<p><a href="https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L944" class="external-link">Enabling
-a dual pwm channel</a></p>
-<p>If you need more details on the PWM channels on the Raspberry Pi, <a href="https://github.com/dotnet/iot/blob/main/Documentation/raspi-pwm.md" class="external-link">here
-is an excellent write-up</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="how-to-use-rpi_pwm">How to use <code>rpi_pwm()</code><a class="anchor" aria-label="anchor" href="#how-to-use-rpi_pwm"></a>
 </h3>
-<p><a href="https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html" class="external-link uri">https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html</a>
-&lt;&gt; GPIO18 (pin 12) and GPIO12 (pin 32) = PWM0 GPIO13 (pin 33) and
-GPIO19 (pin 35) = PWM1</p>
-<p>Only two PWM lines are available on the Raspberry Pi - pwm0 and
-pwm1.</p>
-<p>Select one or two of four hardware PWM lines (12, 32, 33, or 35).
-Generates an error message if a pwm channel is selected twice. #’ Since
-PWM0 appears on both pins 12 and 32, and PWM1 appears on pins 33 and 35,
-a valid selection of two pins is one from PWM0 and one from PWM1. #’ In
-other words, only these combinations are valid: #’ </p>
+<p>Here’s an example:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rpi_pwm.html">rpi_pwm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">33</span><span class="op">)</span>, pwm_period <span class="op">=</span> <span class="fl">50000</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">25000</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># This will enable PWM0 and PWM1 with a period (frequency) of 50000 and a duty cycle of 25000. That is to say, 50% power.</span></span></code></pre></div>
+<p>Or…</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rpi_pwm.html">rpi_pwm</a></span><span class="op">(</span><span class="fl">12</span>, pwm_period <span class="op">=</span> <span class="fl">50000</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># This will turn PWM0 down to 20%</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="handling-errors">Handling Errors:<a class="anchor" aria-label="anchor" href="#handling-errors"></a>
 </h3>
+<p>If you set <code>pwm_debug = TRUE</code> then <code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code>
+will run diagnostics as it goes.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rpi_pwm.html">rpi_pwm</a></span><span class="op">(</span><span class="fl">12</span>, pwm_period <span class="op">=</span> <span class="fl">50000</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">10000</span>, pwm_debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="invalid-pwm-pin">Invalid PWM pin:<a class="anchor" aria-label="anchor" href="#invalid-pwm-pin"></a>
 </h4>
+<p>You’ve called <code>rpi_pwm(pin_number)</code> where the pin (or
+pins) specified don’t supply hardware Pulse Width Modulation. On the
+Raspberry Pi, this is only board pins 12, 32, 33, or 35. Keep in mind
+<code><a href="../reference/rpi_pwm.html">rpi_pwm()</a></code> only specifies pins as board pins - not GPIO or
+BCM pins. Lots of documentation will refer to these other pin numbering
+schemes.</p>
 </div>
 <div class="section level4">
 <h4 id="invalid-pwm-pin-combination">Invalid PWM pin combination:<a class="anchor" aria-label="anchor" href="#invalid-pwm-pin-combination"></a>
 </h4>
+<p>As you know by now, the Raspberry Pi only has two hardware PWM
+channels, but each channel is connected to two pins:</p>
+<ul>
+<li><p>PWM0 appears on board pins 12 (GPIO18) and 32 (GPIO12).</p></li>
+<li><p>PWM1 appears on board pins 33 (GPIO13) and 35 (GPIO19).</p></li>
+</ul>
+<p>So…if you are going to use two PWM channels, you need to use pins
+connected to different channels. Since board pin 12 and 32 are both
+connected to PWM0, it would be nonsense to use
+<code>rpi_pwm(pin_number = c(12,32)</code>. Instead, these are the valid
+combinations:</p>
+<ul>
+<li><code>rpi_pwm(pin_number = c(12,33)</code></li>
+<li><code>rpi_pwm(pin_number = c(12,35)</code></li>
+<li><code>rpi_pwm(pin_number = c(32,33)</code></li>
+<li><code>rpi_pwm(pin_number = c(32,35)</code></li>
+</ul>
+<p>If you try to select an invalid combination and
+<code>pwm_debut = TRUE</code> you will receive an error.</p>
 </div>
 <div class="section level4">
 <h4 id="pwm-not-enabled">PWM not enabled:<a class="anchor" aria-label="anchor" href="#pwm-not-enabled"></a>
 </h4>
 <p>The PWM channel (or channels) you have selected are not yet enabled.
 Enabling PWM is described in the above section titled <a href="#enabling-hardware-pwm-on-the-raspberry-pi">Enabling hardware PWM
-on the Raspberry Pi</a> . The error message supplies the string you’ll
-need to paste into <code>/boot/config.txt</code>.</p>
+on the Raspberry Pi</a> . The error message from <code>rpi_pwm</code>
+supplies the string you’ll need to paste into
+<code>/boot/config.txt</code>.</p>
 </div>
+</div>
+<div class="section level3">
+<h3 id="notes">Notes:<a class="anchor" aria-label="anchor" href="#notes"></a>
+</h3>
+<p>The Linux driver implementer’s API guide has a chapter on PWM : <a href="https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html" class="external-link uri">https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
