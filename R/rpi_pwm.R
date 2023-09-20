@@ -86,7 +86,6 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
       }
 
      # Is the channel or channels exported? -----
-     if (pwm_debug) {
        for (aPin in pin_number) {
        if (!(dir.exists(paste0("/sys/class/pwm/pwmchip0/pwm",
                                rpigpior::rpi_pin_desc[aPin,"PWM_channel"]
@@ -102,7 +101,6 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
                                "> /sys/class/pwm/pwmchip0/export")
          system(gpio_sysCall, intern = TRUE)
        }
-       }
      }
 
   for (aPin in pin_number) {
@@ -115,6 +113,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
                             "/period"
                       )
       system(gpio_sysCall, intern = TRUE)
+      if(pwm_debug) print(gpio_sysCall)
 
       # sudo echo 25000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
       gpio_sysCall <- paste0("echo ",
@@ -124,6 +123,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
                              "/duty_cycle"
       )
       system(gpio_sysCall, intern = TRUE)
+      if(pwm_debug) print(gpio_sysCall)
 
       # sudo echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
       gpio_sysCall <- paste0("echo 1 > /sys/class/pwm/pwmchip0/pwm",
@@ -131,6 +131,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
                              "/enable"
       )
       system(gpio_sysCall, intern = TRUE)
+      if(pwm_debug) print(gpio_sysCall)
 
   }
 } # end of rpi_pwm
