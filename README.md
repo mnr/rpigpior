@@ -31,6 +31,7 @@ install the development version of rpigpior from
 [GitHub](https://github.com/mnr/rpigpior) with:
 
 ``` r
+library(remotes)
 remotes::install_github("mnr/rpigpior")
 ```
 
@@ -42,9 +43,6 @@ Once you’ve installed, use `library` just like any other R package:
 ``` r
 library(rpigpior)
 ```
-
-[Related mailing list:
-linux-gpio@vger.kernal.org](https://www.spinics.net/lists/linux-gpio/)
 
 ## Is this a Raspberry Pi?
 
@@ -89,3 +87,8 @@ turn them on, then one of them off, then all of them off
     rpi_set(toggleThese, c(1,0,1))
     Sys.sleep(1)
     rpi_set(toggleThese, 0)
+
+## Related notes:
+
+[Related mailing list:
+linux-gpio@vger.kernal.org](https://www.spinics.net/lists/linux-gpio/)
