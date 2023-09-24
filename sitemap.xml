@@ -22,6 +22,9 @@
     <loc>https://mnr.github.io/rpigpior/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://mnr.github.io/rpigpior/articles/rpi_i2c.html</loc>
+  </url>
+  <url>
     <loc>https://mnr.github.io/rpigpior/articles/rpi_pwm.html</loc>
   </url>
   <url>
@@ -41,6 +44,12 @@
   </url>
   <url>
     <loc>https://mnr.github.io/rpigpior/reference/rpi_get.html</loc>
+  </url>
+  <url>
+    <loc>https://mnr.github.io/rpigpior/reference/rpi_i2c_get.html</loc>
+  </url>
+  <url>
+    <loc>https://mnr.github.io/rpigpior/reference/rpi_i2c_set.html</loc>
   </url>
   <url>
     <loc>https://mnr.github.io/rpigpior/reference/rpi_monitor.html</loc>
