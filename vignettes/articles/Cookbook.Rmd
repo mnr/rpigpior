@@ -1,0 +1,20 @@
+---
+title: "Cookbook"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rpigpior)
+```
+
+This cookbook shows how to use sensors and drivers using tools provided by `rpigpior`.
+
+# BME280
+
+`rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)` returns the BME Chip ID, 0x60.
