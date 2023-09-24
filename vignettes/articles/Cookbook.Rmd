@@ -18,3 +18,39 @@ This cookbook shows how to use sensors and drivers using tools provided by `rpig
 # BME280
 
 `rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)` returns the BME Chip ID, 0x60.
+
+#rpi_i2c_get(chip_address = 0x77, data_address = 0xD0) # read chip id
+control_hum_address <- 0xf2
+sample_hum <- 0x01
+control_measure_address <- 0xf4 
+control_press_temp <- strtoi("00100101", base = 2) 
+
+# setup humidity measurement
+rpi_i2c_set(chip_address = 0x77, 
+            data_address = control_hum_address, 
+            value = sample_hum, 
+            data_size = "b") 
+            
+# setup and execute pressure & temperature measurement            
+rpi_i2c_set(chip_address = 0x77, 
+            data_address = control_measure_address, 
+            value = control_press_temp, 
+            data_size = "b") 
+
+            
+result_pressure <-rpi_i2c_get(chip_address = 0x77, 
+							  data_address = 0xf7,
+							  data_size = "w")
+							  
+result_temperature <-rpi_i2c_get(chip_address = 0x77, 
+							  data_address = 0xfa,
+							  data_size = "w")
+							  
+result_humidity <-rpi_i2c_get(chip_address = 0x77, 
+							  data_address = 0xfd,
+							  data_size = "w")
+							  
+print(paste("raw pressure:", as.numeric(result_pressure)))
+print(paste("raw temperature:", as.numeric(result_temperature)))
+print(paste("raw humidity:", as.numeric(result_humidity)))
+
