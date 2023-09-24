@@ -38,8 +38,7 @@ rpi_i2c_set <- function(chip_address, data_address, value, data_size = "b") {
   }
 
   # data_size must be one of "b", "w", "s", or i
-  if (missing(data_size) ||
-      !(data_size %in% c("b","w","s","i"))
+  if (!(data_size %in% c("b","w","s","i"))
   ) {
     stop('You must specify a data_size of "b" (byte), "w" (word), "s" (smBus block), or "i" (i2c block)')
   }
@@ -47,6 +46,7 @@ rpi_i2c_set <- function(chip_address, data_address, value, data_size = "b") {
   gpio_sysCall <- paste("i2cset -y",
                         i2cbus,
                         chip_address,
+                        data_address,
                         value,
                         data_size)
 
