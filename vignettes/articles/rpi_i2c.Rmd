@@ -1,0 +1,64 @@
+---
+title: "rpi_i2c"
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rpigpior)
+```
+
+# About I2C on Raspberry Pi
+
+Inter-Integrated Circuit Communication
+
+Uses Serial Data Line (SDA, board pin 3) and Serial Clock Line (SCL,
+board pin 5)
+
+RPI has two hardware i2c buses. Software buses can also be
+[created](https://raspberrypi.stackexchange.com/questions/101951/using-normal-gpio-pins-as-i2c-required)
+
+# Installing I2C
+
+Requires turning on i2c from Raspi-config
+
+use `i2cdetect -y 1` to show devices connected to i2c bus
+
+# i2c-tools
+
+i2c-tools is already installed with Raspberry Pi Operating System
+
+-   i2cset set one byte
+
+-   i2cget get one byte
+
+-   i2cdump
+
+-   i2cdetect -y 1
+
+-   i2ctransfer send/receive multiple bytes
+
+<https://github.com/epsylon3/android_external_i2c-tools/tree/gingerbread/tools>
+
+## Handling Errors:
+
+stop("You must specify a chip_address as an integer between 0x08 and
+0x77")
+
+stop("You must specify a data_address as an integer between 0x00 and
+0xFF")
+
+-   If the i2cdetect command results in an error you have either not
+    installed i2c-tools or you need to use 0 rather than 1
+
+-   If your device is not detected and you don't see the address you
+    have either not connected the device properly or have not correctly
+    enabled the i2c interface
