@@ -34,8 +34,7 @@ rpi_i2c_get <- function(chip_address, data_address, data_size = "b") {
   }
 
   # data_size must be one of "b" or "w"
-  if (missing(data_size) ||
-      !(data_size %in% c("b","w"))
+  if (!(data_size %in% c("b","w"))
   ) {
     stop('You must specify a data_size of "b" (byte) or "w" (word)')
   }
@@ -43,6 +42,7 @@ rpi_i2c_get <- function(chip_address, data_address, data_size = "b") {
   gpio_sysCall <- paste("i2cget -y",
                         i2cbus,
                         chip_address,
+                        data_address,
                         data_size)
 
   return(system(gpio_sysCall, intern = TRUE))
