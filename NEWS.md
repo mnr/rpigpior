@@ -1,5 +1,7 @@
 # rpigpior 0.1.0
 
+* rpi_i2c_get()
+* rpi_i2c_set()
 * rpi_pwm()
 * rpi_monitor()
 * rpi_set()
