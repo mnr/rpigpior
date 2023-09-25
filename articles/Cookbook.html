@@ -128,6 +128,82 @@ control_measure_address, value = control_press_temp, data_size =
 print(paste(“raw temperature:”, as.numeric(result_temperature)))
 print(paste(“raw humidity:”, as.numeric(result_humidity)))</p>
 </div>
+<div class="section level2">
+<h2 id="convert-raw-temp-to-centigrade">convert raw temp to centigrade<a class="anchor" aria-label="anchor" href="#convert-raw-temp-to-centigrade"></a>
+</h2>
+<p># Calibration coefficients</p>
+<p>dig_T1 &lt;- 27384</p>
+<p>dig_T2 &lt;- 25740</p>
+<p># Raw temperature data (16-bit signed integer)</p>
+<p>raw_temperature &lt;- 519888</p>
+<p># Temperature compensation</p>
+<p>var1 &lt;- (raw_temperature / 16384 - dig_T1 / 1024) * dig_T2</p>
+<p>var2 &lt;- ((raw_temperature / 131072 - dig_T1 / 8192)^2) *
+dig_T2</p>
+<p>t_fine &lt;- var1 + var2</p>
+<p># Calculate temperature in degrees Celsius</p>
+<p>temperature_celsius &lt;- (t_fine / 5120)</p>
+<p># Print the result</p>
+<p>cat(“Temperature in Celsius:”, temperature_celsius, “°C\n”)</p>
+</div>
+<div class="section level2">
+<h2 id="convert-raw-pressure-to-pa">convert raw pressure to Pa<a class="anchor" aria-label="anchor" href="#convert-raw-pressure-to-pa"></a>
+</h2>
+<p># Calibration coefficients</p>
+<p>dig_P1 &lt;- 36477</p>
+<p>dig_P2 &lt;- -10476</p>
+<p>dig_P3 &lt;- 3024</p>
+<p>dig_P4 &lt;- 2855</p>
+<p>dig_P5 &lt;- 140</p>
+<p>dig_P6 &lt;- -7</p>
+<p>dig_P7 &lt;- 15500</p>
+<p>dig_P8 &lt;- -14600</p>
+<p>dig_P9 &lt;- 6000</p>
+<p># Raw pressure data (20-bit unsigned integer)</p>
+<p>raw_pressure &lt;- 416231</p>
+<p># Temperature compensation (from previous calculation)</p>
+<p>t_fine &lt;- 128422</p>
+<p># Calculate pressure</p>
+<p>var1 &lt;- t_fine / 2 - 64000</p>
+<p>var2 &lt;- var1^2 * dig_P6 / 32768</p>
+<p>var2 &lt;- var2 + (var1 * dig_P5) * 2</p>
+<p>var2 &lt;- (var2 / 4) + (dig_P4 * 65536)</p>
+<p>var1 &lt;- (dig_P3 * var1^2 / 524288 + dig_P2 * var1) / 524288</p>
+<p>var1 &lt;- (1 + var1 / 32768) * dig_P1</p>
+<p>pressure := 1048576 - raw_pressure</p>
+<p>pressure &lt;- ((pressure - (var2 / 4096)) * 6250) / var1</p>
+<p># Print the result</p>
+<p>cat(“Pressure in Pa:”, pressure, “Pa\n”)</p>
+</div>
+<div class="section level2">
+<h2 id="humidity-to-relative-humidity">humidity to relative humidity<a class="anchor" aria-label="anchor" href="#humidity-to-relative-humidity"></a>
+</h2>
+<p># Calibration coefficients</p>
+<p>dig_H1 &lt;- 75</p>
+<p>dig_H2 &lt;- 347</p>
+<p>dig_H3 &lt;- 0</p>
+<p>dig_H4 &lt;- 320</p>
+<p>dig_H5 &lt;- 0</p>
+<p>dig_H6 &lt;- 30</p>
+<p># Raw humidity data (16-bit unsigned integer)</p>
+<p>raw_humidity &lt;- 4162</p>
+<p># Temperature compensation (from previous calculation)</p>
+<p>t_fine &lt;- 128422</p>
+<p># Calculate humidity</p>
+<p>temp_compensated_humidity &lt;- (t_fine - 76800)</p>
+<p>temp_compensated_humidity &lt;- (raw_humidity - (dig_H4 * 64 + dig_H5
+/ 16384 * temp_compensated_humidity)) * (dig_H2 / 65536 * (1 + dig_H6 /
+67108864 * temp_compensated_humidity * (1 + dig_H3 / 67108864 *
+temp_compensated_humidity)))</p>
+<p>temp_compensated_humidity &lt;- temp_compensated_humidity * (1 -
+dig_H1 * temp_compensated_humidity / 524288)</p>
+<p>humidity_percentage &lt;- ifelse(temp_compensated_humidity &gt; 100,
+100, temp_compensated_humidity)</p>
+<p>humidity_percentage &lt;- ifelse(humidity_percentage &lt; 0, 0,
+humidity_percentage)</p>
+<p># Print the result</p>
+<p>cat(“Relative Humidity:”, humidity_percentage, “%\n”)</p>
+</div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
