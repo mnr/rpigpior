@@ -99,10 +99,23 @@ provided by <code>rpigpior</code>.</p>
 <div class="section level2">
 <h2 id="bme280">BME280<a class="anchor" aria-label="anchor" href="#bme280"></a>
 </h2>
-<p>explain the bme280</p>
-<p>using i2c (not spi)</p>
+<p>The BME280 is a versatile integrated environmental sensor designed
+for precision measurement of ambient temperature, relative humidity, and
+atmospheric pressure. This compact and low-power sensor is equipped with
+advanced MEMS (Micro-Electro-Mechanical Systems) technology, providing
+accurate and reliable data for various applications, including weather
+forecasting, indoor climate control, and IoT devices. Its I2C and SPI
+communication interfaces make it easy to interface with microcontrollers
+and microprocessors, while its small form factor and energy efficiency
+make it an ideal choice for a wide range of projects, from weather
+stations to wearable tech, where monitoring and controlling
+environmental conditions are paramount.</p>
+<p>This cookbook example uses the i2c interface</p>
 <p><code>rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)</code>
-returns the BME Chip ID, 0x60.</p>
+returns the BME Chip ID, 0x60. This can be used to confirm the chip is
+available.</p>
+<p>Here is code to read temperature, pressure, and humidity from the
+bme280 with i2c</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
