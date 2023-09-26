@@ -40,6 +40,8 @@ there is nothing else to install.
     events
 -   `rpi_pwm` - provides diagnostics and support for hardware pulse
     width modulation
+-   `rpi_i2c_get` - retrieve a value from an i2c connection
+-   `rpi_i2c_set` - set an i2c register to a value
 
 ## Installation
 
