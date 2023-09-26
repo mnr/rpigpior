@@ -17,11 +17,13 @@ This cookbook shows how to use sensors and drivers using tools provided by `rpig
 
 # BME280
 
-explain the bme280
+The BME280 is a versatile integrated environmental sensor designed for precision measurement of ambient temperature, relative humidity, and atmospheric pressure. This compact and low-power sensor is equipped with advanced MEMS (Micro-Electro-Mechanical Systems) technology, providing accurate and reliable data for various applications, including weather forecasting, indoor climate control, and IoT devices. Its I2C and SPI communication interfaces make it easy to interface with microcontrollers and microprocessors, while its small form factor and energy efficiency make it an ideal choice for a wide range of projects, from weather stations to wearable tech, where monitoring and controlling environmental conditions are paramount.
 
-using i2c (not spi)
+This cookbook example uses the i2c interface
 
-`rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)` returns the BME Chip ID, 0x60.
+`rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)` returns the BME Chip ID, 0x60. This can be used to confirm the chip is available.
+
+Here is code to read temperature, pressure, and humidity from the bme280 with i2c
 
 ```{r, eval=FALSE}
  
