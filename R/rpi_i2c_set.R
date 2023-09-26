@@ -8,7 +8,8 @@
 #' @param chip_address an integer between 0x03 and 0x77. Use i2cdetect -y 1 to identify the address
 #' @param data_address an integer between 0x00 and 0xFF. This will come from the chip documentation
 #' @param value a byte (0xff), a word (0xffff), a SMBus (32 bytes) or I2C Block
-#' @param data_size
+#' @param data_size data_size must be one of "b", "w", "s", or "i"
+
 #'
 #' @return void
 #' @export
