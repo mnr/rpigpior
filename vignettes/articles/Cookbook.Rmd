@@ -17,142 +17,179 @@ This cookbook shows how to use sensors and drivers using tools provided by `rpig
 
 # BME280
 
+explain the bme280
+
+using i2c (not spi)
+
 `rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)` returns the BME Chip ID, 0x60.
 
-#rpi_i2c_get(chip_address = 0x77, data_address = 0xD0) \# read chip id control_hum_address \<- 0xf2 sample_hum \<- 0x01 control_measure_address \<- 0xf4 control_press_temp \<- strtoi("00100101", base = 2)
+```{r, eval=FALSE}
+ 
+getTemperature <- TRUE # ask BME280 for temperature?
+getPressure <- TRUE # ask BME280 for barometric pressure?
+getHumidity <- TRUE # ask BME280 for humidity?
+
+# locations of registers on the BME280
+control_measure_address <- 0xf4
+control_press_temp <- strtoi("00000001", base = 2)
+
+if (getHumidity) {
+  control_hum_address <- 0xf2
+  sample_hum <- 0x01
+  
+  rpi_i2c_set(chip_address = 0x77, 
+              data_address = control_hum_address, 
+              value = sample_hum, 
+              data_size = "b")
+  }
+
+if (getTemperature) {
+  control_press_temp <- bitwOr(control_press_temp, 
+                               strtoi("00100000",base = 2))
+}
+
+if (getPressure) {
+  control_press_temp <- bitwOr(control_press_temp, 
+                               strtoi("00000100",base = 2))
+}
+
+# tell BME280 to sense the requested temp/press/humidy
+rpi_i2c_set(chip_address = 0x77, 
+            data_address = control_measure_address, 
+            value = control_press_temp, 
+            data_size = "b")
+
+if (getTemperature) {
+  # Raw temperature data (16-bit signed integer)
+  raw_temperature <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0xfa,
+                                    data_size = "w")
+  # convert raw temp to centigrade
+  # Calibration coefficients
+  dig_T1 <- rpi_i2c_get(chip_address = 0x77,
+                        data_address = 0x88,
+                        data_size = "w")
+  dig_T2 <- rpi_i2c_get(chip_address = 0x77,
+                        data_address = 0x8A,
+                        data_size = "w")
+
+# Temperature compensation
+var1 <- (raw_temperature / 16384 - dig_T1 / 1024) * dig_T2
+var2 <- ((raw_temperature / 131072 - dig_T1 / 8192)^2) * dig_T2
+t_fine <- var1 + var2
+
+# Calculate temperature in degrees Celsius
+temperature_celsius <- (t_fine / 5120)
+}
+
+if (getPressure) {
+  # Raw pressure data (20-bit unsigned integer)
+  raw_pressure <- rpi_i2c_get(chip_address = 0x77,
+                                 data_address = 0xf7,
+                                 data_size = "w")
+  
+  # convert raw pressure to Pa
+# Calibration coefficients
+
+dig_P1 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x8E,
+                                    data_size = "w")
+
+dig_P2 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x90,
+                                    data_size = "w")
+
+dig_P3 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x92,
+                                    data_size = "w")
+
+dig_P4 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x94,
+                                    data_size = "w")
+
+dig_P5 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x96,
+                                    data_size = "w")
+
+dig_P6 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x98,
+                                    data_size = "w")
+
+dig_P7 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x9A,
+                                    data_size = "w")
+
+dig_P8 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x9C,
+                                    data_size = "w")
+
+dig_P9 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0x9E,
+                                    data_size = "w")
 
-# setup humidity measurement
 
-rpi_i2c_set(chip_address = 0x77, data_address = control_hum_address, value = sample_hum, data_size = "b")
+# Calculate pressure
 
-# setup and execute pressure & temperature measurement
+var1 <- t_fine / 2 - 64000 # t_fine is calculated by getTemperature
+var2 <- var1^2 * dig_P6 / 32768
+var2 <- var2 + (var1 * dig_P5) * 2
+var2 <- (var2 / 4) + (dig_P4 * 65536)
+var1 <- (dig_P3 * var1^2 / 524288 + dig_P2 * var1) / 524288
+var1 <- (1 + var1 / 32768) * dig_P1
+pressure <- 1048576 - raw_pressure
+pressure <- ((pressure - (var2 / 4096)) * 6250) / var1
 
-rpi_i2c_set(chip_address = 0x77, data_address = control_measure_address, value = control_press_temp, data_size = "b")
+}
 
-result_pressure \<-rpi_i2c_get(chip_address = 0x77, data_address = 0xf7, data_size = "w")
+if (getHumidity) {
+  # Raw humidity data (16-bit unsigned integer)
+  raw_humidity <- rpi_i2c_get(chip_address = 0x77,
+                                 data_address = 0xfd,
+                                 data_size = "w")
+  
+  # humidity to relative humidity
 
-result_temperature \<-rpi_i2c_get(chip_address = 0x77, data_address = 0xfa, data_size = "w")
+# Calibration coefficients
 
-result_humidity \<-rpi_i2c_get(chip_address = 0x77, data_address = 0xfd, data_size = "w")
+dig_H1 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0xA1,
+                                    data_size = "b")
 
-print(paste("raw pressure:", as.numeric(result_pressure))) print(paste("raw temperature:", as.numeric(result_temperature))) print(paste("raw humidity:", as.numeric(result_humidity)))
+dig_H2 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0xE1,
+                                    data_size = "w")
 
-# convert raw temp to centigrade
+dig_H3 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0xE3,
+                                    data_size = "b")
 
-\# Calibration coefficients
+??? 0xE4 / 0xE5[3:0]
+dig_H4 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0xE4,
+                                    data_size = "w")
+??? 0xE5[7:4]/0xE6
+dig_H5 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0xE5,
+                                    data_size = "w")
 
-dig_T1 \<- 27384
+dig_H6 <- rpi_i2c_get(chip_address = 0x77,
+                                    data_address = 0xE7,
+                                    data_size = "b")
 
-dig_T2 \<- 25740
+# Calculate humidity
+temp_compensated_humidity <- (t_fine - 76800)
 
-\# Raw temperature data (16-bit signed integer)
+temp_compensated_humidity <- (raw_humidity - (dig_H4 * 64 + dig_H5 / 16384 * temp_compensated_humidity)) * (dig_H2 / 65536 * (1 + dig_H6 / 67108864 * temp_compensated_humidity * (1 + dig_H3 / 67108864 * temp_compensated_humidity)))
 
-raw_temperature \<- 519888
+temp_compensated_humidity <- temp_compensated_humidity * (1 - dig_H1 * temp_compensated_humidity / 524288)
 
-\# Temperature compensation
+humidity_percentage <- ifelse(temp_compensated_humidity > 100, 100, temp_compensated_humidity)
 
-var1 \<- (raw_temperature / 16384 - dig_T1 / 1024) \* dig_T2
+humidity_percentage <- ifelse(humidity_percentage < 0, 0, humidity_percentage)
+}
 
-var2 \<- ((raw_temperature / 131072 - dig_T1 / 8192)\^2) \* dig_T2
+# print humidty_percentage, pressure, temperature_celsius
+```
 
-t_fine \<- var1 + var2
+rpi_i2c_get(chip_address = 0x77, data_address = 0xD0) \# read chip id
 
-\# Calculate temperature in degrees Celsius
-
-temperature_celsius \<- (t_fine / 5120)
-
-\# Print the result
-
-cat("Temperature in Celsius:", temperature_celsius, "°C\\n")
-
-# convert raw pressure to Pa
-
-\# Calibration coefficients
-
-dig_P1 \<- 36477
-
-dig_P2 \<- -10476
-
-dig_P3 \<- 3024
-
-dig_P4 \<- 2855
-
-dig_P5 \<- 140
-
-dig_P6 \<- -7
-
-dig_P7 \<- 15500
-
-dig_P8 \<- -14600
-
-dig_P9 \<- 6000
-
-\# Raw pressure data (20-bit unsigned integer)
-
-raw_pressure \<- 416231
-
-\# Temperature compensation (from previous calculation)
-
-t_fine \<- 128422
-
-\# Calculate pressure
-
-var1 \<- t_fine / 2 - 64000
-
-var2 \<- var1\^2 \* dig_P6 / 32768
-
-var2 \<- var2 + (var1 \* dig_P5) \* 2
-
-var2 \<- (var2 / 4) + (dig_P4 \* 65536)
-
-var1 \<- (dig_P3 \* var1\^2 / 524288 + dig_P2 \* var1) / 524288
-
-var1 \<- (1 + var1 / 32768) \* dig_P1
-
-pressure := 1048576 - raw_pressure
-
-pressure \<- ((pressure - (var2 / 4096)) \* 6250) / var1
-
-\# Print the result
-
-cat("Pressure in Pa:", pressure, "Pa\\n")
-
-# humidity to relative humidity
-
-\# Calibration coefficients
-
-dig_H1 \<- 75
-
-dig_H2 \<- 347
-
-dig_H3 \<- 0
-
-dig_H4 \<- 320
-
-dig_H5 \<- 0
-
-dig_H6 \<- 30
-
-\# Raw humidity data (16-bit unsigned integer)
-
-raw_humidity \<- 4162
-
-\# Temperature compensation (from previous calculation)
-
-t_fine \<- 128422
-
-\# Calculate humidity
-
-temp_compensated_humidity \<- (t_fine - 76800)
-
-temp_compensated_humidity \<- (raw_humidity - (dig_H4 \* 64 + dig_H5 / 16384 \* temp_compensated_humidity)) \* (dig_H2 / 65536 \* (1 + dig_H6 / 67108864 \* temp_compensated_humidity \* (1 + dig_H3 / 67108864 \* temp_compensated_humidity)))
-
-temp_compensated_humidity \<- temp_compensated_humidity \* (1 - dig_H1 \* temp_compensated_humidity / 524288)
-
-humidity_percentage \<- ifelse(temp_compensated_humidity \> 100, 100, temp_compensated_humidity)
-
-humidity_percentage \<- ifelse(humidity_percentage \< 0, 0, humidity_percentage)
-
-\# Print the result
-
-cat("Relative Humidity:", humidity_percentage, "%\\n")
