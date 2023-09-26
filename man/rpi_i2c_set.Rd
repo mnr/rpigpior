@@ -13,7 +13,7 @@ rpi_i2c_set(chip_address, data_address, value, data_size = "b")
 
 \item{value}{a byte (0xff), a word (0xffff), a SMBus (32 bytes) or I2C Block}
 
-\item{data_size}{}
+\item{data_size}{data_size must be one of "b", "w", "s", or "i"}
 }
 \value{
 void
