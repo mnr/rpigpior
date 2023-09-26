@@ -99,113 +99,180 @@ provided by <code>rpigpior</code>.</p>
 <div class="section level2">
 <h2 id="bme280">BME280<a class="anchor" aria-label="anchor" href="#bme280"></a>
 </h2>
+<p>explain the bme280</p>
+<p>using i2c (not spi)</p>
 <p><code>rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)</code>
 returns the BME Chip ID, 0x60.</p>
-<p>#rpi_i2c_get(chip_address = 0x77, data_address = 0xD0) # read chip id
-control_hum_address &lt;- 0xf2 sample_hum &lt;- 0x01
-control_measure_address &lt;- 0xf4 control_press_temp &lt;-
-strtoi(“00100101”, base = 2)</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span> </span>
+<span><span class="va">getTemperature</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># ask BME280 for temperature?</span></span>
+<span><span class="va">getPressure</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># ask BME280 for barometric pressure?</span></span>
+<span><span class="va">getHumidity</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># ask BME280 for humidity?</span></span>
+<span></span>
+<span><span class="co"># locations of registers on the BME280</span></span>
+<span><span class="va">control_measure_address</span> <span class="op">&lt;-</span> <span class="fl">0xf4</span></span>
+<span><span class="va">control_press_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strtoi.html" class="external-link">strtoi</a></span><span class="op">(</span><span class="st">"00000001"</span>, base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">getHumidity</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">control_hum_address</span> <span class="op">&lt;-</span> <span class="fl">0xf2</span></span>
+<span>  <span class="va">sample_hum</span> <span class="op">&lt;-</span> <span class="fl">0x01</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="../reference/rpi_i2c_set.html">rpi_i2c_set</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>, </span>
+<span>              data_address <span class="op">=</span> <span class="va">control_hum_address</span>, </span>
+<span>              value <span class="op">=</span> <span class="va">sample_hum</span>, </span>
+<span>              data_size <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">getTemperature</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">control_press_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwOr</a></span><span class="op">(</span><span class="va">control_press_temp</span>, </span>
+<span>                               <span class="fu"><a href="https://rdrr.io/r/base/strtoi.html" class="external-link">strtoi</a></span><span class="op">(</span><span class="st">"00100000"</span>,base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">getPressure</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">control_press_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwOr</a></span><span class="op">(</span><span class="va">control_press_temp</span>, </span>
+<span>                               <span class="fu"><a href="https://rdrr.io/r/base/strtoi.html" class="external-link">strtoi</a></span><span class="op">(</span><span class="st">"00000100"</span>,base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># tell BME280 to sense the requested temp/press/humidy</span></span>
+<span><span class="fu"><a href="../reference/rpi_i2c_set.html">rpi_i2c_set</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>, </span>
+<span>            data_address <span class="op">=</span> <span class="va">control_measure_address</span>, </span>
+<span>            value <span class="op">=</span> <span class="va">control_press_temp</span>, </span>
+<span>            data_size <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">getTemperature</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Raw temperature data (16-bit signed integer)</span></span>
+<span>  <span class="va">raw_temperature</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0xfa</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span>  <span class="co"># convert raw temp to centigrade</span></span>
+<span>  <span class="co"># Calibration coefficients</span></span>
+<span>  <span class="va">dig_T1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                        data_address <span class="op">=</span> <span class="fl">0x88</span>,</span>
+<span>                        data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span>  <span class="va">dig_T2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                        data_address <span class="op">=</span> <span class="fl">0x8A</span>,</span>
+<span>                        data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Temperature compensation</span></span>
+<span><span class="va">var1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">raw_temperature</span> <span class="op">/</span> <span class="fl">16384</span> <span class="op">-</span> <span class="va">dig_T1</span> <span class="op">/</span> <span class="fl">1024</span><span class="op">)</span> <span class="op">*</span> <span class="va">dig_T2</span></span>
+<span><span class="va">var2</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">raw_temperature</span> <span class="op">/</span> <span class="fl">131072</span> <span class="op">-</span> <span class="va">dig_T1</span> <span class="op">/</span> <span class="fl">8192</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="va">dig_T2</span></span>
+<span><span class="va">t_fine</span> <span class="op">&lt;-</span> <span class="va">var1</span> <span class="op">+</span> <span class="va">var2</span></span>
+<span></span>
+<span><span class="co"># Calculate temperature in degrees Celsius</span></span>
+<span><span class="va">temperature_celsius</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">t_fine</span> <span class="op">/</span> <span class="fl">5120</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">getPressure</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Raw pressure data (20-bit unsigned integer)</span></span>
+<span>  <span class="va">raw_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                 data_address <span class="op">=</span> <span class="fl">0xf7</span>,</span>
+<span>                                 data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># convert raw pressure to Pa</span></span>
+<span><span class="co"># Calibration coefficients</span></span>
+<span></span>
+<span><span class="va">dig_P1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x8E</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x90</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x92</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x94</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x96</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x98</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x9A</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P8</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x9C</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P9</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0x9E</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Calculate pressure</span></span>
+<span></span>
+<span><span class="va">var1</span> <span class="op">&lt;-</span> <span class="va">t_fine</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">64000</span> <span class="co"># t_fine is calculated by getTemperature</span></span>
+<span><span class="va">var2</span> <span class="op">&lt;-</span> <span class="va">var1</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">dig_P6</span> <span class="op">/</span> <span class="fl">32768</span></span>
+<span><span class="va">var2</span> <span class="op">&lt;-</span> <span class="va">var2</span> <span class="op">+</span> <span class="op">(</span><span class="va">var1</span> <span class="op">*</span> <span class="va">dig_P5</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span></span>
+<span><span class="va">var2</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">var2</span> <span class="op">/</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">dig_P4</span> <span class="op">*</span> <span class="fl">65536</span><span class="op">)</span></span>
+<span><span class="va">var1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">dig_P3</span> <span class="op">*</span> <span class="va">var1</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="fl">524288</span> <span class="op">+</span> <span class="va">dig_P2</span> <span class="op">*</span> <span class="va">var1</span><span class="op">)</span> <span class="op">/</span> <span class="fl">524288</span></span>
+<span><span class="va">var1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">var1</span> <span class="op">/</span> <span class="fl">32768</span><span class="op">)</span> <span class="op">*</span> <span class="va">dig_P1</span></span>
+<span><span class="va">pressure</span> <span class="op">&lt;-</span> <span class="fl">1048576</span> <span class="op">-</span> <span class="va">raw_pressure</span></span>
+<span><span class="va">pressure</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">pressure</span> <span class="op">-</span> <span class="op">(</span><span class="va">var2</span> <span class="op">/</span> <span class="fl">4096</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">6250</span><span class="op">)</span> <span class="op">/</span> <span class="va">var1</span></span>
+<span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">getHumidity</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Raw humidity data (16-bit unsigned integer)</span></span>
+<span>  <span class="va">raw_humidity</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                 data_address <span class="op">=</span> <span class="fl">0xfd</span>,</span>
+<span>                                 data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># humidity to relative humidity</span></span>
+<span></span>
+<span><span class="co"># Calibration coefficients</span></span>
+<span></span>
+<span><span class="va">dig_H1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0xA1</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0xE1</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0xE3</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">?</span><span class="op">?</span><span class="op">?</span> <span class="fl">0xE4</span> <span class="op">/</span> <span class="fl">0xE5</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">0</span><span class="op">]</span></span>
+<span><span class="va">dig_H4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0xE4</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span><span class="op">?</span><span class="op">?</span><span class="op">?</span> <span class="fl">0xE5</span><span class="op">[</span><span class="fl">7</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">/</span><span class="fl">0xE6</span></span>
+<span><span class="va">dig_H5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0xE5</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span>chip_address <span class="op">=</span> <span class="fl">0x77</span>,</span>
+<span>                                    data_address <span class="op">=</span> <span class="fl">0xE7</span>,</span>
+<span>                                    data_size <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calculate humidity</span></span>
+<span><span class="va">temp_compensated_humidity</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">t_fine</span> <span class="op">-</span> <span class="fl">76800</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">temp_compensated_humidity</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">raw_humidity</span> <span class="op">-</span> <span class="op">(</span><span class="va">dig_H4</span> <span class="op">*</span> <span class="fl">64</span> <span class="op">+</span> <span class="va">dig_H5</span> <span class="op">/</span> <span class="fl">16384</span> <span class="op">*</span> <span class="va">temp_compensated_humidity</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">dig_H2</span> <span class="op">/</span> <span class="fl">65536</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">dig_H6</span> <span class="op">/</span> <span class="fl">67108864</span> <span class="op">*</span> <span class="va">temp_compensated_humidity</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">dig_H3</span> <span class="op">/</span> <span class="fl">67108864</span> <span class="op">*</span> <span class="va">temp_compensated_humidity</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">temp_compensated_humidity</span> <span class="op">&lt;-</span> <span class="va">temp_compensated_humidity</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">dig_H1</span> <span class="op">*</span> <span class="va">temp_compensated_humidity</span> <span class="op">/</span> <span class="fl">524288</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">humidity_percentage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">temp_compensated_humidity</span> <span class="op">&gt;</span> <span class="fl">100</span>, <span class="fl">100</span>, <span class="va">temp_compensated_humidity</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">humidity_percentage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">humidity_percentage</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="fl">0</span>, <span class="va">humidity_percentage</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># print humidty_percentage, pressure, temperature_celsius</span></span></code></pre></div>
+<p>rpi_i2c_get(chip_address = 0x77, data_address = 0xD0) # read chip
+id</p>
 </div>
-<div class="section level2">
-<h2 id="setup-humidity-measurement">setup humidity measurement<a class="anchor" aria-label="anchor" href="#setup-humidity-measurement"></a>
-</h2>
-<p>rpi_i2c_set(chip_address = 0x77, data_address = control_hum_address,
-value = sample_hum, data_size = “b”)</p>
-</div>
-<div class="section level2">
-<h2 id="setup-and-execute-pressure-temperature-measurement">setup and execute pressure &amp; temperature measurement<a class="anchor" aria-label="anchor" href="#setup-and-execute-pressure-temperature-measurement"></a>
-</h2>
-<p>rpi_i2c_set(chip_address = 0x77, data_address =
-control_measure_address, value = control_press_temp, data_size =
-“b”)</p>
-<p>result_pressure &lt;-rpi_i2c_get(chip_address = 0x77, data_address =
-0xf7, data_size = “w”)</p>
-<p>result_temperature &lt;-rpi_i2c_get(chip_address = 0x77, data_address
-= 0xfa, data_size = “w”)</p>
-<p>result_humidity &lt;-rpi_i2c_get(chip_address = 0x77, data_address =
-0xfd, data_size = “w”)</p>
-<p>print(paste(“raw pressure:”, as.numeric(result_pressure)))
-print(paste(“raw temperature:”, as.numeric(result_temperature)))
-print(paste(“raw humidity:”, as.numeric(result_humidity)))</p>
-</div>
-<div class="section level2">
-<h2 id="convert-raw-temp-to-centigrade">convert raw temp to centigrade<a class="anchor" aria-label="anchor" href="#convert-raw-temp-to-centigrade"></a>
-</h2>
-<p># Calibration coefficients</p>
-<p>dig_T1 &lt;- 27384</p>
-<p>dig_T2 &lt;- 25740</p>
-<p># Raw temperature data (16-bit signed integer)</p>
-<p>raw_temperature &lt;- 519888</p>
-<p># Temperature compensation</p>
-<p>var1 &lt;- (raw_temperature / 16384 - dig_T1 / 1024) * dig_T2</p>
-<p>var2 &lt;- ((raw_temperature / 131072 - dig_T1 / 8192)^2) *
-dig_T2</p>
-<p>t_fine &lt;- var1 + var2</p>
-<p># Calculate temperature in degrees Celsius</p>
-<p>temperature_celsius &lt;- (t_fine / 5120)</p>
-<p># Print the result</p>
-<p>cat(“Temperature in Celsius:”, temperature_celsius, “°C\n”)</p>
-</div>
-<div class="section level2">
-<h2 id="convert-raw-pressure-to-pa">convert raw pressure to Pa<a class="anchor" aria-label="anchor" href="#convert-raw-pressure-to-pa"></a>
-</h2>
-<p># Calibration coefficients</p>
-<p>dig_P1 &lt;- 36477</p>
-<p>dig_P2 &lt;- -10476</p>
-<p>dig_P3 &lt;- 3024</p>
-<p>dig_P4 &lt;- 2855</p>
-<p>dig_P5 &lt;- 140</p>
-<p>dig_P6 &lt;- -7</p>
-<p>dig_P7 &lt;- 15500</p>
-<p>dig_P8 &lt;- -14600</p>
-<p>dig_P9 &lt;- 6000</p>
-<p># Raw pressure data (20-bit unsigned integer)</p>
-<p>raw_pressure &lt;- 416231</p>
-<p># Temperature compensation (from previous calculation)</p>
-<p>t_fine &lt;- 128422</p>
-<p># Calculate pressure</p>
-<p>var1 &lt;- t_fine / 2 - 64000</p>
-<p>var2 &lt;- var1^2 * dig_P6 / 32768</p>
-<p>var2 &lt;- var2 + (var1 * dig_P5) * 2</p>
-<p>var2 &lt;- (var2 / 4) + (dig_P4 * 65536)</p>
-<p>var1 &lt;- (dig_P3 * var1^2 / 524288 + dig_P2 * var1) / 524288</p>
-<p>var1 &lt;- (1 + var1 / 32768) * dig_P1</p>
-<p>pressure := 1048576 - raw_pressure</p>
-<p>pressure &lt;- ((pressure - (var2 / 4096)) * 6250) / var1</p>
-<p># Print the result</p>
-<p>cat(“Pressure in Pa:”, pressure, “Pa\n”)</p>
-</div>
-<div class="section level2">
-<h2 id="humidity-to-relative-humidity">humidity to relative humidity<a class="anchor" aria-label="anchor" href="#humidity-to-relative-humidity"></a>
-</h2>
-<p># Calibration coefficients</p>
-<p>dig_H1 &lt;- 75</p>
-<p>dig_H2 &lt;- 347</p>
-<p>dig_H3 &lt;- 0</p>
-<p>dig_H4 &lt;- 320</p>
-<p>dig_H5 &lt;- 0</p>
-<p>dig_H6 &lt;- 30</p>
-<p># Raw humidity data (16-bit unsigned integer)</p>
-<p>raw_humidity &lt;- 4162</p>
-<p># Temperature compensation (from previous calculation)</p>
-<p>t_fine &lt;- 128422</p>
-<p># Calculate humidity</p>
-<p>temp_compensated_humidity &lt;- (t_fine - 76800)</p>
-<p>temp_compensated_humidity &lt;- (raw_humidity - (dig_H4 * 64 + dig_H5
-/ 16384 * temp_compensated_humidity)) * (dig_H2 / 65536 * (1 + dig_H6 /
-67108864 * temp_compensated_humidity * (1 + dig_H3 / 67108864 *
-temp_compensated_humidity)))</p>
-<p>temp_compensated_humidity &lt;- temp_compensated_humidity * (1 -
-dig_H1 * temp_compensated_humidity / 524288)</p>
-<p>humidity_percentage &lt;- ifelse(temp_compensated_humidity &gt; 100,
-100, temp_compensated_humidity)</p>
-<p>humidity_percentage &lt;- ifelse(humidity_percentage &lt; 0, 0,
-humidity_percentage)</p>
-<p># Print the result</p>
-<p>cat(“Relative Humidity:”, humidity_percentage, “%\n”)</p>
-</div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
-    </nav></aside>
+  </main>
 </div>
 
 
