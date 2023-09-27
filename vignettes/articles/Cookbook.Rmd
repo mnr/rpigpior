@@ -9,11 +9,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(rpigpior)
-```
 
-This cookbook shows how to use sensors and drivers using tools provided by `rpigpior`.
+This cookbook shows how to use sensors and drivers using tools provided by `rpigpior`. Normally, this would be included in the examples section for each function. However, opening a channel to a microcircuit is different than communicating with that chip. This page is a collection of examples of how to talk to chips using the tools provided by `rpigpior()`
 
 # BME280
 
@@ -216,23 +213,16 @@ if (getHumidity) {
   )
   
   # Calculate humidity
-  temp_compensated_humidity <- (t_fine - 76800)
-  
-  temp_compensated_humidity <-
-    (raw_humidity - (dig_H4 * 64 + dig_H5 / 16384 * temp_compensated_humidity)) * (dig_H2 / 65536 * (
-      1 + dig_H6 / 67108864 * temp_compensated_humidity * (1 + dig_H3 / 67108864 * temp_compensated_humidity)
-    ))
-  
-  temp_compensated_humidity <-
-    temp_compensated_humidity * (1 - dig_H1 * temp_compensated_humidity / 524288)
-  
-  humidity_percentage <-
-    ifelse(temp_compensated_humidity > 100,
-           100,
-           temp_compensated_humidity)
-  
-  humidity_percentage <-
-    ifelse(humidity_percentage < 0, 0, humidity_percentage)
+ var1 <- t_fine - 76800.0
+var2 <- dig_H4 * 64.0 + (dig_H5 / 16384.0) * var1
+var3 <- raw_humidity - var2
+var4 <- dig_H2 / 65536.0
+var5 <- 1.0 + (dig_H3 / 67108864.0) * var1
+var6 <- 1.0 + (dig_H6 / 67108864.0) * var1 * var5
+var6 <- var3 * var4 * (var5 * var6)
+humidity <- var6 * (1.0 - dig_H1 * var6 / 524288.0)
+
+
 }
 
 # print humidty_percentage, pressure, temperature_celsius
