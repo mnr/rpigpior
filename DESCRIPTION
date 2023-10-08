@@ -7,9 +7,7 @@ Authors@R:
     person("Mark", "Niemann-Ross", , "mark@niemannross.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-3381-4604"))
 Maintainer: Mark Niemann-Ross <mark@niemannross.com>
 Description: This provides R with access to the Raspberry Pi General Purpose 
-    Input Output (GPIO) via 'libgpiod'. This includes detecting a gpio chip as 
-    well as turning pins on and off via [gpioset()] and reading the state of pins 
-    via [gpioget()]. No additional libraries need to be installed; Raspbian includes 
+    Input Output (GPIO) including GPIO pins, i2c, and SPI. No additional libraries need to be installed; Raspbian includes 
     'libgpiod' as part of the standard installation.
 URL: https://github.com/mnr/rpigpior,
     https://mnr.github.io/rpigpior/
@@ -26,3 +24,7 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
+LinkingTo: 
+    Rcpp
+Imports: 
+    Rcpp
