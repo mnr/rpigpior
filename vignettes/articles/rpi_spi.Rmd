@@ -1,0 +1,29 @@
+---
+title: "rpi_spi"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rpigpior)
+```
+
+Obsolete Name	Replacement Name
+Master	Controller
+Slave	Peripheral
+MISO	POCI
+MOSI	PICO
+SS	CS
+
+https://manpages.debian.org/testing/spi-tools/index.html
+https://manpages.debian.org/testing/spi-tools/spi-config.1.en.html
+https://manpages.debian.org/testing/spi-tools/spi-pipe.1.en.html
+
+https://sigmdel.ca/michel/ha/rpi/dnld/draft_spidev_doc.pdf
+https://github.com/CrosseyeJack/spincl
+http://test2.ipsolutionscorp.com/raspberry-pi-spi-utility/
