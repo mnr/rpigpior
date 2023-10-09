@@ -115,9 +115,9 @@
 </h2>
 <p><code>rpigpior</code> is hosted on github. Until it arrives at cran, you can install the development version of rpigpior from <a href="https://github.com/mnr/rpigpior" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mnr/rpigpior"</span><span class="op">)</span></span></code></pre></div>
-<p>Most documentation will tell you to use devtools, but <code>install.packages("devtools")</code> on a Raspberry Pi is an onerous task.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mnr/rpigpior"</span><span class="op">)</span></span></code></pre></div>
+<p>I highly recommend you use the R install from <a href="https://r4pi.org/" class="external-link">r4pi</a>. They have already set up devtools.</p>
 <p>Once you’ve installed, use <code>library</code> just like any other R package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mnr/rpigpior" class="external-link">rpigpior</a></span><span class="op">)</span></span></code></pre></div>
@@ -125,7 +125,7 @@
 <div class="section level2">
 <h2 id="is-this-a-raspberry-pi">Is this a Raspberry Pi?<a class="anchor" aria-label="anchor" href="#is-this-a-raspberry-pi"></a>
 </h2>
-<p>It’s helpful to check if your code is running on a Raspberry Pi.</p>
+<p>It’s helpful to check if your code is running on a Raspberry Pi. Do this with <code><a href="reference/is.rpi.html">is.rpi()</a></code></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span> <span class="fu"><a href="reference/is.rpi.html">is.rpi</a></span><span class="op">(</span><span class="op">)</span> <span class="op">)</span> <span class="op">{</span></span>
 <span>   <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"Yes, this is a RPi"</span><span class="op">)</span></span>
@@ -144,7 +144,7 @@
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> GPIO004  GPIO21</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span>       <span class="dv">1</span></span></code></pre></div>
-<p>That assumes the switch to board pin 40 is “pushed” or closed. By the way, there is a diagram of this located in the <em>articles</em> section of the website (as identified in the package description)</p>
+<p>This assumes the switch to board pin 40 is “pushed” or closed. By the way, there is a diagram of this located in the <em>articles</em> section of the website (as identified in the package description)</p>
 </div>
 <div class="section level2">
 <h2 id="turning-pins-on-and-off">Turning pins on and off<a class="anchor" aria-label="anchor" href="#turning-pins-on-and-off"></a>

@@ -114,6 +114,8 @@ If two pins are selected, they must be one of these combinations: (12,33), (32,3
 <span class="r-in"><span><span class="fu">rpi_pwm</span><span class="op">(</span><span class="fl">12</span><span class="op">)</span> <span class="co"># provides 50% PWM to pin 12 (PWM0)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">rpi_pwm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">33</span><span class="op">)</span>, pwm_period <span class="op">=</span> <span class="fl">50000</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span> <span class="co"># provides 20% PWM to pin 12 (PWM0) and pin 33 (PWM1)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">rpi_pwm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">33</span><span class="op">)</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># turn PWM off</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
