@@ -48,9 +48,11 @@
 #'   }
 #' @export
 #'
-#' @examplesIf is.rpi()
+#' @examplesIf FALSE
+#' 
 #' rpi_monitor(21)
 #' rpi_monitor(21, numEvents=20)
+#' 
 rpi_monitor <-
   function(pin_number,
            numEvents = 0,

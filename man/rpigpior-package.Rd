@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-This provides R with access to the Raspberry Pi General Purpose Input Output (GPIO) via 'libgpiod'. This includes detecting a gpio chip as well as turning pins on and off via [gpioset()] and reading the state of pins via [gpioget()]. No additional libraries need to be installed; Raspbian includes 'libgpiod' as part of the standard installation.
+This provides R with access to the Raspberry Pi General Purpose Input Output (GPIO) including GPIO pins, i2c, and SPI. No additional libraries need to be installed; Raspbian includes 'libgpiod' as part of the standard installation.
 }
 \seealso{
 Useful links:

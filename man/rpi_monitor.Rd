@@ -29,7 +29,8 @@ a list of events
 Watch a Raspberry pi GPIO pin (or pins) for changes.
 }
 \examples{
-\dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 rpi_monitor(21)
 rpi_monitor(21, numEvents=20)
 \dontshow{\}) # examplesIf}

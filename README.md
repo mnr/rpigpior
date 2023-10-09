@@ -33,12 +33,11 @@ install the development version of rpigpior from
 [GitHub](https://github.com/mnr/rpigpior) with:
 
 ``` r
-library(remotes)
-remotes::install_github("mnr/rpigpior")
+library(devtools)
+devtools::install_github("mnr/rpigpior")
 ```
 
-Most documentation will tell you to use devtools, but
-`install.packages("devtools")` on a Raspberry Pi is an onerous task.
+I highly recommend you use the R install from [r4pi](https://r4pi.org/). They have already set up devtools.
 
 Once you’ve installed, use `library` just like any other R package:
 
@@ -48,7 +47,7 @@ library(rpigpior)
 
 ## Is this a Raspberry Pi?
 
-It’s helpful to check if your code is running on a Raspberry Pi.
+It’s helpful to check if your code is running on a Raspberry Pi. Do this with `is.rpi()`
 
 ``` r
 if ( is.rpi() ) {
@@ -72,7 +71,7 @@ rpi_get(c(7,40)) # reads board pins 7 and 40
         0       1
 ```
 
-That assumes the switch to board pin 40 is “pushed” or closed. By the
+This assumes the switch to board pin 40 is “pushed” or closed. By the
 way, there is a diagram of this located in the *articles* section of the
 website (as identified in the package description)
 
