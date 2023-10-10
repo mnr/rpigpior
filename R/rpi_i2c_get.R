@@ -22,21 +22,21 @@ rpi_i2c_get <- function(chip_address, data_address, data_size = "b") {
       chip_address < 0x08 ||
       chip_address > 0x77
       ) {
-    stop("You must specify a chip_address as an integer between 0x08 and 0x77")
+    error("You must specify a chip_address as an integer between 0x08 and 0x77")
   }
 
   # data_address must be an integer between 0x00 and 0xFF
   if (missing(data_address) ||
-      chip_address < 0x00 ||
-      chip_address > 0x77
+      data_address < 0x00 ||
+      data_address > 0xFF
   ) {
-    stop("You must specify a data_address as an integer between 0x00 and 0xFF")
+    error("You must specify a data_address as an integer between 0x00 and 0xFF")
   }
 
   # data_size must be one of "b" or "w"
   if (!(data_size %in% c("b","w"))
   ) {
-    stop('You must specify a data_size of "b" (byte) or "w" (word)')
+    error('You must specify a data_size of "b" (byte) or "w" (word)')
   }
 
   gpio_sysCall <- paste("i2cget -y",
