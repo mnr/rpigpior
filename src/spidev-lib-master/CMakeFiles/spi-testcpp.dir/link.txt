@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -Wall -rdynamic CMakeFiles/spi-testcpp.dir/sample/spidev-testcpp.cc.o -o spi-testcpp  libspidev-lib++.a 

@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pi/Documents/rpigpior/src/spidev-lib-master/src/spidev_lib.c
+stdio.h
+-
+stdint.h
+-
+fcntl.h
+-
+stdlib.h
+-
+unistd.h
+-
+errno.h
+-
+sys/ioctl.h
+-
+string.h
+-
+linux/spi/spidev.h
+-
+spidev_lib.h
+/home/pi/Documents/rpigpior/src/spidev-lib-master/src/spidev_lib.h
+
+/home/pi/Documents/rpigpior/src/spidev-lib-master/src/spidev_lib.h
+stdint.h
+-
+

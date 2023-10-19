@@ -1,0 +1,1 @@
+/usr/bin/cc -g -Wall -rdynamic CMakeFiles/spi-testc.dir/sample/spidev-testc.c.o -o spi-testc  libspidev-lib.a 

@@ -1,0 +1,4 @@
+/usr/local/lib/libspidev-lib.a
+/usr/local/lib/libspidev-lib++.a
+/usr/local/include/spidev_lib.h
+/usr/local/include/spidev_lib++.h

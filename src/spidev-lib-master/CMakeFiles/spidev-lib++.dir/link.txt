@@ -1,0 +1,2 @@
+/usr/bin/ar qc libspidev-lib++.a CMakeFiles/spidev-lib++.dir/src/spidev_lib++.cc.o
+/usr/bin/ranlib libspidev-lib++.a

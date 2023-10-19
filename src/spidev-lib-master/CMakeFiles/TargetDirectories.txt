@@ -1,0 +1,10 @@
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/install/strip.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/install.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/list_install_components.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/install/local.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/rebuild_cache.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/spi-testcpp.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/spidev-lib++.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/spi-testc.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/edit_cache.dir
+/home/pi/Documents/rpigpior/src/spidev-lib-master/CMakeFiles/spidev-lib.dir
