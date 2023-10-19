@@ -10,21 +10,21 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rpi_spi_WriteAndRead
-int rpi_spi_WriteAndRead(int mystuff, char morestuff);
-RcppExport SEXP _rpigpior_rpi_spi_WriteAndRead(SEXP mystuffSEXP, SEXP morestuffSEXP) {
+// rpi_spi_open
+int rpi_spi_open(char *device, spi_config_t config);
+RcppExport SEXP _rpigpior_rpi_spi_open(SEXP *deviceSEXP, SEXP configSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type mystuff(mystuffSEXP);
-    Rcpp::traits::input_parameter< char >::type morestuff(morestuffSEXP);
-    rcpp_result_gen = Rcpp::wrap(rpi_spi_WriteAndRead(mystuff, morestuff));
+    Rcpp::traits::input_parameter< char >::type *device(*deviceSEXP);
+    Rcpp::traits::input_parameter< spi_config_t >::type config(configSEXP);
+    rcpp_result_gen = Rcpp::wrap(rpi_spi_open(*device, config));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rpigpior_rpi_spi_WriteAndRead", (DL_FUNC) &_rpigpior_rpi_spi_WriteAndRead, 2},
+    {"_rpigpior_rpi_spi_open", (DL_FUNC) &_rpigpior_rpi_spi_open, 2},
     {NULL, NULL, 0}
 };
 
