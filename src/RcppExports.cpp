@@ -11,20 +11,19 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // rpi_spi_open
-int rpi_spi_open(char *device, spi_config_t config);
-RcppExport SEXP _rpigpior_rpi_spi_open(SEXP *deviceSEXP, SEXP configSEXP) {
+int rpi_spi_open(std::string dev);
+RcppExport SEXP _rpigpior_rpi_spi_open(SEXP devSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< char >::type *device(*deviceSEXP);
-    Rcpp::traits::input_parameter< spi_config_t >::type config(configSEXP);
-    rcpp_result_gen = Rcpp::wrap(rpi_spi_open(*device, config));
+    Rcpp::traits::input_parameter< std::string >::type dev(devSEXP);
+    rcpp_result_gen = Rcpp::wrap(rpi_spi_open(dev));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rpigpior_rpi_spi_open", (DL_FUNC) &_rpigpior_rpi_spi_open, 2},
+    {"_rpigpior_rpi_spi_open", (DL_FUNC) &_rpigpior_rpi_spi_open, 1},
     {NULL, NULL, 0}
 };
 
