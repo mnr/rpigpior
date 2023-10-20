@@ -1,1 +1,1 @@
-PKG_LIBS = -llibspidev-lib.a
+PKG_LIBS = -L. -lspidev-lib++

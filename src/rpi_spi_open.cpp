@@ -1,4 +1,4 @@
-# https://github.com/milekium/spidev-lib
+// https://github.com/milekium/spidev-lib
 
 #include <Rcpp.h>
 #include <stdio.h>
@@ -15,9 +15,11 @@
 #include "spidev_lib.h"
 
 using namespace Rcpp;
-// [[Rcpp::export]]
 
-int rpi_spi_open(char *device, spi_config_t config) {
+// [[Rcpp::export]]
+int rpi_spi_open(std::string dev) {
+    const char *device = dev.c_str();
+    spi_config_t config;
     int fd;
 
     /* Open block device */
