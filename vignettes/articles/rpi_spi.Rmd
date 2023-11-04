@@ -12,6 +12,25 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(rpigpior)
 ```
+Raspberry Pi SPI0
+/dev/spidev0.0 and /dev/spidev0.1
+Name - GPIO - Physical
+SPI0_MOSI - 10 - 19
+SPI0_MISO - 9 - 21
+SPI0_SCLK - 11 - 23
+SPI0_CE0 - 8 - 24
+SPI0_CE1 - 7 - 26
+
+/dev/spidev1.0, /dev/spidev1.1, /dev/spidev1.2
+Name - GPIO - Physical
+SPI1_MOSI - 20 - 38
+SPI1_MISO - 19 - 35
+SPI1_SCLK - 21 - 40
+SPI1_CE0 - 18 - 22
+SPI1_CE1 - 17 - 11
+SPI1_CE2 - 16 - 36
+
+(RPi model 4 has more SPI buses ?!?)
 
 Obsolete Name	Replacement Name
 Master	Controller
@@ -27,3 +46,6 @@ https://manpages.debian.org/testing/spi-tools/spi-pipe.1.en.html
 https://sigmdel.ca/michel/ha/rpi/dnld/draft_spidev_doc.pdf
 https://github.com/CrosseyeJack/spincl
 http://test2.ipsolutionscorp.com/raspberry-pi-spi-utility/
+
+https://forums.raspberrypi.com/viewtopic.php?p=1927979
+https://www.kernal.org/doc/html/latest/spi/spidev.html
