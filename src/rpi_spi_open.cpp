@@ -22,7 +22,7 @@ using namespace Rcpp;
 
 //' Open an SPI session
 //'
-//' This assumes the SPI device is attached to bus zero. 
+//' This assumes the SPI device is attached to bus zero.
 //'
 //' @param spiChan The SPI channel to use. /dev/spidev[spiBus].[spiChan]
 //' @param spiBus The SPI Bus to use, defaults to bus 0.
@@ -33,7 +33,7 @@ using namespace Rcpp;
 //' spi_identifier <- rpi_spi_open(spiBus = 0, spiChan = 0)
 //'
 // [[Rcpp::export]]
-int rpi_spi_open(unsigned spiChan, unsigned spiBus = 0, 
+int rpi_spi_open(unsigned spiChan, unsigned spiBus = 0,
                   unsigned max_speed_hz = 32000000)
 {
    int spiDeviceID;
@@ -43,13 +43,15 @@ int rpi_spi_open(unsigned spiChan, unsigned spiBus = 0,
 
    if ((spiDeviceID = open(theSPIdevice, O_RDWR)) < 0)
    {
-      return -1;
+      // return -1;
+      Rcpp::stop(paste("Failure to open ", theSPIdevice))
    }
 
    if (ioctl(spiDeviceID, SPI_IOC_WR_MAX_SPEED_HZ, &max_speed_hz) < 0)
    {
       close(spiDeviceID);
-      return -4;
+     Rcpp::stop(paste("Failure to set the speed for ", theSPIdevice, " to ", max_speed_hz))
+      //return -4;
    }
 
    return spiDeviceID;
