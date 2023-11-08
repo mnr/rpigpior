@@ -28,12 +28,13 @@ using namespace Rcpp;
 //' @export
 //'
 // [[Rcpp::export]]
-int rpi_spi_read(int spiDeviceID, unsigned speed, char *buf, unsigned count)
+int rpi_spi_read(int spiDeviceID, unsigned speed, String buf, unsigned count)
 {
-   int err;
-   struct spi_ioc_transfer spi;
 
-   memset(&spi, 0, sizeof(spi));
+  int err;
+  struct spi_ioc_transfer spi;
+
+  memset(&spi, 0, sizeof(spi));
 
    spi.tx_buf        = (unsigned) NULL;
    spi.rx_buf        = (unsigned) buf;
