@@ -44,13 +44,13 @@ int rpi_spi_open(unsigned spiChan, unsigned spiBus = 0,
    if ((spiDeviceID = open(theSPIdevice, O_RDWR)) < 0)
    {
       // return -1;
-      Rcpp::stop(paste("Failure to open ", theSPIdevice))
+      Rcpp::stop("Failure to open " + theSPIdevice)
    }
 
    if (ioctl(spiDeviceID, SPI_IOC_WR_MAX_SPEED_HZ, &max_speed_hz) < 0)
    {
       close(spiDeviceID);
-     Rcpp::stop(paste("Failure to set the speed for ", theSPIdevice, " to ", max_speed_hz))
+     Rcpp::stop("Failure to set the speed for " + theSPIdevice + " to " + max_speed_hz)
       //return -4;
    }
 
