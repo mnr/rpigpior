@@ -13,7 +13,7 @@ spiClose <- function(spiDeviceID) {
 
 #' Open an SPI session
 #'
-#' This assumes the SPI device is attached to bus zero. 
+#' This assumes the SPI device is attached to bus zero.
 #'
 #' @param spiChan The SPI channel to use. /dev/spidev[spiBus].[spiChan]
 #' @param spiBus The SPI Bus to use, defaults to bus 0.
@@ -25,5 +25,16 @@ spiClose <- function(spiDeviceID) {
 #'
 rpi_spi_open <- function(spiChan, spiBus = 0L, max_speed_hz = 32000000L) {
     .Call(`_rpigpior_rpi_spi_open`, spiChan, spiBus, max_speed_hz)
+}
+
+#' Read data from an SPI device
+#'
+#' @param spiDeviceID An identifier supplied by rpi_spi_open()
+#' @param speed
+#' @return SPI identifier
+#' @export
+#'
+rpi_spi_read <- function(spiDeviceID, speed, *buf, count) {
+    .Call(`_rpigpior_rpi_spi_read`, spiDeviceID, speed, *buf, count)
 }
 

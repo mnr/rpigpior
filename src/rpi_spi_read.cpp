@@ -28,7 +28,7 @@ using namespace Rcpp;
 //' @export
 //'
 // [[Rcpp::export]]
-int rpi_spi_read(int spiDeviceID, unsigned speed, String buf, unsigned count)
+int rpi_spi_read(int spiDeviceID)
 {
 
   int err;
@@ -48,3 +48,17 @@ int rpi_spi_read(int spiDeviceID, unsigned speed, String buf, unsigned count)
 
    return err;
 }
+
+/*
+ *   errors
+ * EBADF  fd is not a valid file descriptor.
+
+       EFAULT argp references an inaccessible memory area.
+
+       EINVAL request or argp is not valid.
+
+       ENOTTY fd is not associated with a character special device.
+
+       ENOTTY The specified request does not apply to the kind of object
+              that the file descriptor fd references.
+ */

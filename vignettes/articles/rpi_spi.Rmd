@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(rpigpior)
 ```
-Raspberry Pi SPI0
+////////////////// Raspberry Pi SPI0
 /dev/spidev0.0 and /dev/spidev0.1
 Name - GPIO - Physical
 SPI0_MOSI - 10 - 19
@@ -20,6 +20,10 @@ SPI0_MISO - 9 - 21
 SPI0_SCLK - 11 - 23
 SPI0_CE0 - 8 - 24
 SPI0_CE1 - 7 - 26
+
+////////////////// Raspberry Pi SPI1
+
+/dtoverlay=spi1-3cs added to /boot/config.txt will enable second spi port
 
 /dev/spidev1.0, /dev/spidev1.1, /dev/spidev1.2
 Name - GPIO - Physical
@@ -49,3 +53,5 @@ http://test2.ipsolutionscorp.com/raspberry-pi-spi-utility/
 
 https://forums.raspberrypi.com/viewtopic.php?p=1927979
 https://www.kernal.org/doc/html/latest/spi/spidev.html
+
+

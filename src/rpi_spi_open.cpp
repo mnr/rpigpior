@@ -38,19 +38,23 @@ int rpi_spi_open(unsigned spiChan, unsigned spiBus = 0,
 {
    int spiDeviceID;
    char theSPIdevice[32];
+   char errMessage[100];
 
    sprintf(theSPIdevice, "/dev/spidev%d.%d", spiBus, spiChan);
 
    if ((spiDeviceID = open(theSPIdevice, O_RDWR)) < 0)
    {
       // return -1;
-      Rcpp::stop("Failure to open " + theSPIdevice)
+      sprintf(errMessage, "Failure to open %s", theSPIdevice);
+      Rcpp::stop(errMessage);
    }
 
    if (ioctl(spiDeviceID, SPI_IOC_WR_MAX_SPEED_HZ, &max_speed_hz) < 0)
    {
       close(spiDeviceID);
-     Rcpp::stop("Failure to set the speed for " + theSPIdevice + " to " + max_speed_hz)
+      sprintf(errMessage, "Failure to set the speed for %s to %d", theSPIdevice, max_speed_hz);
+
+     Rcpp::stop(errMessage);
       //return -4;
    }
 
