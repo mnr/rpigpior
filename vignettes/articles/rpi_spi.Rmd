@@ -49,3 +49,6 @@ http://test2.ipsolutionscorp.com/raspberry-pi-spi-utility/
 
 https://forums.raspberrypi.com/viewtopic.php?p=1927979
 https://www.kernal.org/doc/html/latest/spi/spidev.html
+
+# testing
+Using an MCP3008 as test for SPI
