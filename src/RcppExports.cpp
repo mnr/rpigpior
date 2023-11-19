@@ -35,16 +35,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // rpi_spi_read
-int rpi_spi_read(int spiDeviceID, unsigned speed, char *buf, unsigned count);
-RcppExport SEXP _rpigpior_rpi_spi_read(SEXP spiDeviceIDSEXP, SEXP speedSEXP, SEXP *bufSEXP, SEXP countSEXP) {
+int rpi_spi_read(int spiDeviceID);
+RcppExport SEXP _rpigpior_rpi_spi_read(SEXP spiDeviceIDSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type spiDeviceID(spiDeviceIDSEXP);
-    Rcpp::traits::input_parameter< unsigned >::type speed(speedSEXP);
-    Rcpp::traits::input_parameter< char >::type *buf(*bufSEXP);
-    Rcpp::traits::input_parameter< unsigned >::type count(countSEXP);
-    rcpp_result_gen = Rcpp::wrap(rpi_spi_read(spiDeviceID, speed, *buf, count));
+    rcpp_result_gen = Rcpp::wrap(rpi_spi_read(spiDeviceID));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -52,7 +49,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_rpigpior_spiClose", (DL_FUNC) &_rpigpior_spiClose, 1},
     {"_rpigpior_rpi_spi_open", (DL_FUNC) &_rpigpior_rpi_spi_open, 3},
-    {"_rpigpior_rpi_spi_read", (DL_FUNC) &_rpigpior_rpi_spi_read, 4},
+    {"_rpigpior_rpi_spi_read", (DL_FUNC) &_rpigpior_rpi_spi_read, 1},
     {NULL, NULL, 0}
 };
 

@@ -34,7 +34,7 @@ rpi_spi_open <- function(spiChan, spiBus = 0L, max_speed_hz = 32000000L) {
 #' @return SPI identifier
 #' @export
 #'
-rpi_spi_read <- function(spiDeviceID, speed, *buf, count) {
-    .Call(`_rpigpior_rpi_spi_read`, spiDeviceID, speed, *buf, count)
+rpi_spi_read <- function(spiDeviceID) {
+    .Call(`_rpigpior_rpi_spi_read`, spiDeviceID)
 }
 
