@@ -24,14 +24,16 @@ The Raspberry Pi exposes two PWM channels from the Broadcom chip. These
 appear on lines which also supply GPIO connections and so the Broadcom
 ALT functions need to be called.
 
--   PWM0 appears on board pins 12 (GPIO18) and 32 (GPIO12).
+-   PWM0 appears on board pin 32 (GPIO 12) and secondarily on board pin
+    12 (GPIO18).
 
--   PWM1 appears on board pins 33 (GPIO13) and 35 (GPIO19).
+-   PWM1 appears on board pin 33 (GPIO13) and secondarily on board pin
+    35 (GPIO19).
 
 This causes a confusing situation in two ways:
 
 -   Don't confuse board pin 12 with GPIO12 (board pin 32). Both are
-    connected to BCM PWM0
+    connected to BCM PWM0 but via different pin numbering schemes.
 -   If you want to use two PWM channels, there are only certain
     combinations of pins that will provide the two channels. These
     combinations are board pins (12,33), (32,33), (12,35), or (32,35)
