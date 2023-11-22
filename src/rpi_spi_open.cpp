@@ -32,7 +32,6 @@ using namespace Rcpp;
 //' @examplesIf is.rpi.spi()
 //' spi_identifier <- rpi_spi_open(spiBus = 0, spiChan = 0)
 //'
-// [[Rcpp::export]]
 int rpi_spi_open(unsigned spiChan, unsigned spiBus = 0,
                   unsigned max_speed_hz = 32000000)
 {
