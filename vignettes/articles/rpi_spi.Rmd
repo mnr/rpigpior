@@ -53,6 +53,8 @@ https://manpages.debian.org/testing/spi-tools/spi-pipe.1.en.html
 
 # about SPI api
 https://www.kernel.org/doc/html/v5.7/spi/spidev.html
+# about spi modes
+https://www.analog.com/en/analog-dialogue/articles/introduction-to-spi-interface.html
 
 # spi raspberry pi example
 https://raspberry-projects.com/pi/programming-in-c/spi/using-the-spi-interface
