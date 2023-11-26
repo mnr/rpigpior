@@ -10,12 +10,12 @@ using namespace Rcpp;
 //' Communicates with the IOCTL module
 //'
 //' @param spiDeviceID
-//' @param Spi_mode
+//' @param SpiMode
 //' @return spiControl
 
  // [[Rcpp::export]]
-int rpi_ioctl(int spiDeviceID, int Spi_mode, Rcpp::List spiControl) {
-  status_value = ioctl(spiDeviceID, Spi_mode, spiControl);
+int rpi_ioctl(int spiDeviceID, int spiMode, Rcpp::List spiControl) {
+  status_value = ioctl(spiDeviceID, spiMode, spiControl);
   if(status_value < 0)
   {
     perror("Could not set SPIMode (WR)...ioctl fail");
