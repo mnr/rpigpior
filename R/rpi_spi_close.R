@@ -2,12 +2,12 @@
 
 #' Close the connection to an SPI device
 #'
-#' @param spiDeviceID an SPI device id as supplied by rpi_spi_open()
+#' @param spiDevice an SPI device id as supplied by rpi_spi_open(). spiDevice$con is the connection object to close
 #'
 #' @return
 #' @export
 #'
 #' @examples
-rpi_spi_close <- function(spiDeviceID) {
-  close(description = spiDeviceID)
+rpi_spi_close <- function(spiDevice) {
+  close(description = spiDevice$con)
 }
