@@ -14,7 +14,7 @@
 #' @param spiBits Bits Per Word. Typically 8
 #' @param spiSpeed Transmission speed. 1000000 = 1MHz
 #'
-#' @return spiDeviceID which identifies the SPI device
+#' @return spiControl - a list of attributes about the SPI device.
 #' @export
 #'
 #' @examples
@@ -26,50 +26,44 @@ rpi_spi_open <- function(spiBus,
   # we really ought to check these incoming values...
 
   spiDevString <- paste0("/dev/spidev",spiBus,".",spiChan)
-  spiDeviceID <- file(description = spiDevString, open = "r+")
+  spiDeviceID <- file(description = spiDevString, open = "r+") # a connection object
 
   spiControl <-  list(
     spiChan = spiChan,
     spiBus = spiBus,
     max_speed_hz = spiSpeed,
-    spiDeviceID = spiDeviceID,
-    tx_buf        = something,
-    rx_buf        = something,
-    len           = count, # length of tx/rx buffers in bytes
+    device = spiDeviceID, # a connection object
+    tx_buf        = "",
+    rx_buf        = "",
+    len           = 0, # length of tx/rx buffers in bytes
     delay_usecs   = 0,
     bits_per_word = spiBits,
     cs_change     = 0
   )
 
   # set the write ioctl mode
-  rpi_ioctl(spiDeviceID, SPI_IOC_WR_MODE, spiControl)
-  #stringToEval <- paste0('ioctl(',spiDeviceID,', SPI_IOC_WR_MODE,', spiMode)
-  #evalCpp(stringToEval,depends = spiIncludes)
+  ioctl_value <- rpi_ioctl(spiDeviceID, "SPI_IOC_WR_MODE", spiControl)
+  if (ioctl_value$status_value == -1) {stop("Unable to set SPI mode: WR")}
 
-  # # set the read ioctl mode
-  # stringToEval <- paste0('ioctl(',spiDeviceID,', SPI_IOC_RD_MODE,', spiMode)
-  # evalCpp(stringToEval,
-  #         depends = spiIncludes)
-  #
-  # # set the spi write bitsPerWord
-  # stringToEval <- paste0('ioctl(',spiDeviceID,', SPI_IOC_WR_BITS_PER_WORD,', spiBits)
-  # evalCpp(stringToEval,
-  #         depends = spiIncludes)
-  #
-  # # set the spi read bitsPerWord
-  # stringToEval <- paste0('ioctl(',spiDeviceID,', SPI_IOC_RD_BITS_PER_WORD,', spiBits)
-  # evalCpp(stringToEval,
-  #         depends = spiIncludes)
-  #
-  # # set the spi write speed
-  # stringToEval <- paste0('ioctl(',spiDeviceID,', SPI_IOC_WR_MAX_SPEED_HZ,', spiSpeed)
-  # evalCpp(stringToEval,
-  #         depends = spiIncludes)
-  #
-  # # set the spi read speed
-  # stringToEval <- paste0('ioctl(',spiDeviceID,', SPI_IOC_RD_MAX_SPEED_HZ,', spiSpeed)
-  # evalCpp(stringToEval,
-  #         depends = spiIncludes)
+  # set the read ioctl mode
+  ioctl_value <- rpi_ioctl(spiDeviceID, "SPI_IOC_RD_MODE", spiControl)
+  if (ioctl_value$status_value == -1) {stop("Unable to set SPI mode: RD")}
 
-  return(spiDeviceID)
+  # set the spi write bitsPerWord
+  ioctl_value <- rpi_ioctl(spiDeviceID, "SPI_IOC_WR_BITS_PER_WORD", spiControl)
+  if (ioctl_value$status_value == -1) {stop("Unable to set SPI mode: Write Bits Per Word")}
+
+  # set the spi read bitsPerWord
+  ioctl_value <- rpi_ioctl(spiDeviceID, "SPI_IOC_RD_BITS_PER_WORD", spiControl)
+  if (ioctl_value$status_value == -1) {stop("Unable to set SPI mode: Read Bits Per Word")}
+
+  # set the spi write speed
+  ioctl_value <- rpi_ioctl(spiDeviceID, "SPI_IOC_WR_MAX_SPEED_HZ", spiControl)
+  if (ioctl_value$status_value == -1) {stop("Unable to set SPI mode: Write speed")}
+
+  # set the spi read speed
+  ioctl_value <- rpi_ioctl(spiDeviceID, "SPI_IOC_RD_MAX_SPEED_HZ", spiControl)
+  if (ioctl_value$status_value == -1) {stop("Unable to set SPI mode: Read speed")}
+
+  return(spiControl)
 }
