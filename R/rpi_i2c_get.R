@@ -9,7 +9,8 @@
 #' @export
 #'
 #' @examplesIf is.rpi()
-#' rpi_i2c_get(chip_address = 0x77, data_address = 0xfa, data_size = 'b') # get a byte from an i2c device located at 0x77
+#' #' # get a byte from an i2c device located at 0x77
+#' rpi_i2c_get(chip_address = 0x77, data_address = 0xfa, data_size = 'b')
 #'
 rpi_i2c_get <- function(chip_address, data_address, data_size = "b") {
   # Assumes Serial Data Line (SDA, board pin 3)
