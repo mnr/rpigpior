@@ -28,7 +28,7 @@ rpi_i2c_get <- function(chip_address, data_address, data_size = "b") {
   # data_address must be an integer between 0x00 and 0xFF
   if (missing(data_address) ||
       chip_address < 0x00 ||
-      chip_address > 0x77
+      chip_address > 0xFF
   ) {
     stop("You must specify a data_address as an integer between 0x00 and 0xFF")
   }
