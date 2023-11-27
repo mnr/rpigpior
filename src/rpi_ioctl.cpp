@@ -1,3 +1,5 @@
+// ioctl documentation at https://www.man7.org/linux/man-pages/man2/ioctl.2.html
+
 #include <Rcpp.h>
 
 #include <fcntl.h>
@@ -5,24 +7,38 @@
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
 
+#include <string.h>
+#include <errno.h>
+
 using namespace Rcpp;
 
 //' Communicates with the IOCTL module
 //'
-//' @param spiDeviceID
-//' @param SpiMode
-//' @return spiControl
+//' The ioctl() system call manipulates the underlying device
+//'      parameters of special files.  In particular, many operating
+//'     characteristics of character special files (e.g., terminals) may
+//'     be controlled with ioctl() requests.
+//'
+//' @param spiDeviceID an open file descriptor.
+//' @param ioctlRequest A device-dependent request code. For the sake of Rcpp
+//'      interface, an int is passed in, then used to look up the
+//'      actual value. Macros and defines used in specifying an ioctl()
+//'      request are located in the file <sys/ioctl.h>
+//' @param spiControl an untyped pointer to memory
+//' @return ioctl_value a list containing...
+//' \itemize{
+//'   \item status_value - a possible return value or -1 if there was an error
+//'   \item errno - if status_value == -1, then errno equals the error number
+//'   \item status_message - if status_value == -1, the error message
+//' }
 
  // [[Rcpp::export]]
-int rpi_ioctl(int spiDeviceID, int spiMode, Rcpp::List spiControl) {
-  status_value = ioctl(spiDeviceID, spiMode, spiControl);
-  if(status_value < 0)
-  {
-    perror("Could not set SPIMode (WR)...ioctl fail");
-    exit(1);
-  }
-   */
+rcpp::List rpi_ioctl(int spiDeviceID, Rcpp::String ioctlRequest, Rcpp::List spiControl) {
 
+  status_value = ioctl(spiDeviceID, ioctlRequest, spiControl);
 
-  return(0);
+  if (status_value < 0) {status_message = strerror(errno)} ;
+
+  ioctl_value = Rcpp::list(status_value, errno, status_message)
+  return(ioctl_value);
 }
