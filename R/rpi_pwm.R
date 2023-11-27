@@ -24,7 +24,8 @@
 #' @examplesIf is.rpi()
 #' rpi_pwm(12) # provides 50% PWM to pin 12 (PWM0)
 #'
-#' rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000) # provides 20% PWM to pin 12 (PWM0) and pin 33 (PWM1)
+#'#' # provides 20% PWM to pin 12 (PWM0) and pin 33 (PWM1)
+#' rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000)
 #'
 rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, pwm_debug = FALSE ) {
   # check that pin_number == 12, 32, 33, or 35 ---------
