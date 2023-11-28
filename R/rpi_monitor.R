@@ -36,7 +36,6 @@
 #' @param pin_number one or more pin numbers as found on the Raspberry pi GPIO. Use the actual pin numbers (i.e. 1:40)
 #' @param numEvents a number of events to collect. Defaults to 10
 #' @param edge rising|falling|both
-#' @param timeout number of seconds to collect events
 #'
 #' @return a list of events
 #'   \itemize{
@@ -49,13 +48,14 @@
 #' @export
 #'
 #' @examplesIf is.rpi()
+#' \donttest{
 #' rpi_monitor(21)
 #' rpi_monitor(21, numEvents=20)
+#' }
 rpi_monitor <-
   function(pin_number,
            numEvents = 0,
-           edge = "both",
-           timeout = 0) {
+           edge = "both") {
 
     bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
 
