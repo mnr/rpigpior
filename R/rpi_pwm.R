@@ -107,7 +107,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
   for (aPin in pin_number) {
       # start PWM ---------
       # sudo echo 50000 > /sys/class/pwm/pwmchip0/pwm0/period
-      gpio_sysCall <- paste0("echo ",
+      gpio_sysCall <- paste0("sudo echo ",
                             pwm_period,
                             " > /sys/class/pwm/pwmchip0/pwm",
                             rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
@@ -117,7 +117,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
       if(pwm_debug) print(gpio_sysCall)
 
       # sudo echo 25000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
-      gpio_sysCall <- paste0("echo ",
+      gpio_sysCall <- paste0("sudo echo ",
                              pwm_dutycycle,
                              " > /sys/class/pwm/pwmchip0/pwm",
                              rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
@@ -127,7 +127,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
       if(pwm_debug) print(gpio_sysCall)
 
       # sudo echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
-      gpio_sysCall <- paste0("echo 1 > /sys/class/pwm/pwmchip0/pwm",
+      gpio_sysCall <- paste0("sudo echo 1 > /sys/class/pwm/pwmchip0/pwm",
                              rpigpior::rpi_pin_desc[aPin,"PWM_channel"],
                              "/enable"
       )
