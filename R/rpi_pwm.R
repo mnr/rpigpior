@@ -7,7 +7,7 @@
 #'
 #' @param pin_number  One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
 #'    If two pins are selected, they must be one of these combinations: (12,33), (32,33), (12,35), or (32,35)
-#' @param pwm_period  The length of a cycle. aka Frequency
+#' @param pwm_period  The length of a cycle. aka Frequency. 15 or greater, less than 1000000
 #' @param pwm_dutycycle  The amount of time a cycle is on.
 #' @param pwm_debug  If TRUE, checks Raspberry Pi OS settings for PWM and provides diagnostics
 #'
@@ -53,6 +53,13 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
     stop("Invalid PWM pin combination: You have specified more than two pins for PWM.")
   }
 
+
+# range check period. 15 >= x < 1000000 -----------------------------------------------------
+     if(pwm_debug) {
+       if (pwm_period < 15) {stop("pwm_period must be 15 or greater")}
+       if (!(pwm_period < 1000000)) {stop("pwm_period must be less than 1000000")}
+
+       }
 
 # Is PWM enabled? ---------------------------------------------------------
   # Check if PWM is enabled and that the correct channels are open
