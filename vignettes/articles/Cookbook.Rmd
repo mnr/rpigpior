@@ -1,5 +1,5 @@
 ---
-title: "Cookbook"
+title: "Use I2C for BME280"
 ---
 
 ```{r, include = FALSE}
