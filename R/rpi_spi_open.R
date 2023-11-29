@@ -23,7 +23,7 @@ rpi_spi_open <- function(spiBus,
                          spiMode,
                          spiBits = 8,
                          spiSpeed = 1000000) {
-  # we really ought to check these incoming values...
+  # I really ought to check these incoming values...
 
   spiDevString <- paste0("/dev/spidev",spiBus,".",spiChan)
   spiDeviceID <- file(description = spiDevString, open = "r+") # a connection object
