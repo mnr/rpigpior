@@ -12,60 +12,41 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(rpigpior)
 ```
-////////////////// Raspberry Pi SPI0
-/dev/spidev0.0 and /dev/spidev0.1
-Name - GPIO - Physical
-SPI0_MOSI - 10 - 19
-SPI0_MISO - 9 - 21
-SPI0_SCLK - 11 - 23
-SPI0_CE0 - 8 - 24
-SPI0_CE1 - 7 - 26
+
+////////////////// Raspberry Pi SPI0 /dev/spidev0.0 and /dev/spidev0.1 Name - GPIO - Physical SPI0_MOSI - 10 - 19 SPI0_MISO - 9 - 21 SPI0_SCLK - 11 - 23 SPI0_CE0 - 8 - 24 SPI0_CE1 - 7 - 26
 
 ////////////////// Raspberry Pi SPI1
 
 /dtoverlay=spi1-3cs added to /boot/config.txt will enable second spi port
 
-/dev/spidev1.0, /dev/spidev1.1, /dev/spidev1.2
-Name - GPIO - Physical
-SPI1_MOSI - 20 - 38
-SPI1_MISO - 19 - 35
-SPI1_SCLK - 21 - 40
-SPI1_CE0 - 18 - 22
-SPI1_CE1 - 17 - 11
-SPI1_CE2 - 16 - 36
+/dev/spidev1.0, /dev/spidev1.1, /dev/spidev1.2 Name - GPIO - Physical SPI1_MOSI - 20 - 38 SPI1_MISO - 19 - 35 SPI1_SCLK - 21 - 40 SPI1_CE0 - 18 - 22 SPI1_CE1 - 17 - 11 SPI1_CE2 - 16 - 36
 
 (RPi model 4 has more SPI buses ?!?)
 
-Obsolete Name	Replacement Name
-Master	Controller
-Slave	Peripheral
-MISO	POCI
-MOSI	PICO
-SS	CS
+Obsolete Name Replacement Name Master Controller Slave Peripheral MISO POCI MOSI PICO SS CS
 
 # about IOCTL...
-https://www.kernel.org/doc/html/latest/driver-api/ioctl.html
+
+<https://www.kernel.org/doc/html/latest/driver-api/ioctl.html>
 
 # about SPI...
-https://manpages.debian.org/testing/spi-tools/index.html
-https://manpages.debian.org/testing/spi-tools/spi-config.1.en.html
-https://manpages.debian.org/testing/spi-tools/spi-pipe.1.en.html
+
+<https://manpages.debian.org/testing/spi-tools/index.html> <https://manpages.debian.org/testing/spi-tools/spi-config.1.en.html> <https://manpages.debian.org/testing/spi-tools/spi-pipe.1.en.html>
 
 # about SPI api
-https://www.kernel.org/doc/html/v5.7/spi/spidev.html
-# about spi modes
-https://www.analog.com/en/analog-dialogue/articles/introduction-to-spi-interface.html
+
+<https://www.kernel.org/doc/html/v5.7/spi/spidev.html> \# about spi modes <https://www.analog.com/en/analog-dialogue/articles/introduction-to-spi-interface.html>
 
 # spi raspberry pi example
-https://raspberry-projects.com/pi/programming-in-c/spi/using-the-spi-interface
 
+<https://blog.lxsang.me/post/id/33>
 
-https://sigmdel.ca/michel/ha/rpi/dnld/draft_spidev_doc.pdf
-https://github.com/CrosseyeJack/spincl
-http://test2.ipsolutionscorp.com/raspberry-pi-spi-utility/
+<https://raspberry-projects.com/pi/programming-in-c/spi/using-the-spi-interface>
 
-https://forums.raspberrypi.com/viewtopic.php?p=1927979
-https://www.kernal.org/doc/html/latest/spi/spidev.html
+<https://sigmdel.ca/michel/ha/rpi/dnld/draft_spidev_doc.pdf> <https://github.com/CrosseyeJack/spincl> <http://test2.ipsolutionscorp.com/raspberry-pi-spi-utility/>
+
+<https://forums.raspberrypi.com/viewtopic.php?p=1927979> <https://www.kernal.org/doc/html/latest/spi/spidev.html>
 
 # testing
+
 using MCP3008 as test chip
