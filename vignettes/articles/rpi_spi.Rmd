@@ -13,17 +13,41 @@ knitr::opts_chunk$set(
 library(rpigpior)
 ```
 
-////////////////// Raspberry Pi SPI0 /dev/spidev0.0 and /dev/spidev0.1 Name - GPIO - Physical SPI0_MOSI - 10 - 19 SPI0_MISO - 9 - 21 SPI0_SCLK - 11 - 23 SPI0_CE0 - 8 - 24 SPI0_CE1 - 7 - 26
+| Name      | GPIO | Board Pin |
+|-----------|------|-----------|
+| SPI0_MOSI | 10   | 19        |
+| SPI0_MISO | 9    | 21        |
+| SPI0_SCLK | 11   | 23        |
+| SPI0_CE0  | 8    | 24        |
+| SPIO_CE1  | 7    | 26        |
+|           |      |           |
 
-////////////////// Raspberry Pi SPI1
+: Raspberry Pi SPI0 /dev/spidev0.0 and /dev/spidev0.1
 
-/dtoverlay=spi1-3cs added to /boot/config.txt will enable second spi port
+`dtoverlay=spi1-3cs` added to `/boot/config.txt` will enable second spi port
 
-/dev/spidev1.0, /dev/spidev1.1, /dev/spidev1.2 Name - GPIO - Physical SPI1_MOSI - 20 - 38 SPI1_MISO - 19 - 35 SPI1_SCLK - 21 - 40 SPI1_CE0 - 18 - 22 SPI1_CE1 - 17 - 11 SPI1_CE2 - 16 - 36
+| Name      | GPIO | Board Pin |
+|-----------|------|-----------|
+| SPI1_MOSI | 20   | 38        |
+| SPI1_MISO | 19   | 35        |
+| SPI1_SCLK | 21   | 40        |
+| SPI1_CE0  | 18   | 22        |
+| SPI1_CE1  | 17   | 11        |
+| SPI1_CE2  | 16   | 36        |
+
+: Raspberry Pi SPI1 /dev/spidev1.0, /dev/spidev1.1, /dev/spidev1.2
 
 (RPi model 4 has more SPI buses ?!?)
 
-Obsolete Name Replacement Name Master Controller Slave Peripheral MISO POCI MOSI PICO SS CS
+| Obsolete Name | Replacement Name |
+|---------------|------------------|
+| Master        | Controller       |
+| Slave         | Peripheral       |
+| MISO          | POCI             |
+| MOSI          | PICO             |
+| SS            | CS               |
+
+: Politically Correct SPI
 
 # about IOCTL...
 
