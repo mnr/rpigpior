@@ -46,5 +46,5 @@ rpi_i2c_get <- function(chip_address, data_address, data_size = "b") {
                         data_address,
                         data_size)
 
-  return(system(gpio_sysCall, intern = TRUE))
+  return(as.integer(system(gpio_sysCall, intern = TRUE)))
 }
