@@ -4,7 +4,7 @@
 #'
 #' @param spiDevice an SPI device id as supplied by rpi_spi_open(). spiDevice$con is the connection object to close
 #'
-#' @return
+#' @return NULL no return value
 #' @export
 #'
 #' @examples
