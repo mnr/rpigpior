@@ -17,7 +17,13 @@ The BME280 is a versatile integrated environmental sensor designed for precision
 
 This cookbook example uses the i2c interface
 
-`rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)` returns the BME Chip ID, 0x60. This can be used to confirm the chip is available.
+# Setup for the BME280
+
+Please refer to the [article](rpi_i2c.Rmd) on using i2c with R on the Raspberry Pi. You'll need to enable I2C (using Raspberry Pi Configuration) and find the address for the BME280 (using `i2c-tools -y 1`)
+
+To confirm the chip is connected and available, use `rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)` which should return the BME Chip ID, 0x60.
+
+# Read the BME280
 
 Here is code to read temperature, pressure, and humidity from the bme280 with i2c. It leans heavily on the source found at [github.com/boschsensortec](https://github.com/boschsensortec/BME280_driver/blob/master/bme280.c).
 
