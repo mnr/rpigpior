@@ -113,9 +113,21 @@ make it an ideal choice for a wide range of projects, from weather
 stations to wearable tech, where monitoring and controlling
 environmental conditions are paramount.</p>
 <p>This cookbook example uses the i2c interface</p>
-<p><code>rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)</code>
-returns the BME Chip ID, 0x60. This can be used to confirm the chip is
-available.</p>
+</div>
+<div class="section level2">
+<h2 id="setup-for-the-bme280">Setup for the BME280<a class="anchor" aria-label="anchor" href="#setup-for-the-bme280"></a>
+</h2>
+<p>Please refer to the <a href="rpi_i2c.Rmd">article</a> on using i2c
+with R on the Raspberry Pi. You’ll need to enable I2C (using Raspberry
+Pi Configuration) and find the address for the BME280 (using
+<code>i2c-tools -y 1</code>)</p>
+<p>To confirm the chip is connected and available, use
+<code>rpi_i2c_get(chip_address = 0x77, data_address= 0xD0)</code> which
+should return the BME Chip ID, 0x60.</p>
+</div>
+<div class="section level2">
+<h2 id="read-the-bme280">Read the BME280<a class="anchor" aria-label="anchor" href="#read-the-bme280"></a>
+</h2>
 <p>Here is code to read temperature, pressure, and humidity from the
 bme280 with i2c. It leans heavily on the source found at <a href="https://github.com/boschsensortec/BME280_driver/blob/master/bme280.c" class="external-link">github.com/boschsensortec</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -341,7 +353,8 @@ bme280 with i2c. It leans heavily on the source found at <a href="https://github
 <span><span class="kw">if</span><span class="op">(</span><span class="va">getPressure</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"pressure:"</span>, <span class="va">pressure</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="va">getTemperature</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"temperature (c):"</span>, <span class="va">temperature_celsius</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
 </div>
-  </main>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
