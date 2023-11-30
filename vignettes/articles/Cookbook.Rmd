@@ -30,6 +30,8 @@ Here is code to read temperature, pressure, and humidity from the bme280 with i2
 ```{r, eval=FALSE}
  
 library(rpigpior)
+library(bitops)
+
 
 getTemperature <- TRUE # ask BME280 for temperature?
 getPressure <- TRUE # ask BME280 for barometric pressure?
@@ -224,7 +226,7 @@ if (getHumidity) {
     data_size = "b"
   )
   dig_H5_msb <- H5_msb * 16
-  dig_H5_lsb <- bitwShiftRight(H5_lsb, 4)
+  dig_H5_lsb <- bitShiftR(H5_lsb, 4)
   dig_H5 <- bitwOr(dig_H5_msb, dig_H5_lsb)
   
   dig_H6 <- rpi_i2c_get(
