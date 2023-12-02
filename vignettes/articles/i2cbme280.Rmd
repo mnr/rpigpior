@@ -98,6 +98,11 @@ humidity <- raw_humidity
 pressure <- raw_pressure
 temperature_celsius <- raw_temperature
 
+# print humidty_percentage, pressure, temperature_celsius
+print(paste("humidity:", humidity))
+print(paste("pressure:", pressure))
+print(paste("temperature (c):", temperature_celsius))
+
 # control_press_temp <- strtoi("00000001", base = 2)
 # 
 # # get the humidity
@@ -299,8 +304,5 @@ temperature_celsius <- raw_temperature
 #   humidity <- var6 * (1.0 - dig_H1 * var6 / 524288.0)
 #   
 
-# print humidty_percentage, pressure, temperature_celsius
-print(paste("humidity:", humidity))
-print(paste("pressure:", pressure))
-print(paste("temperature (c):", temperature_celsius))
+
 ```
