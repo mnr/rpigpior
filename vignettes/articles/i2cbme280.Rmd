@@ -23,7 +23,17 @@ To confirm the chip is connected and available, use `rpi_i2c_get(chip_address = 
 
 # Read the BME280
 
-Here is code to read temperature, pressure, and humidity from the bme280 with i2c. It leans heavily on the source found at [github.com/boschsensortec](https://github.com/boschsensortec/BME280_driver/blob/master/bme280.c).
+The BME280 datasheet provides this flowchart for reading the sensors.
+
+![BME280 measurement flow from data sheet](bme280MeasurementFlow.png)
+
+Here is code to read temperature, pressure, and humidity from the bme280 with i2c. It leans heavily on the source found at [github.com/boschsensortec](https://github.com/boschsensortec/BME280_driver/blob/master/bme280.c). This is simplified, it does not:
+
+-   compensate for sensor calibration
+
+-   worry about reading data between cycles
+
+-   provide readings at maximum resolution
 
 ```{r, eval=FALSE}
  
@@ -33,7 +43,7 @@ library(bitops)
 BME280_location <- 0x77 #possibly change to 0x76
 
 # locations of BME280 registers as identified in datasheet
-BME280_id <- 0xD0
+BME280_id <- 0xD0 # 0x60 for BME280
 BME280_reset <- 0xE0
 BME280_ctrl_hum <- 0xF2
 BME280_status <- 0xF3
@@ -43,209 +53,254 @@ BME280_press <- 0xF7 # through 0xF9. _msb, _lsb, _xlsb
 BME280_temp <- 0xFA # through 0xFC. _msb, _lsb, _xlsb
 BME280_hum <- 0xFD # through 0xFE. _msb, _lsb, _xlsb
 
-control_press_temp <- strtoi("00000001", base = 2)
+# start measurement cycle ------------------
+# set configuration values
+config_value <- strtoi("01000000", base = 2) # t_sb = 125 ms/IIR_filter = off /spi3w_en = off
 
-# get the humidity
-  sample_hum <- 0x01
-  
-  rpi_i2c_set(
-    chip_address = BME280_location,
-    data_address = BME280_ctrl_hum,
-    value = sample_hum,
-    data_size = "b"
-  )
-
-# We always need temperature reading to compensate pressure & humidity
-# This turns on temperature reading
-control_press_temp <- bitwOr(control_press_temp,
-                             strtoi("00100000", base = 2))
-
-# Get the pressure
-  control_press_temp <- bitwOr(control_press_temp,
-                               strtoi("00000100", base = 2))
-
-# tell BME280 to sense the requested temp/press/humidy
 rpi_i2c_set(
   chip_address = BME280_location,
-  data_address = control_measure_address,
-  value = control_press_temp,
+  data_address = BME280_config,
+  value = config_value,
   data_size = "b"
-)
+) 
 
-# Raw temperature data (16-bit signed integer)
-raw_temperature <- rpi_i2c_get(chip_address = BME280_location,
-                               data_address = 0xfa,
-                               data_size = "w")
+# set humidity data acquisition options
+ctrl_hum_value <- 0x01 # humidity oversampling set to 1
 
-# Calibration coefficients
-dig_T1 <- rpi_i2c_get(chip_address = BME280_location,
-                      data_address = 0x88,
-                      data_size = "w")
-dig_T2 <- rpi_i2c_get(chip_address = BME280_location,
-                      data_address = 0x8A,
-                      data_size = "w")
+rpi_i2c_set(
+  chip_address = BME280_location,
+  data_address = BME280_ctrl_hum,
+  value = ctrl_hum_value,
+  data_size = "b"
+) 
 
-# Temperature compensation
-var1 <- (raw_temperature / 16384 - dig_T1 / 1024) * dig_T2
-var2 <- ((raw_temperature / 131072 - dig_T1 / 8192) ^ 2) * dig_T2
-t_fine <- var1 + var2
+# set pressure & temperature data acquisition options
+ctrl_meas_value <- strtoi("00100101", base = 2) # osrs_t/osrs_p/mode
 
-if (getTemperature) {
-  # Calculate temperature in degrees Celsius
-  temperature_celsius <- (t_fine / 5120)
-}
+rpi_i2c_set(
+   chip_address = BME280_location,
+   data_address = BME280_ctrl_meas,
+   value = ctrl_meas_value,
+   data_size = "b"
+ )
 
-  # Raw pressure data (20-bit unsigned integer)
-  raw_pressure <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xf7,
-    data_size = "w"
-  )
-  
-  # convert raw pressure to Pa
-  # Calibration coefficients
-  
-  dig_P1 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x8E,
-    data_size = "w"
-  )
-  
-  dig_P2 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x90,
-    data_size = "w"
-  )
-  
-  dig_P3 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x92,
-    data_size = "w"
-  )
-  
-  dig_P4 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x94,
-    data_size = "w"
-  )
-  
-  dig_P5 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x96,
-    data_size = "w"
-  )
-  
-  dig_P6 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x98,
-    data_size = "w"
-  )
-  
-  dig_P7 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x9A,
-    data_size = "w"
-  )
-  
-  dig_P8 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x9C,
-    data_size = "w"
-  )
-  
-  dig_P9 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0x9E,
-    data_size = "w"
-  )
-  
-  # Calculate pressure --------
-  var1 <-
-    t_fine / 2 - 64000 # t_fine is calculated by getTemperature
-  var2 <- var1 ^ 2 * dig_P6 / 32768
-  var2 <- var2 + (var1 * dig_P5) * 2
-  var2 <- (var2 / 4) + (dig_P4 * 65536)
-  var1 <- (dig_P3 * var1 ^ 2 / 524288 + dig_P2 * var1) / 524288
-  var1 <- (1 + var1 / 32768) * dig_P1
-  pressure <- 1048576 - raw_pressure
-  pressure <- ((pressure - (var2 / 4096)) * 6250) / var1
+# read raw temperature ---------------------
+raw_temperature <- rpi_i2c_get(BME280_location, BME280_temp, "w")
 
-  # Raw humidity data (16-bit unsigned integer)
-  raw_humidity <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xfd,
-    data_size = "w"
-  )
-  
-  # convert humidity to relative humidity -------
-  
-  # Calibration coefficients
-  dig_H1 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xA1,
-    data_size = "b"
-  )
-  
-  dig_H2 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xE1,
-    data_size = "w"
-  )
-  
-  dig_H3 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xE3,
-    data_size = "b"
-  )
-  
-  H4_msb <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xE4,
-    data_size = "b"
-  )
-  H4_lsb <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xE5,
-    data_size = "b"
-  )
-  dig_H4_msb <- H4_msb * 16
-  dig_H4_lsb <- bitwAnd(H4_lsb, 0x0F)
-  dig_H4 <- bitwOr(dig_H4_msb, dig_H4_lsb)
-  
-  
-  H5_msb <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xE5,
-    data_size = "b"
-  )
-  H5_lsb <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xE6,
-    data_size = "b"
-  )
-  dig_H5_msb <- H5_msb * 16
-  dig_H5_lsb <- bitShiftR(H5_lsb, 4)
-  dig_H5 <- bitwOr(dig_H5_msb, dig_H5_lsb)
-  
-  dig_H6 <- rpi_i2c_get(
-    chip_address = BME280_location,
-    data_address = 0xE7,
-    data_size = "b"
-  )
-  
-  # Calculate humidity
-  var1 <- t_fine - 76800.0
-  var2 <- dig_H4 * 64.0 + (dig_H5 / 16384.0) * var1
-  var3 <- raw_humidity - var2
-  var4 <- dig_H2 / 65536.0
-  var5 <- 1.0 + (dig_H3 / 67108864.0) * var1
-  var6 <- 1.0 + (dig_H6 / 67108864.0) * var1 * var5
-  var6 <- var3 * var4 * (var5 * var6)
-  humidity <- var6 * (1.0 - dig_H1 * var6 / 524288.0)
-  
+# read raw pressure ----------------------
+raw_pressure <- rpi_i2c_get(BME280_location, BME280_press, "w")
+
+# read raw humidity ----------------------
+raw_humidity <- rpi_i2c_get(BME280_location, BME280_hum, "w")
+
+# for testing
+humidity <- raw_humidity
+pressure <- raw_pressure
+temperature_celsius <- raw_temperature
+
+# control_press_temp <- strtoi("00000001", base = 2)
+# 
+# # get the humidity
+#   sample_hum <- 0x01
+#   
+#   rpi_i2c_set(
+#     chip_address = BME280_location,
+#     data_address = BME280_ctrl_hum,
+#     value = sample_hum,
+#     data_size = "b"
+#   )
+# 
+# # We always need temperature reading to compensate pressure & humidity
+# # This turns on temperature reading
+# control_press_temp <- bitwOr(control_press_temp,
+#                              strtoi("00100000", base = 2))
+# 
+# # Get the pressure
+#   control_press_temp <- bitwOr(control_press_temp,
+#                                strtoi("00000100", base = 2))
+# 
+# # tell BME280 to sense the requested temp/press/humidy
+# rpi_i2c_set(
+#   chip_address = BME280_location,
+#   data_address = control_measure_address,
+#   value = control_press_temp,
+#   data_size = "b"
+# )
+# 
+# # Raw temperature data (16-bit signed integer)
+# raw_temperature <- rpi_i2c_get(chip_address = BME280_location,
+#                                data_address = 0xfa,
+#                                data_size = "w")
+# 
+# # Calibration coefficients
+# dig_T1 <- rpi_i2c_get(chip_address = BME280_location,
+#                       data_address = 0x88,
+#                       data_size = "w")
+# dig_T2 <- rpi_i2c_get(chip_address = BME280_location,
+#                       data_address = 0x8A,
+#                       data_size = "w")
+# 
+# # Temperature compensation
+# var1 <- (raw_temperature / 16384 - dig_T1 / 1024) * dig_T2
+# var2 <- ((raw_temperature / 131072 - dig_T1 / 8192) ^ 2) * dig_T2
+# t_fine <- var1 + var2
+# 
+# if (getTemperature) {
+#   # Calculate temperature in degrees Celsius
+#   temperature_celsius <- (t_fine / 5120)
+# }
+# 
+#   # Raw pressure data (20-bit unsigned integer)
+#   raw_pressure <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xf7,
+#     data_size = "w"
+#   )
+#   
+#   # convert raw pressure to Pa
+#   # Calibration coefficients
+#   
+#   dig_P1 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x8E,
+#     data_size = "w"
+#   )
+#   
+#   dig_P2 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x90,
+#     data_size = "w"
+#   )
+#   
+#   dig_P3 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x92,
+#     data_size = "w"
+#   )
+#   
+#   dig_P4 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x94,
+#     data_size = "w"
+#   )
+#   
+#   dig_P5 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x96,
+#     data_size = "w"
+#   )
+#   
+#   dig_P6 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x98,
+#     data_size = "w"
+#   )
+#   
+#   dig_P7 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x9A,
+#     data_size = "w"
+#   )
+#   
+#   dig_P8 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x9C,
+#     data_size = "w"
+#   )
+#   
+#   dig_P9 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0x9E,
+#     data_size = "w"
+#   )
+#   
+#   # Calculate pressure --------
+#   var1 <-
+#     t_fine / 2 - 64000 # t_fine is calculated by getTemperature
+#   var2 <- var1 ^ 2 * dig_P6 / 32768
+#   var2 <- var2 + (var1 * dig_P5) * 2
+#   var2 <- (var2 / 4) + (dig_P4 * 65536)
+#   var1 <- (dig_P3 * var1 ^ 2 / 524288 + dig_P2 * var1) / 524288
+#   var1 <- (1 + var1 / 32768) * dig_P1
+#   pressure <- 1048576 - raw_pressure
+#   pressure <- ((pressure - (var2 / 4096)) * 6250) / var1
+# 
+#   # Raw humidity data (16-bit unsigned integer)
+#   raw_humidity <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xfd,
+#     data_size = "w"
+#   )
+#   
+#   # convert humidity to relative humidity -------
+#   
+#   # Calibration coefficients
+#   dig_H1 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xA1,
+#     data_size = "b"
+#   )
+#   
+#   dig_H2 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xE1,
+#     data_size = "w"
+#   )
+#   
+#   dig_H3 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xE3,
+#     data_size = "b"
+#   )
+#   
+#   H4_msb <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xE4,
+#     data_size = "b"
+#   )
+#   H4_lsb <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xE5,
+#     data_size = "b"
+#   )
+#   dig_H4_msb <- H4_msb * 16
+#   dig_H4_lsb <- bitwAnd(H4_lsb, 0x0F)
+#   dig_H4 <- bitwOr(dig_H4_msb, dig_H4_lsb)
+#   
+#   
+#   H5_msb <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xE5,
+#     data_size = "b"
+#   )
+#   H5_lsb <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xE6,
+#     data_size = "b"
+#   )
+#   dig_H5_msb <- H5_msb * 16
+#   dig_H5_lsb <- bitShiftR(H5_lsb, 4)
+#   dig_H5 <- bitwOr(dig_H5_msb, dig_H5_lsb)
+#   
+#   dig_H6 <- rpi_i2c_get(
+#     chip_address = BME280_location,
+#     data_address = 0xE7,
+#     data_size = "b"
+#   )
+#   
+#   # Calculate humidity
+#   var1 <- t_fine - 76800.0
+#   var2 <- dig_H4 * 64.0 + (dig_H5 / 16384.0) * var1
+#   var3 <- raw_humidity - var2
+#   var4 <- dig_H2 / 65536.0
+#   var5 <- 1.0 + (dig_H3 / 67108864.0) * var1
+#   var6 <- 1.0 + (dig_H6 / 67108864.0) * var1 * var5
+#   var6 <- var3 * var4 * (var5 * var6)
+#   humidity <- var6 * (1.0 - dig_H1 * var6 / 524288.0)
+#   
 
 # print humidty_percentage, pressure, temperature_celsius
-if(getHumidity) { print(paste("humidity:", humidity))}
-if(getPressure) { print(paste("pressure:", pressure))}
-if(getTemperature) { print(paste("temperature (c):", temperature_celsius))}
+print(paste("humidity:", humidity))
+print(paste("pressure:", pressure))
+print(paste("temperature (c):", temperature_celsius))
 ```
