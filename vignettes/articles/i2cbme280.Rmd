@@ -67,6 +67,9 @@ dig_P3_reg <- 0x92
 dig_P4_reg <- 0x94
 dig_P5_reg <- 0x96
 dig_P6_reg <- 0x98
+dig_P7_reg <- 0x9A
+dig_P8_reg <- 0x9C
+dig_P9_reg <- 0x9E
 dig_H1_reg <- 0xA1 # this is one byte
 dig_H2_reg <- 0xE1 # this is two bytes
 dig_H3_reg <- 0xE3 # this is one byte
