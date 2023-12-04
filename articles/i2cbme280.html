@@ -233,14 +233,14 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="co"># Use Rcpp to compile the temperature measurement calibration</span></span>
 <span><span class="co"># Returns temp in DegC, resolution is 0.01 DegC. </span></span>
 <span><span class="co"># Output value of "5123" equals 51.23 DegC</span></span>
-<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'int BME280_compensate_T_int32(BME_S32_t adc_T, int dig_T1, int dig_T2, int dig_T3)</span></span>
+<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'int BME280_compensate_T_int32(long signed int adc_T, int dig_T1, int dig_T2, int dig_T3)</span></span>
 <span><span class="st">{</span></span>
-<span><span class="st">BME280_S32_t var1, var2, T;</span></span>
+<span><span class="st">long signed int var1, var2, T;</span></span>
 <span><span class="st">    Environment env = Environment::global_env();</span></span>
-<span><span class="st">    BME280_S32_t t_fine = env["t_fine"];</span></span>
+<span><span class="st">    long signed int t_fine = env["t_fine"];</span></span>
 <span><span class="st"></span></span>
-<span><span class="st">var1 = ((((adc_T&gt;&gt;3) - ((BME280_S32_t)dig_T1&lt;&lt;1))) * ((BME280_S32_t)dig_T2)) &gt;&gt; 11;</span></span>
-<span><span class="st">var2 = (((((adc_T&gt;&gt;4) - ((BME280_S32_t)dig_T1)) * ((adc_T&gt;&gt;4) - ((BME280_S32_t)dig_T1))) &gt;&gt; 12) *((BME280_S32_t)dig_T3)) &gt;&gt; 14;</span></span>
+<span><span class="st">var1 = ((((adc_T&gt;&gt;3) - ((long signed int)dig_T1&lt;&lt;1))) * ((long signed int)dig_T2)) &gt;&gt; 11;</span></span>
+<span><span class="st">var2 = (((((adc_T&gt;&gt;4) - ((long signed int)dig_T1)) * ((adc_T&gt;&gt;4) - ((long signed int)dig_T1))) &gt;&gt; 12) *((long signed int)dig_T3)) &gt;&gt; 14;</span></span>
 <span><span class="st">t_fine = var1 + var2;</span></span>
 <span><span class="st">env["t_fine"] = t_fine</span></span>
 <span><span class="st">T = (t_fine * 5 + 128) &gt;&gt; 8;</span></span>
@@ -263,25 +263,25 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="co"># Returns pressure in Pa as unsigned 32 bit int in Q24.8 format</span></span>
 <span><span class="co"># (24 integer bits and 8 fractional bits)</span></span>
 <span><span class="co"># Output of "24674867" represents 24674867/256 = 96386.2 Pa</span></span>
-<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'BME280_U32_t BME280_compensate_P_int32(BME280_S32_t adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)</span></span>
+<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)</span></span>
 <span><span class="st">{</span></span>
-<span><span class="st">BME280_S64_t var1, var2, p;</span></span>
-<span><span class="st">var1 = ((BME280_S64_t)t_fine) - 128000;</span></span>
-<span><span class="st">var2 = var1 * var1 * (BME280_S64_t)dig_P6;</span></span>
-<span><span class="st">var2 = var2 + (var1*((BME280_S64_t)dig_P5)&lt;&lt;17);</span></span>
-<span><span class="st">var2 = var2 + (((BME280_S64_t)dig_P4)&lt;&lt;35);</span></span>
-<span><span class="st">var1 = ((Var1 * var1 * (BME280_S64_t)dig_P3)&gt;&gt;8) + ((Var1 * (BME280_S64_t)dig_P2)&lt;&lt;12);</span></span>
-<span><span class="st">var1 = (((((BME280_S64_t)1)&lt;&lt;47)+var1)) + ((BME280_S64_t)dig_P1)&gt;&gt;33;</span></span>
+<span><span class="st">long long unsigned int var1, var2, p;</span></span>
+<span><span class="st">var1 = ((long long unsigned int)t_fine) - 128000;</span></span>
+<span><span class="st">var2 = var1 * var1 * (long long unsigned int)dig_P6;</span></span>
+<span><span class="st">var2 = var2 + (var1*((long long unsigned int)dig_P5)&lt;&lt;17);</span></span>
+<span><span class="st">var2 = var2 + (((long long unsigned int)dig_P4)&lt;&lt;35);</span></span>
+<span><span class="st">var1 = ((Var1 * var1 * (long long unsigned int)dig_P3)&gt;&gt;8) + ((Var1 * (long long unsigned int)dig_P2)&lt;&lt;12);</span></span>
+<span><span class="st">var1 = (((((long long unsigned int)1)&lt;&lt;47)+var1)) + ((long long unsigned int)dig_P1)&gt;&gt;33;</span></span>
 <span><span class="st">if(var1 == 0)</span></span>
 <span><span class="st">{</span></span>
 <span><span class="st">return 0; // avoid exception caused by division by zero</span></span>
 <span><span class="st">}</span></span>
 <span><span class="st">p = 1048576-adc_P;</span></span>
 <span><span class="st">p = (((p&lt;&lt;31)-var2)*3125)/var1;</span></span>
-<span><span class="st">var1 = (((BME280_S64_t)dig_P9) * (p&gt;&gt;13) * (p&gt;&gt;13)) &gt;&gt; 25;</span></span>
-<span><span class="st">var2 = (((BME280_S64_t)dig_P8) * p) &gt;&gt; 19;</span></span>
-<span><span class="st">p = ((p  +var1 + var2) &gt;&gt; 8) + (((BME280_S64_t)dig_P7)&lt;&lt;4);</span></span>
-<span><span class="st">return (BME280_S32_t)p;</span></span>
+<span><span class="st">var1 = (((long long unsigned int)dig_P9) * (p&gt;&gt;13) * (p&gt;&gt;13)) &gt;&gt; 25;</span></span>
+<span><span class="st">var2 = (((long long unsigned int)dig_P8) * p) &gt;&gt; 19;</span></span>
+<span><span class="st">p = ((p  +var1 + var2) &gt;&gt; 8) + (((long long unsigned int)dig_P7)&lt;&lt;4);</span></span>
+<span><span class="st">return (long signed int)p;</span></span>
 <span><span class="st">}'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">raw_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftL</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_press</span>, <span class="st">"w"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftR</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_press</span> <span class="op">+</span> <span class="fl">2</span>, <span class="st">"b"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span></span>
@@ -298,17 +298,17 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="co"># read raw humidity ----------------------</span></span>
 <span></span>
 <span><span class="co"># Use Rcpp to compile the humidity measurement calibration</span></span>
-<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'BME280_U32_t BME280_compensate_H_int32(BME280_S32_t adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H4, int dig_H5, int dig_H6) {</span></span>
-<span><span class="st">            BME280_S32_t v_xl_u32r;</span></span>
+<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'long unsigned int BME280_compensate_H_int32(long signed int adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H4, int dig_H5, int dig_H6) {</span></span>
+<span><span class="st">            long signed int v_xl_u32r;</span></span>
 <span><span class="st">                Environment env = Environment::global_env();</span></span>
-<span><span class="st">    BME280_S32_t t_fine = env["t_fine"];</span></span>
+<span><span class="st">    long signed int t_fine = env["t_fine"];</span></span>
 <span><span class="st">            </span></span>
-<span><span class="st">            v_xl_u32r = (t_fine - ((BME280_S32_t)76800));</span></span>
-<span><span class="st">            v_xl_u32r = (((((adc_H &lt;&lt; 14) - (((BME280_S32_t)dig_H4) &lt;&lt; 20) - (((BME280_S32_t)dig_H5) * v_xl_u32r)) + ((BME280_S32_t)16384)) &gt;&gt; 15) * (((((((v_xl_u32r * ((BME280_S32_t)dig_H6)) &gt;&gt; 10) * (((V_xl_u32r * ((BME280_S32_t)dig_H3)) &gt;&gt; 11) + ((BME280_S32_t)32768))) &gt;&gt; 10) + ((BME280_S32_t)2097152)) * ((BME280_S32_t)dig_H2) + 8192) &gt;&gt; 14));</span></span>
-<span><span class="st">            V_xl_u32r = (v_xl_u32r - (((((v_xl_u32r &gt;&gt; 15) * v_xl_u32r &gt;&gt; 15)) &gt;&gt; 7 * ((BME280_S32_t)dig_H1)) &gt;&gt; 4));</span></span>
+<span><span class="st">            v_xl_u32r = (t_fine - ((long signed int)76800));</span></span>
+<span><span class="st">            v_xl_u32r = (((((adc_H &lt;&lt; 14) - (((long signed int)dig_H4) &lt;&lt; 20) - (((long signed int)dig_H5) * v_xl_u32r)) + ((long signed int)16384)) &gt;&gt; 15) * (((((((v_xl_u32r * ((long signed int)dig_H6)) &gt;&gt; 10) * (((V_xl_u32r * ((long signed int)dig_H3)) &gt;&gt; 11) + ((long signed int)32768))) &gt;&gt; 10) + ((long signed int)2097152)) * ((long signed int)dig_H2) + 8192) &gt;&gt; 14));</span></span>
+<span><span class="st">            V_xl_u32r = (v_xl_u32r - (((((v_xl_u32r &gt;&gt; 15) * v_xl_u32r &gt;&gt; 15)) &gt;&gt; 7 * ((long signed int)dig_H1)) &gt;&gt; 4));</span></span>
 <span><span class="st">            v_xl_u32r = (v_xl_u32r &lt; 0 ?0 : v_xl_u32r);</span></span>
 <span><span class="st">            v_xl_u32r - (v_xl_u32r &gt; 419430400 : 419430400 : v_xl_u32r;</span></span>
-<span><span class="st">            return (BME280_U32_t) (v_xl_u32r&gt;&gt;12);'</span><span class="op">)</span></span>
+<span><span class="st">            return (long unsigned int) (v_xl_u32r&gt;&gt;12);'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">raw_humidity</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_hum</span>, <span class="st">"w"</span><span class="op">)</span></span>
 <span></span>
