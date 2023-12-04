@@ -119,7 +119,7 @@ long signed int var1, var2, T;
 var1 = ((((adc_T>>3) - ((long signed int)dig_T1<<1))) * ((long signed int)dig_T2)) >> 11;
 var2 = (((((adc_T>>4) - ((long signed int)dig_T1)) * ((adc_T>>4) - ((long signed int)dig_T1))) >> 12) *((long signed int)dig_T3)) >> 14;
 t_fine = var1 + var2;
-env["t_fine"] = t_fine
+env["t_fine"] = t_fine;
 T = (t_fine * 5 + 128) >> 8;
 return T;
 }')
@@ -127,10 +127,10 @@ return T;
 # read the temperature
 raw_temperature <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_temp, "w"),4) + bitwShiftR(rpi_i2c_get(BME280_location, BME280_temp + 2, "b"),4)
 # call the temperature compensation function just compiled
-temperature_celsius <- BME280_compensate_T_int32(raw_temperature, 
-                  rpi_i2c_get(BME280_location, dig_T1_reg, "w"),
-                  rpi_i2c_get(BME280_location, dig_T2_reg, "w"),
-                  rpi_i2c_get(BME280_location, dig_T3_reg, "w"))
+dig_T1_value <- rpi_i2c_get(BME280_location, dig_T1_reg, "w")
+dig_T2_value <- rpi_i2c_get(BME280_location, dig_T2_reg, "w")
+dig_T3_value <- rpi_i2c_get(BME280_location, dig_T3_reg, "w")
+temperature_celsius <- BME280_compensate_T_int32(raw_temperature, dig_T1_value,dig_T2_value,dig_T3_value)
 
 print(paste("temperature (c):", temperature_celsius))
 
