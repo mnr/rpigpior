@@ -235,9 +235,9 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="co"># Output value of "5123" equals 51.23 DegC</span></span>
 <span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'int BME280_compensate_T_int32(long signed int adc_T, int dig_T1, int dig_T2, int dig_T3)</span></span>
 <span><span class="st">{</span></span>
-<span><span class="st">long signed int var1, var2, T;</span></span>
+<span><span class="st">long signed int var1, var2, T, t_fine;</span></span>
 <span><span class="st">    Environment env = Environment::global_env();</span></span>
-<span><span class="st">    long signed int t_fine = env["t_fine"];</span></span>
+<span><span class="st">    long signed int t_fine;</span></span>
 <span><span class="st"></span></span>
 <span><span class="st">var1 = ((((adc_T&gt;&gt;3) - ((long signed int)dig_T1&lt;&lt;1))) * ((long signed int)dig_T2)) &gt;&gt; 11;</span></span>
 <span><span class="st">var2 = (((((adc_T&gt;&gt;4) - ((long signed int)dig_T1)) * ((adc_T&gt;&gt;4) - ((long signed int)dig_T1))) &gt;&gt; 12) *((long signed int)dig_T3)) &gt;&gt; 14;</span></span>
@@ -266,6 +266,9 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)</span></span>
 <span><span class="st">{</span></span>
 <span><span class="st">long long unsigned int var1, var2, p;</span></span>
+<span><span class="st">   Environment env = Environment::global_env();</span></span>
+<span><span class="st">    long signed int t_fine = env["t_fine"];</span></span>
+<span><span class="st"></span></span>
 <span><span class="st">var1 = ((long long unsigned int)t_fine) - 128000;</span></span>
 <span><span class="st">var2 = var1 * var1 * (long long unsigned int)dig_P6;</span></span>
 <span><span class="st">var2 = var2 + (var1*((long long unsigned int)dig_P5)&lt;&lt;17);</span></span>
