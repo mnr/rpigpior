@@ -112,7 +112,7 @@ rpi_i2c_set(
 # Output value of "5123" equals 51.23 DegC
 cppFunction('int BME280_compensate_T_int32(long signed int adc_T, int dig_T1, int dig_T2, int dig_T3)
 {
-long signed int var1, var2, T, t_fine;
+long signed int var1, var2, T;
     Environment env = Environment::global_env();
     long signed int t_fine;
 
@@ -140,7 +140,7 @@ print(paste("temperature (c):", temperature_celsius))
 # Returns pressure in Pa as unsigned 32 bit int in Q24.8 format
 # (24 integer bits and 8 fractional bits)
 # Output of "24674867" represents 24674867/256 = 96386.2 Pa
-cppFunction('long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)
+cppFunction('long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6, int dig_P7, int dig_P8, int dig_P9)
 {
 long long unsigned int var1, var2, p;
    Environment env = Environment::global_env();
@@ -150,7 +150,7 @@ var1 = ((long long unsigned int)t_fine) - 128000;
 var2 = var1 * var1 * (long long unsigned int)dig_P6;
 var2 = var2 + (var1*((long long unsigned int)dig_P5)<<17);
 var2 = var2 + (((long long unsigned int)dig_P4)<<35);
-var1 = ((Var1 * var1 * (long long unsigned int)dig_P3)>>8) + ((Var1 * (long long unsigned int)dig_P2)<<12);
+var1 = ((var1 * var1 * (long long unsigned int)dig_P3)>>8) + ((var1 * (long long unsigned int)dig_P2)<<12);
 var1 = (((((long long unsigned int)1)<<47)+var1)) + ((long long unsigned int)dig_P1)>>33;
 if(var1 == 0)
 {
@@ -171,7 +171,11 @@ pressure <- BME280_compensate_P_int32(raw_pressure,
                 rpi_i2c_get(BME280_location, dig_P2_reg, "w"),
                 rpi_i2c_get(BME280_location, dig_P3_reg, "w"),
                 rpi_i2c_get(BME280_location, dig_P5_reg, "w"),
-                rpi_i2c_get(BME280_location, dig_P6_reg, "w"))
+                rpi_i2c_get(BME280_location, dig_P6_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P7_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P8_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P9_reg, "w")
+)
 
 print(paste("pressure:", pressure))
 
