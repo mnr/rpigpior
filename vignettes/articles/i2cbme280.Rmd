@@ -29,6 +29,8 @@ To confirm the chip is connected and available, use `rpi_i2c_get(chip_address = 
 
 The temperature, humidity, and pressure data from the BME280 needs to be calibrated with other values provided by the BME280. This calibration algorithm is complex and obfuscates the process of using `rpi_i2c…` to read i2c interfaces. In an attempt to separate calibration from reading data, I've chosen to use the original c++ algorithm provided by Bosch Sensortec (shown in the BME280 datasheet) and use `Rcpp` to make it available to the R environment.
 
+Calibration requires values obtained from the BME280. These values can be identified as `dig_T1…`, `dig_H1…`, or `dig_P1…`followed by `_reg` (the register location in hex) or `_value` (the value at that register). I have placed the retrieval of these values close to the related function calls, but these values are stored on the BME280 as non-volatile RAM. They never change, so if you are looping data acquisition, your performance will improve if you move i2c calls to these calibration values outside of the loop.
+
 # Read the BME280
 
 The BME280 datasheet provides this flowchart for reading the sensors.
