@@ -110,14 +110,14 @@ rpi_i2c_set(
 # Use Rcpp to compile the temperature measurement calibration
 # Returns temp in DegC, resolution is 0.01 DegC. 
 # Output value of "5123" equals 51.23 DegC
-cppFunction('int BME280_compensate_T_int32(BME_S32_t adc_T, int dig_T1, int dig_T2, int dig_T3)
+cppFunction('int BME280_compensate_T_int32(long signed int adc_T, int dig_T1, int dig_T2, int dig_T3)
 {
-BME280_S32_t var1, var2, T;
+long signed int var1, var2, T;
     Environment env = Environment::global_env();
-    BME280_S32_t t_fine = env["t_fine"];
+    long signed int t_fine = env["t_fine"];
 
-var1 = ((((adc_T>>3) - ((BME280_S32_t)dig_T1<<1))) * ((BME280_S32_t)dig_T2)) >> 11;
-var2 = (((((adc_T>>4) - ((BME280_S32_t)dig_T1)) * ((adc_T>>4) - ((BME280_S32_t)dig_T1))) >> 12) *((BME280_S32_t)dig_T3)) >> 14;
+var1 = ((((adc_T>>3) - ((long signed int)dig_T1<<1))) * ((long signed int)dig_T2)) >> 11;
+var2 = (((((adc_T>>4) - ((long signed int)dig_T1)) * ((adc_T>>4) - ((long signed int)dig_T1))) >> 12) *((long signed int)dig_T3)) >> 14;
 t_fine = var1 + var2;
 env["t_fine"] = t_fine
 T = (t_fine * 5 + 128) >> 8;
@@ -140,25 +140,25 @@ print(paste("temperature (c):", temperature_celsius))
 # Returns pressure in Pa as unsigned 32 bit int in Q24.8 format
 # (24 integer bits and 8 fractional bits)
 # Output of "24674867" represents 24674867/256 = 96386.2 Pa
-cppFunction('BME280_U32_t BME280_compensate_P_int32(BME280_S32_t adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)
+cppFunction('long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)
 {
-BME280_S64_t var1, var2, p;
-var1 = ((BME280_S64_t)t_fine) - 128000;
-var2 = var1 * var1 * (BME280_S64_t)dig_P6;
-var2 = var2 + (var1*((BME280_S64_t)dig_P5)<<17);
-var2 = var2 + (((BME280_S64_t)dig_P4)<<35);
-var1 = ((Var1 * var1 * (BME280_S64_t)dig_P3)>>8) + ((Var1 * (BME280_S64_t)dig_P2)<<12);
-var1 = (((((BME280_S64_t)1)<<47)+var1)) + ((BME280_S64_t)dig_P1)>>33;
+long long unsigned int var1, var2, p;
+var1 = ((long long unsigned int)t_fine) - 128000;
+var2 = var1 * var1 * (long long unsigned int)dig_P6;
+var2 = var2 + (var1*((long long unsigned int)dig_P5)<<17);
+var2 = var2 + (((long long unsigned int)dig_P4)<<35);
+var1 = ((Var1 * var1 * (long long unsigned int)dig_P3)>>8) + ((Var1 * (long long unsigned int)dig_P2)<<12);
+var1 = (((((long long unsigned int)1)<<47)+var1)) + ((long long unsigned int)dig_P1)>>33;
 if(var1 == 0)
 {
 return 0; // avoid exception caused by division by zero
 }
 p = 1048576-adc_P;
 p = (((p<<31)-var2)*3125)/var1;
-var1 = (((BME280_S64_t)dig_P9) * (p>>13) * (p>>13)) >> 25;
-var2 = (((BME280_S64_t)dig_P8) * p) >> 19;
-p = ((p  +var1 + var2) >> 8) + (((BME280_S64_t)dig_P7)<<4);
-return (BME280_S32_t)p;
+var1 = (((long long unsigned int)dig_P9) * (p>>13) * (p>>13)) >> 25;
+var2 = (((long long unsigned int)dig_P8) * p) >> 19;
+p = ((p  +var1 + var2) >> 8) + (((long long unsigned int)dig_P7)<<4);
+return (long signed int)p;
 }')
 
 raw_pressure <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_press, "w"),4) + bitwShiftR(rpi_i2c_get(BME280_location, BME280_press + 2, "b"),4)
@@ -175,17 +175,17 @@ print(paste("pressure:", pressure))
 # read raw humidity ----------------------
 
 # Use Rcpp to compile the humidity measurement calibration
-cppFunction('BME280_U32_t BME280_compensate_H_int32(BME280_S32_t adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H4, int dig_H5, int dig_H6) {
-            BME280_S32_t v_xl_u32r;
+cppFunction('long unsigned int BME280_compensate_H_int32(long signed int adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H4, int dig_H5, int dig_H6) {
+            long signed int v_xl_u32r;
                 Environment env = Environment::global_env();
-    BME280_S32_t t_fine = env["t_fine"];
+    long signed int t_fine = env["t_fine"];
             
-            v_xl_u32r = (t_fine - ((BME280_S32_t)76800));
-            v_xl_u32r = (((((adc_H << 14) - (((BME280_S32_t)dig_H4) << 20) - (((BME280_S32_t)dig_H5) * v_xl_u32r)) + ((BME280_S32_t)16384)) >> 15) * (((((((v_xl_u32r * ((BME280_S32_t)dig_H6)) >> 10) * (((V_xl_u32r * ((BME280_S32_t)dig_H3)) >> 11) + ((BME280_S32_t)32768))) >> 10) + ((BME280_S32_t)2097152)) * ((BME280_S32_t)dig_H2) + 8192) >> 14));
-            V_xl_u32r = (v_xl_u32r - (((((v_xl_u32r >> 15) * v_xl_u32r >> 15)) >> 7 * ((BME280_S32_t)dig_H1)) >> 4));
+            v_xl_u32r = (t_fine - ((long signed int)76800));
+            v_xl_u32r = (((((adc_H << 14) - (((long signed int)dig_H4) << 20) - (((long signed int)dig_H5) * v_xl_u32r)) + ((long signed int)16384)) >> 15) * (((((((v_xl_u32r * ((long signed int)dig_H6)) >> 10) * (((V_xl_u32r * ((long signed int)dig_H3)) >> 11) + ((long signed int)32768))) >> 10) + ((long signed int)2097152)) * ((long signed int)dig_H2) + 8192) >> 14));
+            V_xl_u32r = (v_xl_u32r - (((((v_xl_u32r >> 15) * v_xl_u32r >> 15)) >> 7 * ((long signed int)dig_H1)) >> 4));
             v_xl_u32r = (v_xl_u32r < 0 ?0 : v_xl_u32r);
             v_xl_u32r - (v_xl_u32r > 419430400 : 419430400 : v_xl_u32r;
-            return (BME280_U32_t) (v_xl_u32r>>12);')
+            return (long unsigned int) (v_xl_u32r>>12);')
 
 raw_humidity <- rpi_i2c_get(BME280_location, BME280_hum, "w")
 
