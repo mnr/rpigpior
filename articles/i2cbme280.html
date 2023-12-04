@@ -235,7 +235,7 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="co"># Output value of "5123" equals 51.23 DegC</span></span>
 <span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'int BME280_compensate_T_int32(long signed int adc_T, int dig_T1, int dig_T2, int dig_T3)</span></span>
 <span><span class="st">{</span></span>
-<span><span class="st">long signed int var1, var2, T, t_fine;</span></span>
+<span><span class="st">long signed int var1, var2, T;</span></span>
 <span><span class="st">    Environment env = Environment::global_env();</span></span>
 <span><span class="st">    long signed int t_fine;</span></span>
 <span><span class="st"></span></span>
@@ -263,7 +263,7 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="co"># Returns pressure in Pa as unsigned 32 bit int in Q24.8 format</span></span>
 <span><span class="co"># (24 integer bits and 8 fractional bits)</span></span>
 <span><span class="co"># Output of "24674867" represents 24674867/256 = 96386.2 Pa</span></span>
-<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)</span></span>
+<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6, int dig_P7, int dig_P8, int dig_P9)</span></span>
 <span><span class="st">{</span></span>
 <span><span class="st">long long unsigned int var1, var2, p;</span></span>
 <span><span class="st">   Environment env = Environment::global_env();</span></span>
@@ -273,7 +273,7 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="st">var2 = var1 * var1 * (long long unsigned int)dig_P6;</span></span>
 <span><span class="st">var2 = var2 + (var1*((long long unsigned int)dig_P5)&lt;&lt;17);</span></span>
 <span><span class="st">var2 = var2 + (((long long unsigned int)dig_P4)&lt;&lt;35);</span></span>
-<span><span class="st">var1 = ((Var1 * var1 * (long long unsigned int)dig_P3)&gt;&gt;8) + ((Var1 * (long long unsigned int)dig_P2)&lt;&lt;12);</span></span>
+<span><span class="st">var1 = ((var1 * var1 * (long long unsigned int)dig_P3)&gt;&gt;8) + ((var1 * (long long unsigned int)dig_P2)&lt;&lt;12);</span></span>
 <span><span class="st">var1 = (((((long long unsigned int)1)&lt;&lt;47)+var1)) + ((long long unsigned int)dig_P1)&gt;&gt;33;</span></span>
 <span><span class="st">if(var1 == 0)</span></span>
 <span><span class="st">{</span></span>
@@ -294,7 +294,11 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P2_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P3_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P5_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
-<span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P6_reg</span>, <span class="st">"w"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P6_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
+<span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P7_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
+<span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P8_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
+<span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P9_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"pressure:"</span>, <span class="va">pressure</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
