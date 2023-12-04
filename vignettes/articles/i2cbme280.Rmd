@@ -123,7 +123,7 @@ return T;
 }')
 
 # read the temperature
-raw_temperature <- (rpi_i2c_get(BME280_location, BME280_temp, "w") * 2^3) + rpi_i2c_get(BME280_location, BME280_temp + 2, "b") 
+raw_temperature <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_temp, "w"),4) + bitwShiftR(rpi_i2c_get(BME280_location, BME280_temp + 2, "b"),4)
 # call the temperature compensation function just compiled
 temperature_celsius <- BME280_compensate_T_int32(raw_temperature, 
                   rpi_i2c_get(BME280_location, dig_T1_reg, "w"),
@@ -159,16 +159,21 @@ p = ((p  +var1 + var2) >> 8) + (((BME280_S64_t)dig_P7)<<4);
 return (BME280_S32_t)p;
 }')
 
-raw_pressure <- (rpi_i2c_get(BME280_location, BME280_press, "w") * 2^3) + rpi_i2c_get(BME280_location, BME280_press + 2, "b")
+raw_pressure <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_press, "w"),4) + bitwShiftR(rpi_i2c_get(BME280_location, BME280_press + 2, "b"),4)
 
-pressure <- BME280_compensate_P_int32(raw_pressure, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6)
+pressure <- BME280_compensate_P_int32(raw_pressure, 
+                rpi_i2c_get(BME280_location, dig_P1_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P2_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P3_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P5_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P6_reg, "w"))
 
 print(paste("pressure:", pressure))
 
 # read raw humidity ----------------------
 
 # Use Rcpp to compile the humidity measurement calibration
-cppFunction('BME280_U32_t BME280_compensate_H_int32(BME280_S32_t adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H5, int dig_H6) {
+cppFunction('BME280_U32_t BME280_compensate_H_int32(BME280_S32_t adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H4, int dig_H5, int dig_H6) {
             BME280_S32_t v_xl_u32r;
                 Environment env = Environment::global_env();
     BME280_S32_t t_fine = env["t_fine"];
@@ -182,7 +187,18 @@ cppFunction('BME280_U32_t BME280_compensate_H_int32(BME280_S32_t adc_H, int dig_
 
 raw_humidity <- rpi_i2c_get(BME280_location, BME280_hum, "w")
 
-humidity <- BME280_compensate_H_int32(raw_humidity, int dig_H1, int dig_H2, int dig_H3, int dig_H5, int dig_H6)
+# 11 bits. 1.5 bytes. 0xE4/0xE5[3:0]
+dig_H4_value <- bitwShiftL(rpi_i2c_get(BME280_location, dig_H4_reg, "b"),4) + bitwAnd(rpi_i2c_get(BME280_location, dig_H4_reg + 1, "b"), 0x0F)
+
+dig_H5_value <- bitwshiftL(bitwAnd(rpi_i2c_get(BME280_location, dig_H5_reg, "b"),0xF0),4) + rpi_i2c_get(BME280_location, dig_H5_reg + 1, "b")
+
+humidity <- BME280_compensate_H_int32(raw_humidity, 
+                rpi_i2c_get(BME280_location, dig_H1_reg, "b"),
+                rpi_i2c_get(BME280_location, dig_H2_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_H3_reg, "b"),
+                dig_H4_value,
+                dig_H5_value,
+                rpi_i2c_get(BME280_location, dig_H6_reg, "b"))
 
 print(paste("humidity:", humidity))
 
