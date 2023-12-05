@@ -353,6 +353,225 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"humidity (%RH):"</span>, <span class="op">(</span><span class="va">humidity</span><span class="op">/</span><span class="fl">1024</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level2">
+<h2 id="optimized">Optimized<a class="anchor" aria-label="anchor" href="#optimized"></a>
+</h2>
+<p>Here is the same code, optimized to repeat every one second</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mnr/rpigpior" class="external-link">rpigpior</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.rcpp.org" class="external-link">Rcpp</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">BME280_location</span> <span class="op">&lt;-</span> <span class="fl">0x77</span> <span class="co">#possibly change to 0x76</span></span>
+<span></span>
+<span><span class="co"># locations of BME280 registers as identified in datasheet</span></span>
+<span><span class="va">BME280_id</span> <span class="op">&lt;-</span> <span class="fl">0xD0</span> <span class="co"># 0x60 for BME280</span></span>
+<span><span class="va">BME280_reset</span> <span class="op">&lt;-</span> <span class="fl">0xE0</span></span>
+<span><span class="va">BME280_ctrl_hum</span> <span class="op">&lt;-</span> <span class="fl">0xF2</span></span>
+<span><span class="va">BME280_status</span> <span class="op">&lt;-</span> <span class="fl">0xF3</span></span>
+<span><span class="va">BME280_ctrl_meas</span> <span class="op">&lt;-</span> <span class="fl">0xF4</span></span>
+<span><span class="va">BME280_config</span> <span class="op">&lt;-</span> <span class="fl">0xF5</span></span>
+<span><span class="va">BME280_press</span> <span class="op">&lt;-</span> <span class="fl">0xF7</span> <span class="co"># through 0xF9. _msb, _lsb, _xlsb</span></span>
+<span><span class="va">BME280_temp</span> <span class="op">&lt;-</span> <span class="fl">0xFA</span> <span class="co"># through 0xFC. _msb, _lsb, _xlsb</span></span>
+<span><span class="va">BME280_hum</span> <span class="op">&lt;-</span> <span class="fl">0xFD</span> <span class="co"># through 0xFE. _msb, _lsb, _xlsb</span></span>
+<span></span>
+<span><span class="co"># these addresses contain values used in the calibration functions</span></span>
+<span><span class="va">dig_T1_reg</span> <span class="op">&lt;-</span> <span class="fl">0x88</span> <span class="co"># these are all 2-byte / 1 word values</span></span>
+<span><span class="va">dig_T1_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_T1_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_T2_reg</span> <span class="op">&lt;-</span> <span class="fl">0x8A</span></span>
+<span><span class="va">dig_T2_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_T2_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_T3_reg</span> <span class="op">&lt;-</span> <span class="fl">0x8C</span></span>
+<span><span class="va">dig_T3_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_T3_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P1_reg</span> <span class="op">&lt;-</span> <span class="fl">0x8E</span></span>
+<span><span class="va">dig_P1_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P1_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P2_reg</span> <span class="op">&lt;-</span> <span class="fl">0x90</span></span>
+<span><span class="va">dig_P2_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P2_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P3_reg</span> <span class="op">&lt;-</span> <span class="fl">0x92</span></span>
+<span><span class="va">dig_P3_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P3_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P4_reg</span> <span class="op">&lt;-</span> <span class="fl">0x94</span></span>
+<span><span class="va">dig_P4_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P4_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P5_reg</span> <span class="op">&lt;-</span> <span class="fl">0x96</span></span>
+<span><span class="va">dig_P5_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P5_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P6_reg</span> <span class="op">&lt;-</span> <span class="fl">0x98</span></span>
+<span><span class="va">dig_P6_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P6_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P7_reg</span> <span class="op">&lt;-</span> <span class="fl">0x9A</span></span>
+<span><span class="va">dig_P7_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P7_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P8_reg</span> <span class="op">&lt;-</span> <span class="fl">0x9C</span></span>
+<span><span class="va">dig_P8_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P8_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_P9_reg</span> <span class="op">&lt;-</span> <span class="fl">0x9E</span></span>
+<span><span class="va">dig_P9_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P9_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H1_reg</span> <span class="op">&lt;-</span> <span class="fl">0xA1</span> <span class="co"># this is one byte</span></span>
+<span><span class="va">dig_H1_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H1_reg</span>, <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H2_reg</span> <span class="op">&lt;-</span> <span class="fl">0xE1</span> <span class="co"># this is two bytes</span></span>
+<span><span class="va">dig_H2_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H2_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H3_reg</span> <span class="op">&lt;-</span> <span class="fl">0xE3</span> <span class="co"># this is one byte</span></span>
+<span><span class="va">dig_H3_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H3_reg</span>, <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H4_reg</span> <span class="op">&lt;-</span> <span class="fl">0xE4</span> <span class="co"># Erg. This is 11 bits. 1.5 bytes. 0xE4/0xE5[3:0]</span></span>
+<span><span class="va">dig_H4_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftL</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H4_reg</span>, <span class="st">"b"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwAnd</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H4_reg</span> <span class="op">+</span> <span class="fl">1</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fl">0x0F</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H5_reg</span> <span class="op">&lt;-</span> <span class="fl">0xE5</span> <span class="co"># 0xE5[7:4]/0xE6</span></span>
+<span><span class="va">dig_H5_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftL</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwAnd</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H5_reg</span>, <span class="st">"b"</span><span class="op">)</span>,<span class="fl">0xF0</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H5_reg</span> <span class="op">+</span> <span class="fl">1</span>, <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dig_H6_reg</span> <span class="op">&lt;-</span> <span class="fl">0xE7</span> <span class="co"># one byte</span></span>
+<span><span class="va">dig_H6_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_H6_reg</span>, <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># set configuration values</span></span>
+<span><span class="va">config_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strtoi.html" class="external-link">strtoi</a></span><span class="op">(</span><span class="st">"01000100"</span>, base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># t_sb = 125 ms/IIR_filter = on/2 /spi3w_en = off</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/rpi_i2c_set.html">rpi_i2c_set</a></span><span class="op">(</span></span>
+<span>  chip_address <span class="op">=</span> <span class="va">BME280_location</span>,</span>
+<span>  data_address <span class="op">=</span> <span class="va">BME280_config</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">config_value</span>,</span>
+<span>  data_size <span class="op">=</span> <span class="st">"b"</span></span>
+<span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># set humidity data acquisition options</span></span>
+<span><span class="va">ctrl_hum_value</span> <span class="op">&lt;-</span> <span class="fl">0x01</span> <span class="co"># humidity oversampling set to 1</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/rpi_i2c_set.html">rpi_i2c_set</a></span><span class="op">(</span></span>
+<span>  chip_address <span class="op">=</span> <span class="va">BME280_location</span>,</span>
+<span>  data_address <span class="op">=</span> <span class="va">BME280_ctrl_hum</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">ctrl_hum_value</span>,</span>
+<span>  data_size <span class="op">=</span> <span class="st">"b"</span></span>
+<span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># set pressure &amp; temperature data acquisition options</span></span>
+<span><span class="va">ctrl_meas_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strtoi.html" class="external-link">strtoi</a></span><span class="op">(</span><span class="st">"00100101"</span>, base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># osrs_t/osrs_p/mode</span></span>
+<span></span>
+<span><span class="co"># Use Rcpp to compile the temperature measurement calibration</span></span>
+<span><span class="co"># Returns temp in DegC, resolution is 0.01 DegC. </span></span>
+<span><span class="co"># Output value of "5123" equals 51.23 DegC</span></span>
+<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'int BME280_compensate_T_int32(long signed int adc_T, int dig_T1, int dig_T2, int dig_T3)</span></span>
+<span><span class="st">{</span></span>
+<span><span class="st">long signed int var1, var2, T;</span></span>
+<span><span class="st">    Environment env = Environment::global_env();</span></span>
+<span><span class="st">    long signed int t_fine;</span></span>
+<span><span class="st"></span></span>
+<span><span class="st">var1 = ((((adc_T&gt;&gt;3) - ((long signed int)dig_T1&lt;&lt;1))) * ((long signed int)dig_T2)) &gt;&gt; 11;</span></span>
+<span><span class="st">var2 = (((((adc_T&gt;&gt;4) - ((long signed int)dig_T1)) * ((adc_T&gt;&gt;4) - ((long signed int)dig_T1))) &gt;&gt; 12) *((long signed int)dig_T3)) &gt;&gt; 14;</span></span>
+<span><span class="st">t_fine = var1 + var2;</span></span>
+<span><span class="st">env["t_fine"] = t_fine;</span></span>
+<span><span class="st">T = (t_fine * 5 + 128) &gt;&gt; 8;</span></span>
+<span><span class="st">return T;</span></span>
+<span><span class="st">}'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Use Rcpp to compile the pressure measurement calibration</span></span>
+<span><span class="co"># Returns pressure in Pa as unsigned 32 bit int in Q24.8 format</span></span>
+<span><span class="co"># (24 integer bits and 8 fractional bits)</span></span>
+<span><span class="co"># Output of "24674867" represents 24674867/256 = 96386.2 Pa</span></span>
+<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'long unsigned int BME280_compensate_P_int32(long signed int adc_P, int dig_P1, int dig_P2, int dig_P3, int dig_P4, int dig_P5, int dig_P6, int dig_P7, int dig_P8, int dig_P9)</span></span>
+<span><span class="st">{</span></span>
+<span><span class="st">long long unsigned int var1, var2, p;</span></span>
+<span><span class="st">   Environment env = Environment::global_env();</span></span>
+<span><span class="st">    long signed int t_fine = env["t_fine"];</span></span>
+<span><span class="st"></span></span>
+<span><span class="st">var1 = ((long long unsigned int)t_fine) - 128000;</span></span>
+<span><span class="st">var2 = var1 * var1 * (long long unsigned int)dig_P6;</span></span>
+<span><span class="st">var2 = var2 + (var1*((long long unsigned int)dig_P5)&lt;&lt;17);</span></span>
+<span><span class="st">var2 = var2 + (((long long unsigned int)dig_P4)&lt;&lt;35);</span></span>
+<span><span class="st">var1 = ((var1 * var1 * (long long unsigned int)dig_P3)&gt;&gt;8) + ((var1 * (long long unsigned int)dig_P2)&lt;&lt;12);</span></span>
+<span><span class="st">var1 = (((((long long unsigned int)1)&lt;&lt;47)+var1)) + ((long long unsigned int)dig_P1)&gt;&gt;33;</span></span>
+<span><span class="st">if(var1 == 0)</span></span>
+<span><span class="st">{</span></span>
+<span><span class="st">return 0; // avoid exception caused by division by zero</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">p = 1048576-adc_P;</span></span>
+<span><span class="st">p = (((p&lt;&lt;31)-var2)*3125)/var1;</span></span>
+<span><span class="st">var1 = (((long long unsigned int)dig_P9) * (p&gt;&gt;13) * (p&gt;&gt;13)) &gt;&gt; 25;</span></span>
+<span><span class="st">var2 = (((long long unsigned int)dig_P8) * p) &gt;&gt; 19;</span></span>
+<span><span class="st">p = ((p  +var1 + var2) &gt;&gt; 8) + (((long long unsigned int)dig_P7)&lt;&lt;4);</span></span>
+<span><span class="st">return (long signed int)p;</span></span>
+<span><span class="st">}'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Use Rcpp to compile the humidity measurement calibration</span></span>
+<span><span class="co"># returns humidity in %RH as unsigned 32 bit integer in Q22.10 format (22 integer and 10 fractional bits)</span></span>
+<span><span class="co"># output value of "47445" represents 4755/1024 = 46.333 %RH</span></span>
+<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'long unsigned int BME280_compensate_H_int32(long signed int adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H4, int dig_H5, int dig_H6) {</span></span>
+<span><span class="st">            long signed int v_xl_u32r;</span></span>
+<span><span class="st">                Environment env = Environment::global_env();</span></span>
+<span><span class="st">    long signed int t_fine = env["t_fine"];</span></span>
+<span><span class="st">            </span></span>
+<span><span class="st">            v_xl_u32r = (t_fine - ((long signed int)76800));</span></span>
+<span><span class="st">            v_xl_u32r = (((((adc_H &lt;&lt; 14) </span></span>
+<span><span class="st">                      - (((long signed int)dig_H4) &lt;&lt; 20) </span></span>
+<span><span class="st">                      - (((long signed int)dig_H5) </span></span>
+<span><span class="st">                      * v_xl_u32r)) </span></span>
+<span><span class="st">                      + ((long signed int)16384)) &gt;&gt; 15) </span></span>
+<span><span class="st">                      * (((((((v_xl_u32r </span></span>
+<span><span class="st">                      * ((long signed int)dig_H6)) &gt;&gt; 10) </span></span>
+<span><span class="st">                      * (((v_xl_u32r </span></span>
+<span><span class="st">                      * ((long signed int)dig_H3)) &gt;&gt; 11) </span></span>
+<span><span class="st">                      + ((long signed int)32768))) &gt;&gt; 10) </span></span>
+<span><span class="st">                      + ((long signed int)2097152)) </span></span>
+<span><span class="st">                      * ((long signed int)dig_H2) + 8192) &gt;&gt; 14));</span></span>
+<span><span class="st">            v_xl_u32r = (v_xl_u32r - (((((v_xl_u32r &gt;&gt; 15) </span></span>
+<span><span class="st">                     * v_xl_u32r &gt;&gt; 15)) &gt;&gt; 7 </span></span>
+<span><span class="st">                     * ((long signed int)dig_H1)) &gt;&gt; 4));</span></span>
+<span><span class="st">            v_xl_u32r = (v_xl_u32r &lt; 0 ?0 : v_xl_u32r);</span></span>
+<span><span class="st">            v_xl_u32r = (v_xl_u32r &gt; 419430400 ? 419430400 : v_xl_u32r);</span></span>
+<span><span class="st">            return (long unsigned int) (v_xl_u32r&gt;&gt;12);}'</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># start measurement cycle ------------------</span></span>
+<span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="fu"><a href="../reference/rpi_i2c_set.html">rpi_i2c_set</a></span><span class="op">(</span></span>
+<span>  chip_address <span class="op">=</span> <span class="va">BME280_location</span>,</span>
+<span>  data_address <span class="op">=</span> <span class="va">BME280_ctrl_meas</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">ctrl_meas_value</span>,</span>
+<span>  data_size <span class="op">=</span> <span class="st">"b"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read raw temperature ---------------------</span></span>
+<span></span>
+<span><span class="va">raw_temperature</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftL</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_temp</span>, <span class="st">"w"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftR</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_temp</span> <span class="op">+</span> <span class="fl">2</span>, <span class="st">"b"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span></span>
+<span><span class="co"># call the temperature compensation function just compiled</span></span>
+<span><span class="va">temperature_celsius</span> <span class="op">&lt;-</span> <span class="fu">BME280_compensate_T_int32</span><span class="op">(</span><span class="va">raw_temperature</span>, <span class="va">dig_T1_value</span>,<span class="va">dig_T2_value</span>,<span class="va">dig_T3_value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"temperature (c):"</span>, <span class="op">(</span><span class="va">temperature_celsius</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read raw pressure ----------------------</span></span>
+<span><span class="va">raw_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftL</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_press</span>, <span class="st">"w"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftR</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_press</span> <span class="op">+</span> <span class="fl">2</span>, <span class="st">"b"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pressure</span> <span class="op">&lt;-</span> <span class="fu">BME280_compensate_P_int32</span><span class="op">(</span><span class="va">raw_pressure</span>, </span>
+<span>                   <span class="va">dig_P1_value</span>, <span class="va">dig_P2_value</span>, <span class="va">dig_P3_value</span>, </span>
+<span>                   <span class="va">dig_P4_value</span>, <span class="va">dig_P5_value</span>, <span class="va">dig_P6_value</span>, </span>
+<span>                   <span class="va">dig_P7_value</span>, <span class="va">dig_P8_value</span>, <span class="va">dig_P9_value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"pressure (Pa):"</span>, <span class="op">(</span><span class="va">pressure</span><span class="op">/</span><span class="fl">256</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read raw humidity ----------------------</span></span>
+<span></span>
+<span><span class="va">raw_humidity</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_hum</span>, <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">humidity</span> <span class="op">&lt;-</span> <span class="fu">BME280_compensate_H_int32</span><span class="op">(</span><span class="va">raw_humidity</span>, </span>
+<span>                                      <span class="va">dig_H1_value</span>,</span>
+<span>                                      <span class="va">dig_H2_value</span>,</span>
+<span>                                      <span class="va">dig_H3_value</span>,</span>
+<span>                                      <span class="va">dig_H4_value</span>,</span>
+<span>                                      <span class="va">dig_H5_value</span>,</span>
+<span>                                      <span class="va">dig_H6_value</span><span class="op">)</span></span>
+<span>                                      </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"humidity (%RH):"</span>, <span class="op">(</span><span class="va">humidity</span><span class="op">/</span><span class="fl">1024</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
