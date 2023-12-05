@@ -296,6 +296,7 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P1_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P2_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P3_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
+<span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P4_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P5_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P6_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
 <span>                <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_P7_reg</span>, <span class="st">"w"</span><span class="op">)</span>,</span>
@@ -314,11 +315,24 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="st">    long signed int t_fine = env["t_fine"];</span></span>
 <span><span class="st">            </span></span>
 <span><span class="st">            v_xl_u32r = (t_fine - ((long signed int)76800));</span></span>
-<span><span class="st">            v_xl_u32r = (((((adc_H &lt;&lt; 14) - (((long signed int)dig_H4) &lt;&lt; 20) - (((long signed int)dig_H5) * v_xl_u32r)) + ((long signed int)16384)) &gt;&gt; 15) * (((((((v_xl_u32r * ((long signed int)dig_H6)) &gt;&gt; 10) * (((V_xl_u32r * ((long signed int)dig_H3)) &gt;&gt; 11) + ((long signed int)32768))) &gt;&gt; 10) + ((long signed int)2097152)) * ((long signed int)dig_H2) + 8192) &gt;&gt; 14));</span></span>
-<span><span class="st">            V_xl_u32r = (v_xl_u32r - (((((v_xl_u32r &gt;&gt; 15) * v_xl_u32r &gt;&gt; 15)) &gt;&gt; 7 * ((long signed int)dig_H1)) &gt;&gt; 4));</span></span>
+<span><span class="st">            v_xl_u32r = (((((adc_H &lt;&lt; 14) </span></span>
+<span><span class="st">                      - (((long signed int)dig_H4) &lt;&lt; 20) </span></span>
+<span><span class="st">                      - (((long signed int)dig_H5) </span></span>
+<span><span class="st">                      * v_xl_u32r)) </span></span>
+<span><span class="st">                      + ((long signed int)16384)) &gt;&gt; 15) </span></span>
+<span><span class="st">                      * (((((((v_xl_u32r </span></span>
+<span><span class="st">                      * ((long signed int)dig_H6)) &gt;&gt; 10) </span></span>
+<span><span class="st">                      * (((v_xl_u32r </span></span>
+<span><span class="st">                      * ((long signed int)dig_H3)) &gt;&gt; 11) </span></span>
+<span><span class="st">                      + ((long signed int)32768))) &gt;&gt; 10) </span></span>
+<span><span class="st">                      + ((long signed int)2097152)) </span></span>
+<span><span class="st">                      * ((long signed int)dig_H2) + 8192) &gt;&gt; 14));</span></span>
+<span><span class="st">            v_xl_u32r = (v_xl_u32r - (((((v_xl_u32r &gt;&gt; 15) </span></span>
+<span><span class="st">                     * v_xl_u32r &gt;&gt; 15)) &gt;&gt; 7 </span></span>
+<span><span class="st">                     * ((long signed int)dig_H1)) &gt;&gt; 4));</span></span>
 <span><span class="st">            v_xl_u32r = (v_xl_u32r &lt; 0 ?0 : v_xl_u32r);</span></span>
-<span><span class="st">            v_xl_u32r - (v_xl_u32r &gt; 419430400 : 419430400 : v_xl_u32r;</span></span>
-<span><span class="st">            return (long unsigned int) (v_xl_u32r&gt;&gt;12);'</span><span class="op">)</span></span>
+<span><span class="st">            v_xl_u32r = (v_xl_u32r &gt; 419430400 ? 419430400 : v_xl_u32r);</span></span>
+<span><span class="st">            return (long unsigned int) (v_xl_u32r&gt;&gt;12);}'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">raw_humidity</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_hum</span>, <span class="st">"w"</span><span class="op">)</span></span>
 <span></span>
