@@ -173,6 +173,7 @@ pressure <- BME280_compensate_P_int32(raw_pressure,
                 rpi_i2c_get(BME280_location, dig_P1_reg, "w"),
                 rpi_i2c_get(BME280_location, dig_P2_reg, "w"),
                 rpi_i2c_get(BME280_location, dig_P3_reg, "w"),
+                rpi_i2c_get(BME280_location, dig_P4_reg, "w"),
                 rpi_i2c_get(BME280_location, dig_P5_reg, "w"),
                 rpi_i2c_get(BME280_location, dig_P6_reg, "w"),
                 rpi_i2c_get(BME280_location, dig_P7_reg, "w"),
@@ -191,11 +192,24 @@ cppFunction('long unsigned int BME280_compensate_H_int32(long signed int adc_H, 
     long signed int t_fine = env["t_fine"];
             
             v_xl_u32r = (t_fine - ((long signed int)76800));
-            v_xl_u32r = (((((adc_H << 14) - (((long signed int)dig_H4) << 20) - (((long signed int)dig_H5) * v_xl_u32r)) + ((long signed int)16384)) >> 15) * (((((((v_xl_u32r * ((long signed int)dig_H6)) >> 10) * (((V_xl_u32r * ((long signed int)dig_H3)) >> 11) + ((long signed int)32768))) >> 10) + ((long signed int)2097152)) * ((long signed int)dig_H2) + 8192) >> 14));
-            V_xl_u32r = (v_xl_u32r - (((((v_xl_u32r >> 15) * v_xl_u32r >> 15)) >> 7 * ((long signed int)dig_H1)) >> 4));
+            v_xl_u32r = (((((adc_H << 14) 
+                      - (((long signed int)dig_H4) << 20) 
+                      - (((long signed int)dig_H5) 
+                      * v_xl_u32r)) 
+                      + ((long signed int)16384)) >> 15) 
+                      * (((((((v_xl_u32r 
+                      * ((long signed int)dig_H6)) >> 10) 
+                      * (((v_xl_u32r 
+                      * ((long signed int)dig_H3)) >> 11) 
+                      + ((long signed int)32768))) >> 10) 
+                      + ((long signed int)2097152)) 
+                      * ((long signed int)dig_H2) + 8192) >> 14));
+            v_xl_u32r = (v_xl_u32r - (((((v_xl_u32r >> 15) 
+                     * v_xl_u32r >> 15)) >> 7 
+                     * ((long signed int)dig_H1)) >> 4));
             v_xl_u32r = (v_xl_u32r < 0 ?0 : v_xl_u32r);
-            v_xl_u32r - (v_xl_u32r > 419430400 : 419430400 : v_xl_u32r;
-            return (long unsigned int) (v_xl_u32r>>12);')
+            v_xl_u32r = (v_xl_u32r > 419430400 ? 419430400 : v_xl_u32r);
+            return (long unsigned int) (v_xl_u32r>>12);}')
 
 raw_humidity <- rpi_i2c_get(BME280_location, BME280_hum, "w")
 
