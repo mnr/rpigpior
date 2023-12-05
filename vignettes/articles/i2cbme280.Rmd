@@ -135,7 +135,7 @@ dig_T2_value <- rpi_i2c_get(BME280_location, dig_T2_reg, "w")
 dig_T3_value <- rpi_i2c_get(BME280_location, dig_T3_reg, "w")
 temperature_celsius <- BME280_compensate_T_int32(raw_temperature, dig_T1_value,dig_T2_value,dig_T3_value)
 
-print(paste("temperature (c):", temperature_celsius))
+print(paste("temperature (c):", (temperature_celsius/100)))
 
 # read raw pressure ----------------------
 
@@ -181,11 +181,13 @@ pressure <- BME280_compensate_P_int32(raw_pressure,
                 rpi_i2c_get(BME280_location, dig_P9_reg, "w")
 )
 
-print(paste("pressure:", pressure))
+print(paste("pressure (Pa):", (pressure/256)))
 
 # read raw humidity ----------------------
 
 # Use Rcpp to compile the humidity measurement calibration
+# returns humidity in %RH as unsigned 32 bit integer in Q22.10 format (22 integer and 10 fractional bits)
+# output value of "47445" represents 4755/1024 = 46.333 %RH
 cppFunction('long unsigned int BME280_compensate_H_int32(long signed int adc_H, int dig_H1, int dig_H2, int dig_H3, int dig_H4, int dig_H5, int dig_H6) {
             long signed int v_xl_u32r;
                 Environment env = Environment::global_env();
@@ -216,7 +218,7 @@ raw_humidity <- rpi_i2c_get(BME280_location, BME280_hum, "w")
 # 11 bits. 1.5 bytes. 0xE4/0xE5[3:0]
 dig_H4_value <- bitwShiftL(rpi_i2c_get(BME280_location, dig_H4_reg, "b"),4) + bitwAnd(rpi_i2c_get(BME280_location, dig_H4_reg + 1, "b"), 0x0F)
 
-dig_H5_value <- bitwshiftL(bitwAnd(rpi_i2c_get(BME280_location, dig_H5_reg, "b"),0xF0),4) + rpi_i2c_get(BME280_location, dig_H5_reg + 1, "b")
+dig_H5_value <- bitwShiftL(bitwAnd(rpi_i2c_get(BME280_location, dig_H5_reg, "b"),0xF0),4) + rpi_i2c_get(BME280_location, dig_H5_reg + 1, "b")
 
 humidity <- BME280_compensate_H_int32(raw_humidity, 
                 rpi_i2c_get(BME280_location, dig_H1_reg, "b"),
@@ -226,6 +228,6 @@ humidity <- BME280_compensate_H_int32(raw_humidity,
                 dig_H5_value,
                 rpi_i2c_get(BME280_location, dig_H6_reg, "b"))
 
-print(paste("humidity:", humidity))
+print(paste("humidity (%RH):", (humidity/1024)))
 
 ```
