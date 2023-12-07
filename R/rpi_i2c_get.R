@@ -45,6 +45,7 @@ rpi_i2c_get <- function(chip_address, data_address, data_size = "b") {
                         chip_address,
                         data_address,
                         data_size)
+  #gpio_sysCall returns 0xLsbMsb. need to reverse these bytes
 
   return(as.integer(system(gpio_sysCall, intern = TRUE)))
 }
