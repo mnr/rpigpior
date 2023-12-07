@@ -4,7 +4,7 @@
 \alias{rpi_monitor}
 \title{Monitor an RPi pin}
 \usage{
-rpi_monitor(pin_number, numEvents = 0, edge = "both", timeout = 0)
+rpi_monitor(pin_number, numEvents = 0, edge = "both")
 }
 \arguments{
 \item{pin_number}{one or more pin numbers as found on the Raspberry pi GPIO. Use the actual pin numbers (i.e. 1:40)}
@@ -12,8 +12,6 @@ rpi_monitor(pin_number, numEvents = 0, edge = "both", timeout = 0)
 \item{numEvents}{a number of events to collect. Defaults to 10}
 
 \item{edge}{rising|falling|both}
-
-\item{timeout}{number of seconds to collect events}
 }
 \value{
 a list of events
@@ -30,7 +28,9 @@ Watch a Raspberry pi GPIO pin (or pins) for changes.
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
 rpi_monitor(21)
 rpi_monitor(21, numEvents=20)
+}
 \dontshow{\}) # examplesIf}
 }
