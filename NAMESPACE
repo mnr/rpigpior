@@ -2,6 +2,7 @@
 
 export(is.rpi)
 export(rpi_get)
+export(rpi_i2c_dump)
 export(rpi_i2c_get)
 export(rpi_i2c_set)
 export(rpi_monitor)
