@@ -422,7 +422,6 @@ raw_temperature <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_temp, "w"),4) 
 # call the temperature compensation function just compiled
 temperature_celsius <- BME280_compensate_T_int32(raw_temperature, dig_T1_value,dig_T2_value,dig_T3_value)
 
-print(paste("temperature (c):", (temperature_celsius/100)))
 
 # read raw pressure ----------------------
 raw_pressure <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_press, "w"),4) + bitwShiftR(rpi_i2c_get(BME280_location, BME280_press + 2, "b"),4)
@@ -432,7 +431,6 @@ pressure <- BME280_compensate_P_int32(raw_pressure,
                    dig_P4_value, dig_P5_value, dig_P6_value, 
                    dig_P7_value, dig_P8_value, dig_P9_value)
 
-print(paste("pressure (Pa):", (pressure/256)))
 
 # read raw humidity ----------------------
 
@@ -445,8 +443,9 @@ humidity <- BME280_compensate_H_int32(raw_humidity,
                                       dig_H4_value,
                                       dig_H5_value,
                                       dig_H6_value)
-                                      
-print(paste("humidity (%RH):", (humidity/1024)))
+
+print(paste("temperature (c):", (temperature_celsius/100), "pressure (Pa):", (pressure/256),
+"humidity (%RH):", (humidity/1024)))
 
 Sys.sleep(1)
 }
