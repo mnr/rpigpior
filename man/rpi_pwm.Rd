@@ -15,7 +15,7 @@ rpi_pwm(
 \item{pin_number}{One or two pins for hardware PWM. Must be 12, 32, 33, or 35.
 If two pins are selected, they must be one of these combinations: (12,33), (32,33), (12,35), or (32,35)}
 
-\item{pwm_period}{The length of a cycle. aka Frequency}
+\item{pwm_period}{The length of a cycle. aka Frequency. 15 or greater, less than 1000000}
 
 \item{pwm_dutycycle}{The amount of time a cycle is on.}
 
@@ -42,6 +42,7 @@ Only two PWM lines are available on the Raspberry Pi - pwm0 and pwm1. Although i
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 rpi_pwm(12) # provides 50\% PWM to pin 12 (PWM0)
 
-rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000) # provides 20\% PWM to pin 12 (PWM0) and pin 33 (PWM1)
+#' # provides 20\% PWM to pin 12 (PWM0) and pin 33 (PWM1)
+rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000)
 \dontshow{\}) # examplesIf}
 }
