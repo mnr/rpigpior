@@ -113,14 +113,14 @@ rpi_i2c_set(
 # Use Rcpp to compile the temperature measurement calibration
 # Returns temp in DegC, resolution is 0.01 DegC. 
 # Output value of "5123" equals 51.23 DegC
-cppFunction('int BME280_compensate_T_int32(long signed int adc_T, int dig_T1, int dig_T2, int dig_T3)
+cppFunction('Rcpp::IntegerVector BME280_compensate_T_int32(Rcpp::IntegerVector adc_T, Rcpp::IntegerVector dig_T1, Rcpp::IntegerVector dig_T2, Rcpp::IntegerVector dig_T3)
 {
 long signed int var1, var2, T;
     Environment env = Environment::global_env();
     long signed int t_fine;
 
-var1 = ((((adc_T>>3) - ((long signed int)dig_T1<<1))) * ((long signed int)dig_T2)) >> 11;
-var2 = (((((adc_T>>4) - ((long signed int)dig_T1)) * ((adc_T>>4) - ((long signed int)dig_T1))) >> 12) *((long signed int)dig_T3)) >> 14;
+var1 = ((((adc_T>>3) - (dig_T1<<1))) * (dig_T2)) >> 11;
+var2 = (((((adc_T>>4) - (dig_T1)) * ((adc_T>>4) - dig_T1)) >> 12) *dig_T3) >> 14;
 t_fine = var1 + var2;
 env["t_fine"] = t_fine;
 T = (t_fine * 5 + 128) >> 8;
