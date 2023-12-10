@@ -128,7 +128,9 @@ return T;
 }')
 
 # read the temperature
-raw_temperature <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_temp, "w"),4) + bitwShiftR(rpi_i2c_get(BME280_location, BME280_temp + 2, "b"),4)
+MsbLsb <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_temp, "w"),4)
+xlsb <- rpi_i2c_get(BME280_location, BME280_temp + 2, "b")
+raw_temperature <- bitwOr(MsbLsb, xlsb)
 # call the temperature compensation function just compiled
 dig_T1_value <- rpi_i2c_get(BME280_location, dig_T1_reg, "w")
 dig_T2_value <- rpi_i2c_get(BME280_location, dig_T2_reg, "w")
