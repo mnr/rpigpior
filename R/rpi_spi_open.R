@@ -33,8 +33,8 @@ rpi_spi_open <- function(spiBus,
     spiBus = spiBus,
     max_speed_hz = spiSpeed,
     device = spiDeviceID, # a connection object
-    tx_buf        = "",
-    rx_buf        = "",
+    tx_buf        = "", # text to send
+    rx_buf        = "", # text received from spi device
     len           = 0, # length of tx/rx buffers in bytes
     delay_usecs   = 0,
     bits_per_word = spiBits,
