@@ -7,8 +7,11 @@
 #' @return an spiControl list. spiControl$rx_buf contains the read value
 #' @export
 #'
-#' @examples
+#' @examplesIf is.rpi()
+#'
 rpi_spi_read <- function(spiControl) {
+
   rpi_ioctl(spiControl$device, "SPI_IOC_MESSAGE(1)", spiControl)
 
+  return(spiControl)
 }
