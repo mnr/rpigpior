@@ -113,19 +113,19 @@ rpi_i2c_set(
 # Use Rcpp to compile the temperature measurement calibration
 # Returns temp in DegC, resolution is 0.01 DegC. 
 # Output value of "5123" equals 51.23 DegC
-cppFunction('Rcpp::IntegerVector BME280_compensate_T_int32(Rcpp::IntegerVector adc_T, Rcpp::IntegerVector dig_T1, Rcpp::IntegerVector dig_T2, Rcpp::IntegerVector dig_T3)
-{
-long signed int var1, var2, T;
-    Environment env = Environment::global_env();
-    long signed int t_fine;
+# cppFunction('Rcpp::IntegerVector BME280_compensate_T_int32(Rcpp::IntegerVector adc_T, Rcpp::IntegerVector dig_T1, Rcpp::IntegerVector dig_T2, Rcpp::IntegerVector dig_T3)
+# {
+#long signed int var1, var2, T;
+#    Environment env = Environment::global_env();
+#    long signed int t_fine;
 
-var1 = ((((adc_T>>3) - (dig_T1<<1))) * (dig_T2)) >> 11;
-var2 = (((((adc_T>>4) - (dig_T1)) * ((adc_T>>4) - dig_T1)) >> 12) *dig_T3) >> 14;
-t_fine = var1 + var2;
-env["t_fine"] = t_fine;
-T = (t_fine * 5 + 128) >> 8;
-return T;
-}')
+#var1 = ((((adc_T>>3) - (dig_T1<<1))) * (dig_T2)) >> 11;
+#var2 = (((((adc_T>>4) - (dig_T1)) * ((adc_T>>4) - dig_T1)) >> 12) *dig_T3) >> 14;
+#t_fine = var1 + var2;
+#env["t_fine"] = t_fine;
+#T = (t_fine * 5 + 128) >> 8;
+#return T;
+#}')
 
 # read the temperature
 MsbLsb <- bitwShiftL(rpi_i2c_get(BME280_location, BME280_temp, "w"),4)
@@ -135,7 +135,17 @@ raw_temperature <- bitwOr(MsbLsb, xlsb)
 dig_T1_value <- rpi_i2c_get(BME280_location, dig_T1_reg, "w")
 dig_T2_value <- rpi_i2c_get(BME280_location, dig_T2_reg, "w")
 dig_T3_value <- rpi_i2c_get(BME280_location, dig_T3_reg, "w")
-temperature_celsius <- BME280_compensate_T_int32(raw_temperature, dig_T1_value,dig_T2_value,dig_T3_value)
+
+# perform the calculation --------------------------
+
+t_var1 <- bitShiftR((bitShiftR(raw_temperature, 3) - bitShiftL(dig_T1_value, 1)) * dig_T2_value, 11)
+
+t_var2 <- bitShiftR(bitShiftR((bitShiftR(adc_T, 4) - dig_T1_value) * (bitShiftR(adc_T, 4) - dig_T1_value), 12) * dig_T3_value, 14)
+
+t_fine <- t_var1 + t_var2;
+temperature_celsius <- bitwShiftR((t_fine * 5 + 128),8)
+
+# temperature_celsius <- BME280_compensate_T_int32(raw_temperature, dig_T1_value,dig_T2_value,dig_T3_value)
 
 print(paste("temperature (c):", (temperature_celsius/100)))
 
