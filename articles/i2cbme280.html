@@ -236,19 +236,19 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="co"># Use Rcpp to compile the temperature measurement calibration</span></span>
 <span><span class="co"># Returns temp in DegC, resolution is 0.01 DegC. </span></span>
 <span><span class="co"># Output value of "5123" equals 51.23 DegC</span></span>
-<span><span class="fu">cppFunction</span><span class="op">(</span><span class="st">'Rcpp::IntegerVector BME280_compensate_T_int32(Rcpp::IntegerVector adc_T, Rcpp::IntegerVector dig_T1, Rcpp::IntegerVector dig_T2, Rcpp::IntegerVector dig_T3)</span></span>
-<span><span class="st">{</span></span>
-<span><span class="st">long signed int var1, var2, T;</span></span>
-<span><span class="st">    Environment env = Environment::global_env();</span></span>
-<span><span class="st">    long signed int t_fine;</span></span>
-<span><span class="st"></span></span>
-<span><span class="st">var1 = ((((adc_T&gt;&gt;3) - (dig_T1&lt;&lt;1))) * (dig_T2)) &gt;&gt; 11;</span></span>
-<span><span class="st">var2 = (((((adc_T&gt;&gt;4) - (dig_T1)) * ((adc_T&gt;&gt;4) - dig_T1)) &gt;&gt; 12) *dig_T3) &gt;&gt; 14;</span></span>
-<span><span class="st">t_fine = var1 + var2;</span></span>
-<span><span class="st">env["t_fine"] = t_fine;</span></span>
-<span><span class="st">T = (t_fine * 5 + 128) &gt;&gt; 8;</span></span>
-<span><span class="st">return T;</span></span>
-<span><span class="st">}'</span><span class="op">)</span></span>
+<span><span class="co"># cppFunction('Rcpp::IntegerVector BME280_compensate_T_int32(Rcpp::IntegerVector adc_T, Rcpp::IntegerVector dig_T1, Rcpp::IntegerVector dig_T2, Rcpp::IntegerVector dig_T3)</span></span>
+<span><span class="co"># {</span></span>
+<span><span class="co">#long signed int var1, var2, T;</span></span>
+<span><span class="co">#    Environment env = Environment::global_env();</span></span>
+<span><span class="co">#    long signed int t_fine;</span></span>
+<span></span>
+<span><span class="co">#var1 = ((((adc_T&gt;&gt;3) - (dig_T1&lt;&lt;1))) * (dig_T2)) &gt;&gt; 11;</span></span>
+<span><span class="co">#var2 = (((((adc_T&gt;&gt;4) - (dig_T1)) * ((adc_T&gt;&gt;4) - dig_T1)) &gt;&gt; 12) *dig_T3) &gt;&gt; 14;</span></span>
+<span><span class="co">#t_fine = var1 + var2;</span></span>
+<span><span class="co">#env["t_fine"] = t_fine;</span></span>
+<span><span class="co">#T = (t_fine * 5 + 128) &gt;&gt; 8;</span></span>
+<span><span class="co">#return T;</span></span>
+<span><span class="co">#}')</span></span>
 <span></span>
 <span><span class="co"># read the temperature</span></span>
 <span><span class="va">MsbLsb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftL</a></span><span class="op">(</span><span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">BME280_temp</span>, <span class="st">"w"</span><span class="op">)</span>,<span class="fl">4</span><span class="op">)</span></span>
@@ -258,7 +258,17 @@ from the bme280 with i2c. It leans heavily on the source found at <a href="https
 <span><span class="va">dig_T1_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_T1_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
 <span><span class="va">dig_T2_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_T2_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
 <span><span class="va">dig_T3_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rpi_i2c_get.html">rpi_i2c_get</a></span><span class="op">(</span><span class="va">BME280_location</span>, <span class="va">dig_T3_reg</span>, <span class="st">"w"</span><span class="op">)</span></span>
-<span><span class="va">temperature_celsius</span> <span class="op">&lt;-</span> <span class="fu">BME280_compensate_T_int32</span><span class="op">(</span><span class="va">raw_temperature</span>, <span class="va">dig_T1_value</span>,<span class="va">dig_T2_value</span>,<span class="va">dig_T3_value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># perform the calculation --------------------------</span></span>
+<span></span>
+<span><span class="va">t_var1</span> <span class="op">&lt;-</span> <span class="fu">bitShiftR</span><span class="op">(</span><span class="op">(</span><span class="fu">bitShiftR</span><span class="op">(</span><span class="va">raw_temperature</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">-</span> <span class="fu">bitShiftL</span><span class="op">(</span><span class="va">dig_T1_value</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">dig_T2_value</span>, <span class="fl">11</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">t_var2</span> <span class="op">&lt;-</span> <span class="fu">bitShiftR</span><span class="op">(</span><span class="fu">bitShiftR</span><span class="op">(</span><span class="op">(</span><span class="fu">bitShiftR</span><span class="op">(</span><span class="va">adc_T</span>, <span class="fl">4</span><span class="op">)</span> <span class="op">-</span> <span class="va">dig_T1_value</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fu">bitShiftR</span><span class="op">(</span><span class="va">adc_T</span>, <span class="fl">4</span><span class="op">)</span> <span class="op">-</span> <span class="va">dig_T1_value</span><span class="op">)</span>, <span class="fl">12</span><span class="op">)</span> <span class="op">*</span> <span class="va">dig_T3_value</span>, <span class="fl">14</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">t_fine</span> <span class="op">&lt;-</span> <span class="va">t_var1</span> <span class="op">+</span> <span class="va">t_var2</span>;</span>
+<span><span class="va">temperature_celsius</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bitwise.html" class="external-link">bitwShiftR</a></span><span class="op">(</span><span class="op">(</span><span class="va">t_fine</span> <span class="op">*</span> <span class="fl">5</span> <span class="op">+</span> <span class="fl">128</span><span class="op">)</span>,<span class="fl">8</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># temperature_celsius &lt;- BME280_compensate_T_int32(raw_temperature, dig_T1_value,dig_T2_value,dig_T3_value)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"temperature (c):"</span>, <span class="op">(</span><span class="va">temperature_celsius</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
