@@ -1,5 +1,4 @@
 // based on https://github.com/wargio/spidev/tree/master
-using namespace Rcpp;
 #include <Rcpp.h>
 #include <unistd.h>
 
@@ -13,6 +12,8 @@ using namespace Rcpp;
 #include <sys/ioctl.h>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
+
+using namespace Rcpp;
 
 typedef struct _spi{
   int dev;
