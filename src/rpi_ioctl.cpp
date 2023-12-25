@@ -33,12 +33,14 @@ using namespace Rcpp;
 //' }
 
  // [[Rcpp::export]]
-rcpp::List rpi_ioctl(int spiDeviceID, Rcpp::String ioctlRequest, Rcpp::List spiControl) {
+Rcpp::List rpi_ioctl(int spiDeviceID, Rcpp::String ioctlRequest, Rcpp::List spiControl) {
 
   status_value = ioctl(spiDeviceID, ioctlRequest, spiControl);
 
-  if (status_value < 0) {status_message = strerror(errno)} ;
+  if (status_value < 0) {
+    spiControl.status_value = status_value;
+    spiControl.status_msg = strerror(errno)
+    } ;
 
-  ioctl_value = Rcpp::list(status_value, errno, status_message)
-  return(ioctl_value);
+  return(spiControl);
 }
