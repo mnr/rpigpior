@@ -12,6 +12,13 @@ using namespace Rcpp;
 
 # define RX_LEN 3
 
+typedef struct _spi{
+  int dev;
+  uint8_t mode;
+  uint8_t bits;
+  uint32_t speed;
+}spi;
+
 // [[Rcpp::export]]
 Rcpp::NumericVector rpi_spi_cpp_read() {
   printf("MCP3008 Example\n");
