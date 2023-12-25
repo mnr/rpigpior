@@ -29,7 +29,7 @@ void spi_close(spi* s);
 int  spi_getadc(spi* s, int channel);
 
 // [[Rcpp::export]]
-Rcpp::NumericVector rpi_spi_cpp_read() {
+Rcpp::NumericVector rpi_spi_read() {
   printf("MCP3008 Example\n");
   spi s;
   spi_open(&s, "/dev/spidev0.0");
