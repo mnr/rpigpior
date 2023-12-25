@@ -71,6 +71,8 @@ library(rpigpior)
 
 <https://forums.raspberrypi.com/viewtopic.php?p=1927979> <https://www.kernal.org/doc/html/latest/spi/spidev.html>
 
+<https://github.com/wargio/spidev/tree/master> - code to read mcp3008 with spidev/ioctl
+
 # testing
 
 using MCP3008 as test chip
