@@ -39,7 +39,7 @@ Rcpp::NumericVector rpi_spi_read() {
     printf("channel: %d got: %d/1023\n", ch, ret);
     ++ch;
   }
-  spi_close(&s);
+  rpi_spi_close(&s);
   return 0;
 
 }
