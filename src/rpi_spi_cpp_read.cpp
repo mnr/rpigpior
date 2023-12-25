@@ -1,5 +1,11 @@
 // based on https://github.com/wargio/spidev/tree/master
 #include <Rcpp.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+#include <string.h>
+#include <stdint.h>
+
 #include <stdio.h>
 #include <time.h>
 #include <assert.h>
