@@ -35,7 +35,7 @@ using namespace Rcpp;
  // [[Rcpp::export]]
 Rcpp::List rpi_ioctl(int spiDeviceID, Rcpp::String ioctlRequest, Rcpp::List spiControl) {
 
-  status_value = ioctl(spiDeviceID, ioctlRequest, spiControl);
+  Rcpp::List spiControl.status_value = ioctl(spiDeviceID, ioctlRequest, spiControl);
 
   if (status_value < 0) {
     spiControl.status_value = status_value;
