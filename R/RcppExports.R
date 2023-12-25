@@ -26,10 +26,6 @@ rpi_ioctl <- function(spiDeviceID, ioctlRequest, spiControl) {
     .Call(`_rpigpior_rpi_ioctl`, spiDeviceID, ioctlRequest, spiControl)
 }
 
-rpi_spi_cpp_read <- function() {
-    .Call(`_rpigpior_rpi_spi_cpp_read`)
-}
-
 rpi_spi_read <- function() {
     .Call(`_rpigpior_rpi_spi_read`)
 }

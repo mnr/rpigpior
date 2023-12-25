@@ -23,16 +23,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rpi_spi_cpp_read
-Rcpp::NumericVector rpi_spi_cpp_read();
-RcppExport SEXP _rpigpior_rpi_spi_cpp_read() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rpi_spi_cpp_read());
-    return rcpp_result_gen;
-END_RCPP
-}
 // rpi_spi_read
 Rcpp::NumericVector rpi_spi_read();
 RcppExport SEXP _rpigpior_rpi_spi_read() {
@@ -46,7 +36,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rpigpior_rpi_ioctl", (DL_FUNC) &_rpigpior_rpi_ioctl, 3},
-    {"_rpigpior_rpi_spi_cpp_read", (DL_FUNC) &_rpigpior_rpi_spi_cpp_read, 0},
     {"_rpigpior_rpi_spi_read", (DL_FUNC) &_rpigpior_rpi_spi_read, 0},
     {NULL, NULL, 0}
 };
