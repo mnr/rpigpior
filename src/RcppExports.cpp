@@ -10,46 +10,33 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// spiClose
-int spiClose(int spiDeviceID);
-RcppExport SEXP _rpigpior_spiClose(SEXP spiDeviceIDSEXP) {
+// rpi_ioctl
+Rcpp::List rpi_ioctl(int spiDeviceID, Rcpp::String ioctlRequest, Rcpp::List spiControl);
+RcppExport SEXP _rpigpior_rpi_ioctl(SEXP spiDeviceIDSEXP, SEXP ioctlRequestSEXP, SEXP spiControlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type spiDeviceID(spiDeviceIDSEXP);
-    rcpp_result_gen = Rcpp::wrap(spiClose(spiDeviceID));
+    Rcpp::traits::input_parameter< Rcpp::String >::type ioctlRequest(ioctlRequestSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type spiControl(spiControlSEXP);
+    rcpp_result_gen = Rcpp::wrap(rpi_ioctl(spiDeviceID, ioctlRequest, spiControl));
     return rcpp_result_gen;
 END_RCPP
 }
-// rpi_spi_open
-int rpi_spi_open(unsigned spiChan, unsigned spiBus, unsigned max_speed_hz);
-RcppExport SEXP _rpigpior_rpi_spi_open(SEXP spiChanSEXP, SEXP spiBusSEXP, SEXP max_speed_hzSEXP) {
+// rpi_spi_cpp_read
+Rcpp::NumericVector rpi_spi_cpp_read();
+RcppExport SEXP _rpigpior_rpi_spi_cpp_read() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< unsigned >::type spiChan(spiChanSEXP);
-    Rcpp::traits::input_parameter< unsigned >::type spiBus(spiBusSEXP);
-    Rcpp::traits::input_parameter< unsigned >::type max_speed_hz(max_speed_hzSEXP);
-    rcpp_result_gen = Rcpp::wrap(rpi_spi_open(spiChan, spiBus, max_speed_hz));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rpi_spi_read
-int rpi_spi_read(int spiDeviceID);
-RcppExport SEXP _rpigpior_rpi_spi_read(SEXP spiDeviceIDSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type spiDeviceID(spiDeviceIDSEXP);
-    rcpp_result_gen = Rcpp::wrap(rpi_spi_read(spiDeviceID));
+    rcpp_result_gen = Rcpp::wrap(rpi_spi_cpp_read());
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rpigpior_spiClose", (DL_FUNC) &_rpigpior_spiClose, 1},
-    {"_rpigpior_rpi_spi_open", (DL_FUNC) &_rpigpior_rpi_spi_open, 3},
-    {"_rpigpior_rpi_spi_read", (DL_FUNC) &_rpigpior_rpi_spi_read, 1},
+    {"_rpigpior_rpi_ioctl", (DL_FUNC) &_rpigpior_rpi_ioctl, 3},
+    {"_rpigpior_rpi_spi_cpp_read", (DL_FUNC) &_rpigpior_rpi_spi_cpp_read, 0},
     {NULL, NULL, 0}
 };
 
