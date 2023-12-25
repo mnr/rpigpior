@@ -19,6 +19,10 @@ typedef struct _spi{
   uint32_t speed;
 }spi;
 
+int  spi_open(spi* s, const char* device);
+void spi_close(spi* s);
+int  spi_getadc(spi* s, int channel);
+
 // [[Rcpp::export]]
 Rcpp::NumericVector rpi_spi_cpp_read() {
   printf("MCP3008 Example\n");
