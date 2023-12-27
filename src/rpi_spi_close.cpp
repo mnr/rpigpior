@@ -1,4 +1,6 @@
 // based on https://github.com/wargio/spidev/tree/master
+// http://adv-r.had.co.nz/Rcpp.html
+// data types: https://teuder.github.io/rcpp4everyone_en/070_data_types.html
 #include <Rcpp.h>
 #include <unistd.h>
 
@@ -22,11 +24,11 @@ typedef struct _spi{
   uint32_t speed;
 }spi;
 
-void rpi_spi_close(spi* s);
+//void rpi_spi_close(spi* s);
 
 // [[Rcpp::export]]
-void rpi_spi_close(spi* s){
-  assert(s && s->dev>=0);
-  s->dev   = -1;
-  close(s->dev);
+void rpi_spi_close(int spi_device){
+//  assert(s && s->dev>=0);
+//  s->dev   = -1;
+  close(spi_device);
 }
