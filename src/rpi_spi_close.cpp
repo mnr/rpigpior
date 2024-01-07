@@ -24,11 +24,7 @@ typedef struct _spi{
   uint32_t speed;
 }spi;
 
-//void rpi_spi_close(spi* s);
-
 // [[Rcpp::export]]
 void rpi_spi_close(int spi_device){
-//  assert(s && s->dev>=0);
-//  s->dev   = -1;
   close(spi_device);
 }
