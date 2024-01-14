@@ -26,6 +26,7 @@ typedef struct _spi{
 
 int  spi_open(spi* s, const char* device);
 void spi_close(spi* s);
+void rpi_spi_close(int spi_device);
 int  spi_getadc(spi* s, int channel);
 
 // [[Rcpp::export]]
@@ -39,7 +40,7 @@ Rcpp::NumericVector rpi_spi_read() {
     printf("channel: %d got: %d/1023\n", ch, ret);
     ++ch;
   }
-  rpigpior::rpi_spi_close(s.dev);
+  rpi_spi_close(s.dev);
   return 0;
 
 }
