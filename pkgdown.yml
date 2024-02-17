@@ -7,7 +7,7 @@ articles:
   how-to-RPi: how-to-RPi.html
   rpi_i2c: rpi_i2c.html
   rpi_pwm: rpi_pwm.html
-last_built: 2024-02-17T00:43Z
+last_built: 2024-02-17T00:45Z
 urls:
   reference: https://mnr.github.io/rpigpior/reference
   article: https://mnr.github.io/rpigpior/articles
