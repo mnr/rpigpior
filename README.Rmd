@@ -60,7 +60,7 @@ Most documentation will tell you to use devtools, but
 *However*...if you installed R on your Raspberry Pi using r4pi, you can
 use devtools just like normal.
 
-```{r}
+``` r
 # Start R with "sudo R" to install packages
 # install.packages("devtools")
 
