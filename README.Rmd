@@ -57,8 +57,8 @@ remotes::install_github("mnr/rpigpior")
 Most documentation will tell you to use devtools, but
 `install.packages("devtools")` on a Raspberry Pi is an onerous task.
 
-*However*...if you installed R on your Raspberry Pi using r4pi, you can
-use devtools just like normal.
+*However*...if you installed R on your Raspberry Pi using
+[r4pi](https://r4pi.org/), you can use devtools just like normal.
 
 ``` r
 # Start R with "sudo R" to install packages
