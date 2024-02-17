@@ -40,6 +40,29 @@ remotes::install_github("mnr/rpigpior")
 Most documentation will tell you to use devtools, but
 `install.packages("devtools")` on a Raspberry Pi is an onerous task.
 
+*However*…if you installed R on your Raspberry Pi using r4pi, you can
+use devtools just like normal.
+
+``` r
+# Start R with "sudo R" to install packages
+# install.packages("devtools")
+
+# You might want to switch back to non-admin R
+library(devtools)
+#> Loading required package: usethis
+install_github("mnr/rpigpior")
+#> Downloading GitHub repo mnr/rpigpior@HEAD
+#> ── R CMD build ─────────────────────────────────────────────────────────────────
+#>      checking for file ‘/private/var/folders/sw/tfbr78mn7knfkl4ll9tx40m80000gn/T/Rtmp1oLMSF/remotes5f2e65f6eb16/mnr-rpigpior-58b1907/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/sw/tfbr78mn7knfkl4ll9tx40m80000gn/T/Rtmp1oLMSF/remotes5f2e65f6eb16/mnr-rpigpior-58b1907/DESCRIPTION’
+#>   ─  preparing ‘rpigpior’:
+#>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  building ‘rpigpior_0.1.0.tar.gz’
+#>      
+#> 
+```
+
 Once you’ve installed, use `library` just like any other R package:
 
 ``` r
