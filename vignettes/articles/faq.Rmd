@@ -1,0 +1,20 @@
+---
+title: "faq"
+author: "Mark Niemann-Ross"
+date: "2024-02-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+*-bash: gpioset: command not found*
+
+You are probably running a lite version of the operating system. This doesn't have the `gpiod` library installed. That's easy to fix...
+
+```{r, eval=FALSE}
+sudo apt update
+sudo apt install gpiod libgpiod-dev
+
+```
