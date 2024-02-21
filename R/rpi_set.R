@@ -21,6 +21,10 @@
 #' rpi_set(toggleThesePins, 0) # turns off all pins
 rpi_set <- function(pin_number, onOff) {
 
+  if( is.logical(onOff) ) {
+    onOff <- ifelse(onOff,1,0)
+  }
+
   bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
 
   pinAndValue <- paste0(bcm_line,"=",onOff)
