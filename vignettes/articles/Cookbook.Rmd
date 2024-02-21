@@ -11,6 +11,15 @@ knitr::opts_chunk$set(
 
 This cookbook shows how to use sensors and drivers using tools provided by `rpigpior`. Normally, this would be included in the examples section for each function. However, opening a channel to a microcircuit is different than communicating with that chip. This page is a collection of examples of how to talk to chips using the tools provided by `rpigpior()`
 
+# Non-latching Relay
+
+![](adafruit_relay.jpeg){width="210"}
+
+This simple and cheap relay is a great demonstration of using `rpigpior()` to drive a device. Obtain one of these relays from [Adafruit](https://www.adafruit.com/product/4409) for the low-low price of \$6.95.
+
+```{r, eval=FALSE} # Relay #1 connected to GPIO17, board pin 11. # Relay #2 connected to GPIO27, board pin 13. rpi_set(pin_number = c(11, 13), onOff = 1) # turn both relays on rpi_set(pin_number = c(11, 13), onOff = 0) # turn both relays off}
+```
+
 # BME280
 
 The BME280 is a versatile integrated environmental sensor designed for precision measurement of ambient temperature, relative humidity, and atmospheric pressure. This compact and low-power sensor is equipped with advanced MEMS (Micro-Electro-Mechanical Systems) technology, providing accurate and reliable data for various applications, including weather forecasting, indoor climate control, and IoT devices. Its I2C and SPI communication interfaces make it easy to interface with microcontrollers and microprocessors, while its small form factor and energy efficiency make it an ideal choice for a wide range of projects, from weather stations to wearable tech, where monitoring and controlling environmental conditions are paramount.
