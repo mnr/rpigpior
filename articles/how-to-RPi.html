@@ -100,8 +100,8 @@ Raspberry Pi.</p>
 <div class="section level3">
 <h3 id="a-brief-overview-of-the-raspberry-pi">A brief overview of the Raspberry Pi<a class="anchor" aria-label="anchor" href="#a-brief-overview-of-the-raspberry-pi"></a>
 </h3>
-<div class="figure">
-<img src="raspberry-pi-4-model-b%20crop.jpg" fig-alt="An image showing the Raspberry Pi Model 4" fig-align="left" width="393" alt=""><p class="caption">Raspberry Pi Model 4</p>
+<div class="float">
+<img src="raspberry-pi-4-model-b%20crop.jpg" fig-alt="An image showing the Raspberry Pi Model 4" fig-align="left" width="393" alt="Raspberry Pi Model 4"><div class="figcaption">Raspberry Pi Model 4</div>
 </div>
 <p>Hopefully this really isn’t necessary, but you may wonder why there’s
 a fuss about the <a href="https://www.raspberrypi.com" class="external-link">Raspberry Pi</a>.
@@ -126,8 +126,8 @@ You might want to check out <a href="https://r4pi.org" class="external-link">R4P
 website that provides precompiled binaries.</p>
 <p>If the R4Pi website isn’t up and running, simply fall back to
 apt-get…</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sudo apt<span class="sc">-</span>get update</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install r<span class="sc">-</span>base r<span class="sc">-</span>base<span class="sc">-</span>core</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sudo apt<span class="sc">-</span>get update</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install r<span class="sc">-</span>base r<span class="sc">-</span>base<span class="sc">-</span>core</span></code></pre></div>
 <p>Unfortunately, this installs R as Root, which will cause problems
 when you <code><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages( )</a></code> since you don’t have access to
 the library folder. <em>I fixed this on my Raspberry Pi, but didn’t take
@@ -139,8 +139,8 @@ My apologies.</em></p>
 </h3>
 <p>Unfortunately, the installer places R in the graphic menu instead of
 programming tools.</p>
-<div class="figure">
-<img src="fixtheapp.png" fig-alt="Image showing how to fix the app location in Raspbian" alt=""><p class="caption">R appears in the graphic menu</p>
+<div class="float">
+<img src="fixtheapp.png" fig-alt="Image showing how to fix the app location in Raspbian" alt="R appears in the graphic menu"><div class="figcaption">R appears in the graphic menu</div>
 </div>
 <p>That works, but it’s just annoying. To move it to the programming
 menu:</p>
@@ -181,8 +181,8 @@ wrong. Let’s fix it…</p>
 But as of the creation of this document, it’s not ready for prime time.
 I use Geany instead - it’s installed on the Raspberry Pi, it’s an IDE,
 and it’s better than a poke in the eye.</p>
-<div class="figure">
-<img src="geany_config.png" fig-alt="An image showing how to configure Geany to run the R programming language" alt=""><p class="caption">Configuring geany for R</p>
+<div class="float">
+<img src="geany_config.png" fig-alt="An image showing how to configure Geany to run the R programming language" alt="Configuring geany for R"><div class="figcaption">Configuring geany for R</div>
 </div>
 <p>There are a few things to set up before using Geany for R. I learned
 how to do this at the Geany documentation:</p>

@@ -1,4 +1,4 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -8,7 +8,7 @@ articles:
   how-to-RPi: how-to-RPi.html
   rpi_i2c: rpi_i2c.html
   rpi_pwm: rpi_pwm.html
-last_built: 2024-02-21T23:40Z
+last_built: 2024-03-03T07:39Z
 urls:
   reference: https://mnr.github.io/rpigpior/reference
   article: https://mnr.github.io/rpigpior/articles

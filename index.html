@@ -148,27 +148,27 @@
 <h2 id="reading-a-pin">Reading a pin<a class="anchor" aria-label="anchor" href="#reading-a-pin"></a>
 </h2>
 <p>If you connect a switch to board pin 40, this code will read it:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_get</span>(<span class="dv">40</span>) <span class="co"># reads board pin 40</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_get</span>(<span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">40</span>)) <span class="co"># reads board pins 7 and 40</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> GPIO004  GPIO21</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span>       <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">rpi_get</span>(<span class="dv">40</span>) <span class="co"># reads board pin 40</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">rpi_get</span>(<span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">40</span>)) <span class="co"># reads board pins 7 and 40</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="sc">&gt;</span> GPIO004  GPIO21</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>        <span class="dv">0</span>       <span class="dv">1</span></span></code></pre></div>
 <p>That assumes the switch to board pin 40 is “pushed” or closed. By the way, there is a diagram of this located in the <em>articles</em> section of the website (as identified in the package description)</p>
 </div>
 <div class="section level2">
 <h2 id="turning-pins-on-and-off">Turning pins on and off<a class="anchor" aria-label="anchor" href="#turning-pins-on-and-off"></a>
 </h2>
 <p>If you have a LEDs connected to board pin 19, 21, and 23, this code will turn them on, then one of them off, then all of them off</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>toggleThese <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">19</span>,<span class="dv">21</span>,<span class="dv">23</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese,<span class="dv">1</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">1</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">1</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese, <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(rpigpior)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>toggleThese <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">19</span>,<span class="dv">21</span>,<span class="dv">23</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese,<span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">1</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">1</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">rpi_set</span>(toggleThese, <span class="dv">0</span>)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="related-notes">Related notes:<a class="anchor" aria-label="anchor" href="#related-notes"></a>
