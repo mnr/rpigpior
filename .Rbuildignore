@@ -11,3 +11,4 @@
 ^doc$
 ^Meta$
 ^data-raw$
+^codemeta\.json$
