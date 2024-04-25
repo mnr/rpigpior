@@ -11,26 +11,26 @@
 #' @examplesIf is.rpi()
 #' # turns pin 19 on, 21 off, and 23 on.
 #' # This corresponds to gpio09, gpio10, and gpio11
-#' rpi_set(pin_number = c(19, 21, 23), onOff = c(1,0,1))
+#' rpi_set(pin_number = c(19, 21, 23), onOff = c(1, 0, 1))
 #'
-#' toggleThesePins <- c(19,21,23)
+#' toggleThesePins <- c(19, 21, 23)
 #' rpi_set(toggleThesePins, 1) # turns all three pins on. onOff is recycled
 #' Sys.sleep(1)
-#' rpi_set(toggleThesePins, c(0,1,0)) # turns off pins 19 and 23
+#' rpi_set(toggleThesePins, c(0, 1, 0)) # turns off pins 19 and 23
 #' Sys.sleep(1)
 #' rpi_set(toggleThesePins, 0) # turns off all pins
 rpi_set <- function(pin_number, onOff) {
-
-  if( is.logical(onOff) ) {
-    onOff <- ifelse(onOff,1,0)
+  if (is.logical(onOff)) {
+    onOff <- ifelse(onOff, 1, 0)
   }
 
   bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
 
-  pinAndValue <- paste0(bcm_line,"=",onOff)
+  pinAndValue <- paste0(bcm_line, "=", onOff)
 
-  gpio_sysCall <- paste("gpioset gpiochip0",
-                        paste(pinAndValue, collapse = " ")
+  gpio_sysCall <- paste(
+    "gpioset gpiochip0",
+    paste(pinAndValue, collapse = " ")
   )
 
   system(gpio_sysCall, intern = TRUE)

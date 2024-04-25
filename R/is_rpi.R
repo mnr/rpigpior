@@ -27,18 +27,20 @@
 #' is.rpi("NAME")
 is.rpi <- function(onlyThis = "IsThisRPI") {
   # First, test for presence of /etc/os-release
-  theResult <- tryCatch({
-    utils::read.table("/etc/os-release", sep = "=")
-  },
-  warning = function(w) {
-    FALSE
-  },
-  error = function(e) {
-    FALSE
-  },
-  finally = {
-    #cleanup
-  })
+  theResult <- tryCatch(
+    {
+      utils::read.table("/etc/os-release", sep = "=")
+    },
+    warning = function(w) {
+      FALSE
+    },
+    error = function(e) {
+      FALSE
+    },
+    finally = {
+      # cleanup
+    }
+  )
 
   if (onlyThis == "IsThisRPI") {
     if (isFALSE(theResult)) {
@@ -46,7 +48,7 @@ is.rpi <- function(onlyThis = "IsThisRPI") {
       theReturnValue <- FALSE
     } else {
       # /etc/os-release was found, so this is at least debian
-      osname <- theResult[theResult[1] == "ID",2]
+      osname <- theResult[theResult[1] == "ID", 2]
       if (osname == "raspbian") {
         # /etc/os-release is present and this is raspbian
         theReturnValue <- TRUE
@@ -58,7 +60,7 @@ is.rpi <- function(onlyThis = "IsThisRPI") {
     }
   } else {
     # someone wants to know specifics about this RPi
-    theReturnValue <- theResult[theResult[1] == onlyThis,2]
+    theReturnValue <- theResult[theResult[1] == onlyThis, 2]
   }
 
   return(theReturnValue)

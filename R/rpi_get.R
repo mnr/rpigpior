@@ -8,17 +8,19 @@
 #' @export
 #'
 #' @examplesIf is.rpi()
-#' \dontrun{ rpi_get(1) # produces error since pin #1 is not data }
+#' \dontrun{
+#' rpi_get(1) # produces error since pin #1 is not data
+#' }
 #' rpi_get(40) # returns a named vector of the state of GPIO21. i.e. return["GPIO21"] = 1
 #' rpi_get(c(7, 40)) # returns a named vector of values from pins 7 and 40
 rpi_get <- function(pin_number) {
-
   bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
   pin_name <- names(bcm_line)
 
-  gpio_sysCall <- paste("gpioget gpiochip0",
-                        paste(bcm_line, collapse = " ")
-                        )
+  gpio_sysCall <- paste(
+    "gpioget gpiochip0",
+    paste(bcm_line, collapse = " ")
+  )
 
   # I wish |> was available on RPi!
   pin_value <- system(gpio_sysCall, intern = TRUE)

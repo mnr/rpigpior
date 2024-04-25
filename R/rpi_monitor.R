@@ -50,31 +50,27 @@
 #' @examplesIf is.rpi()
 #' \donttest{
 #' rpi_monitor(21)
-#' rpi_monitor(21, numEvents=20)
+#' rpi_monitor(21, numEvents = 20)
 #' }
 rpi_monitor <-
   function(pin_number,
            numEvents = 0,
            edge = "both") {
-
     bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
 
     gpio_sysCall <- paste(
       "gpiomon",
-
       if (numEvents != 0) {
         paste0("--num-events=", numEvents)
       } else {
         paste0("--num-events=", 10)
       },
-
       if (edge == "rising") {
         "--rising-edge"
       } else if (edge == "falling") {
         "--falling-edge"
       } else if (edge == "both") {
       },
-
       "gpiochip0",
       paste(bcm_line, collapse = " ")
     )
@@ -83,9 +79,11 @@ rpi_monitor <-
 
     myPattern <-
       "event: +([A-Z ]+) offset: (\\d+) timestamp: \\[ (\\d+)\\.(\\d+)\\]"
-    rxmatches <- regexec(pattern = myPattern,
-                         text = monitored_events,
-                         perl = TRUE)
+    rxmatches <- regexec(
+      pattern = myPattern,
+      text = monitored_events,
+      perl = TRUE
+    )
     rxvalues <- regmatches(x = monitored_events, m = rxmatches)
     return(rxvalues)
   }

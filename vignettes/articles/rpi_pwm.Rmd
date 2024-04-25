@@ -87,7 +87,7 @@ the OS card, you'll need to repeat this step.
 Here's an example:
 
 ```{r, eval=FALSE}
-rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 25000)
+rpi_pwm(c(12, 33), pwm_period = 50000, pwm_dutycycle = 25000)
 
 # This will enable PWM0 and PWM1 with a period (frequency) of 50000 and a duty cycle of 25000. That is to say, 50% power.
 ```

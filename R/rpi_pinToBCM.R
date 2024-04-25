@@ -15,7 +15,6 @@
 #' @examplesIf is.rpi()
 #' rpi_pinToBCM(1) # produces error since pin #1 is not data
 #' rpi_pinToBCM(40) # returns a named vector where bcm_line = 21 and pin_name = GPIO21
-
 rpi_pinToBCM <- function(pin_number) {
   # check pin number. Are all values valid data lines?
 
@@ -23,17 +22,17 @@ rpi_pinToBCM <- function(pin_number) {
   pin_name <- c() # ensure that pin_name is empty
   for (eachPin in pin_number) {
     # is eachpin in range of 1:40?
-    if(eachPin < 1 || eachPin > 40) {
-      stop(paste("Pin",eachPin,"is an invalid number (1:40)"))
+    if (eachPin < 1 || eachPin > 40) {
+      stop(paste("Pin", eachPin, "is an invalid number (1:40)"))
     }
     # does eachpin start with "GPIO"?
-    pinDesc <- rpigpior::rpi_pin_desc[eachPin,"Description"]
+    pinDesc <- rpigpior::rpi_pin_desc[eachPin, "Description"]
     if (startsWith(pinDesc, prefix = "GPIO")) {
       # if this is a GPIO line, add it to bcm_line and pin_name
-      bcm_line <- c(bcm_line, substr(pinDesc,start = 5, stop = 6))
+      bcm_line <- c(bcm_line, substr(pinDesc, start = 5, stop = 6))
       pin_name <- c(pin_name, pinDesc)
     } else {
-      stop(paste("Pin",eachPin,"provides",pinDesc,"and is not a data line."))
+      stop(paste("Pin", eachPin, "provides", pinDesc, "and is not a data line."))
     }
   }
 

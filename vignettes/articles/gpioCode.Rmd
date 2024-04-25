@@ -71,7 +71,6 @@ while (TRUE) {
     print("Button not pushed")
   }
 }
-
 ```
 
 On each pass through the `while()` loop, this program will read the state of board pin 40 with `rpi_get(40)`. If the button is pushed, it will `print("Button Pushed")`. If pin 40 is not pushed, it will `print("Button not pushed")`
@@ -109,11 +108,10 @@ library(rpigpior)
 
 while (TRUE) {
   if (rpi_get(40)) {
-    
-    rpi_set(3,1)
+    rpi_set(3, 1)
     Sys.sleep(1)
-    
-    rpi_set(3,0)
+
+    rpi_set(3, 0)
     Sys.sleep(3)
   }
 }
