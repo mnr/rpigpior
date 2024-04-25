@@ -87,8 +87,8 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
           if (!any(grepl(dtoverlayString, readLines("/boot/config.txt")))) {
 
           # dtoverlayString contains the string to place in /boot/config.txt
-          print(paste("Add this string to /boot/config:", dtoverlayString))
-          print("Refer to https://mnr.github.io/rpigpior/articles/rpi_pwm.html#handling-errors")
+          message(paste("Add this string to /boot/config:", dtoverlayString))
+          message("Refer to https://mnr.github.io/rpigpior/articles/rpi_pwm.html#handling-errors")
 
           stop(paste("PWM not enabled")) }
       }
@@ -121,7 +121,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
                             "/period"
                       )
       system(gpio_sysCall, intern = TRUE)
-      if(pwm_debug) print(gpio_sysCall)
+      if(pwm_debug) message(gpio_sysCall)
 
       # sudo echo 25000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
       gpio_sysCall <- paste0("sudo echo ",
@@ -131,7 +131,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
                              "/duty_cycle"
       )
       system(gpio_sysCall, intern = TRUE)
-      if(pwm_debug) print(gpio_sysCall)
+      if(pwm_debug) message(gpio_sysCall)
 
       # sudo echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
       gpio_sysCall <- paste0("sudo echo 1 > /sys/class/pwm/pwmchip0/pwm",
@@ -139,7 +139,7 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
                              "/enable"
       )
       system(gpio_sysCall, intern = TRUE)
-      if(pwm_debug) print(gpio_sysCall)
+      if(pwm_debug) message(gpio_sysCall)
 
   }
 } # end of rpi_pwm
