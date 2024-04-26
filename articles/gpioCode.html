@@ -241,11 +241,10 @@ then connected via a green wire to board pin 3.</p></li>
 <span></span>
 <span><span class="kw">while</span> <span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="../reference/rpi_get.html">rpi_get</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    </span>
-<span>    <span class="fu"><a href="../reference/rpi_set.html">rpi_set</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/rpi_set.html">rpi_set</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span>    </span>
-<span>    <span class="fu"><a href="../reference/rpi_set.html">rpi_set</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">0</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="fu"><a href="../reference/rpi_set.html">rpi_set</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
