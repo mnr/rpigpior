@@ -1,16 +1,10 @@
 citHeader("To cite rpigpior in publications use:")
 
-citEntry(
-  entry    = "Article",
-  title    = ,
-  author   = ,
-  journal  = ,
-  year     = ,
-  volume   = ,
-  number   = ,
-  pages    = ,
-  url      = ,
-  textVersion = paste(
-
-  )
+bibentry(
+  key    = "Article",
+  bibtype = "Misc",
+  url      = "https://mnr.github.io/rpigpior/",
+  author   = person("Mark", "Niemann-Ross"),
+  title    = "rpigpior: Provides R with Access to the Raspberry Pi",
+  year     = "2024"
 )
