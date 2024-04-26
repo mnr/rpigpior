@@ -16,11 +16,12 @@ test_that("length(pin_number) > 3", {
 test_that("real world test of pwm", {
   skip_if_not(is.rpi())
   message("Testing PWM in real world")
-  expect_silent({
+  testPWM <- function() {
     rpi_pwm(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 10000)
     Sys.sleep(1)
     rpi_pwm(pin_number = 33, pwm_period = 50000, pwm_dutycycle = 40000)
     Sys.sleep(1)
     rpi_pwm(pin_number = c(12, 33), pwm_period = 50000, pwm_dutycycle = 0)
-  })
+  }
+  expect_silent(testPWM())
 })
