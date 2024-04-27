@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examplesIf is.rpi()
-#' #' \dontrun {
+#' \dontrun {
 #' rpi_pinToBCM(1) # produces error since pin #1 is not data
 #' rpi_pinToBCM(40) # returns a named vector where bcm_line = 21 and pin_name = GPIO21
 #' }
