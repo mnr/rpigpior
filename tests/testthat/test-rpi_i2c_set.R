@@ -1,3 +1,4 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("rpi_i2c_set", {
+  skip_if_not(is.rpi(), message = "Not a Raspberry Pi")
+  skip("skip")
 })

@@ -1,6 +1,6 @@
 test_that("Can we set a pin", {
   message("Real world test of setting board pin 11")
-  skip_if_not(is.rpi())
+  skip_if_not(is.rpi(), message = "Not a Raspberry Pi")
   expect_silent({
     rpi_set(11, 1)
     Sys.sleep(1)

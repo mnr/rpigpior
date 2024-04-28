@@ -1,20 +1,20 @@
 test_that("is pin_number valid for use with PWM?", {
-  skip_if_not(is.rpi())
+  skip_if_not(is.rpi(), message = "Not a Raspberry Pi")
   expect_error(rpi_pwm(30, pwm_debug = TRUE))
 })
 
 test_that("Do two PWM pins collide?", {
-  skip_if_not(is.rpi())
+  skip_if_not(is.rpi(), message = "Not a Raspberry Pi")
   expect_error(rpi_pwm(c(12, 32), pwm_debug = TRUE))
 })
 
 test_that("length(pin_number) > 3", {
-  skip_if_not(is.rpi())
+  skip_if_not(is.rpi(), message = "Not a Raspberry Pi")
   expect_error(rpi_pwm(c(12, 32, 33), pwm_debug = TRUE))
 })
 
 test_that("real world test of pwm", {
-  skip_if_not(is.rpi())
+  skip_if_not(is.rpi(), message = "Not a Raspberry Pi")
   message("Testing PWM in real world")
   testPWM <- function() {
     rpi_pwm(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 10000)
