@@ -22,6 +22,10 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
 [![R-CMD-check](https://github.com/mnr/rpigpior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mnr/rpigpior/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
@@ -119,6 +123,12 @@ Sys.sleep(1)
 rpi_set(toggleThese, c(1,0,1))
 Sys.sleep(1)
 rpi_set(toggleThese, 0)
+```
+
+## Citation:
+
+```{r}
+citation("rpigpior")
 ```
 
 ## Related notes:

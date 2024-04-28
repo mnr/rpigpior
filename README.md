@@ -6,6 +6,10 @@
 <!--  <a href="https://mnr.github.io/rpigpior/"><img src="man/figures/logo.png" align="right" height="138"></a> -->
 <!-- badges: start -->
 
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
 [![R-CMD-check](https://github.com/mnr/rpigpior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mnr/rpigpior/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
@@ -101,6 +105,26 @@ turn them on, then one of them off, then all of them off
     rpi_set(toggleThese, c(1,0,1))
     Sys.sleep(1)
     rpi_set(toggleThese, 0)
+
+## Citation:
+
+``` r
+citation("rpigpior")
+#> 
+#> To cite rpigpior in publications use:
+#> 
+#>   Niemann-Ross M (2024). "rpigpior: Provides R with Access to the
+#>   Raspberry Pi." <https://mnr.github.io/rpigpior/>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Misc{Article,
+#>     url = {https://mnr.github.io/rpigpior/},
+#>     author = {Mark Niemann-Ross},
+#>     title = {rpigpior: Provides R with Access to the Raspberry Pi},
+#>     year = {2024},
+#>   }
+```
 
 ## Related notes:
 
