@@ -12,3 +12,4 @@
 ^Meta$
 ^data-raw$
 ^codemeta\.json$
+^CODE_OF_CONDUCT\.md$
