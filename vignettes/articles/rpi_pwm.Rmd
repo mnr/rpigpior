@@ -52,20 +52,26 @@ channels.
 *Raspberry Pi OS* uses the device tree to enable hardware PWM. You'll
 need to do a bit of behind-the-scenes editing to set this up.
 
-To do this, edit /boot/config.txt as root.
+To do this, edit /boot/firmware/config.txt (or /boot/config.txt on older
+OS) as root.
 
 1.  On the Raspberry Pi, open a terminal window
 
-2.  Use the command `sudo nano /boot/config.txt`. This will open the
-    nano text editor and display the contents of /boot/config.txt.
+2.  Use the command `sudo nano /boot/firmware/config.txt`. This will
+    open the nano text editor and display the contents of
+    /boot/config.txt.
 
 3.  Add the `dtoverlay` command at the end of the file. The easiest way
     to determine the command to add to `/boot/config.txt` is to ask
-    `rpi_pwm()` for help. Set `pwm_debug=TRUE` then select the pins you
-    want to use. If they aren't enabled, `rpi_pwm()` will stop and
-    provide you with the correct `dtoverlay` string. This looks
-    something like `dtoverlay=pwm,pin18,func-2` but will change
-    depending on the pins you have chosen.\
+    `rpi_pwm()` for help, like this...
+
+    ```{r}
+    rpi_pwm(pwm_debug = TRUE)
+    ```
+
+4.  `rpi_pwm()` will provide you with the correct `dtoverlay` string.
+    This looks something like `dtoverlay=pwm,pin = 18,func = 2` but will
+    change depending on the pins you have chosen.\
     \
     If you want to do the math yourself, there is an excellent guide
     available at
@@ -75,11 +81,11 @@ To do this, edit /boot/config.txt as root.
     or [Enabling a dual pwm
     channel](https://github.com/raspberrypi/linux/blob/04c8e47067d4873c584395e5cb260b4f170a99ea/arch/arm/boot/dts/overlays/README#L944)
 
-4.  Use *control-o* to write the file, then *control-x* to exit `nano`
+5.  Use *control-o* to write the file, then *control-x* to exit `nano`
 
-5.  Reboot your Raspberry Pi to enact this change.
+6.  Reboot your Raspberry Pi to enact this change.
 
-Note that if you rebuild your SD card or reinstall Raspberry Pi OS on
+Note that if you rebuild your SD card or re-install Raspberry Pi OS on
 the OS card, you'll need to repeat this step.
 
 ## How to use `rpi_pwm()`
