@@ -2,7 +2,8 @@
 #'
 #' Returns TRUE if this code is running on a Raspberry Pi
 #'
-#' @param tellme
+#' @param tellme if TRUE the is.rpi will return the device-tree/model.
+#'     This typically looks like "Raspberry Pi 5 Model B Rev 1.0"
 #'
 #' @return TRUE if running on a Raspberry Pi.
 #'          if tellme = TRUE, return the model string
