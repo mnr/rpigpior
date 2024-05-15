@@ -23,26 +23,27 @@ If two pins are selected, they must be one of these combinations: (12,33), (32,3
 }
 \value{
 void
-    `rpi_pwm()` provides extensive error checking. Possible errors include:
-    \itemize{
-     \item Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.
-     \item Invalid PWM pin combination: The combination of pins both select PWM0 or PWM1
-     \item PWM not enabled: This PWM channel is not enabled
-     \item (see https://mnr.github.io/rpigpior/articles/rpi_pwm.html for fixing errors)
-     }
+\code{rpi_pwm()} provides extensive error checking. Possible errors include:
+\itemize{
+\item Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.
+\item Invalid PWM pin combination: The combination of pins both select PWM0 or PWM1
+\item PWM not enabled: This PWM channel is not enabled
+\item (see https://mnr.github.io/rpigpior/articles/rpi_pwm.html for fixing errors)
+}
 }
 \description{
 Provides the R programming language with access to Raspberry Pi hardware Pulse Width Modulation (PWM)
 }
 \details{
-Only two PWM lines are available on the Raspberry Pi - pwm0 and pwm1. Although it is possible to create software PWM, this isn't advised due to latency of linux and R.
-    It might be helpful to read the article on `rpi_pwm()` located at the [rpigpior website](https://mnr.github.io/rpigpior/articles/rpi_pwm.html).
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Only two PWM lines are available on the Raspberry Pi - pwm0 and pwm1. Although it is possible to create software PWM, this isn't advised due to latency of linux and R.
+It might be helpful to read the article on `rpi_pwm()` located at the [rpigpior website](https://mnr.github.io/rpigpior/articles/rpi_pwm.html).
+}\if{html}{\out{</div>}}
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 rpi_pwm(12) # provides 50\% PWM to pin 12 (PWM0)
 
 #' # provides 20\% PWM to pin 12 (PWM0) and pin 33 (PWM1)
-rpi_pwm(c(12,33), pwm_period = 50000, pwm_dutycycle = 10000)
+rpi_pwm(c(12, 33), pwm_period = 50000, pwm_dutycycle = 10000)
 \dontshow{\}) # examplesIf}
 }

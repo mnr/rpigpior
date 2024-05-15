@@ -17,7 +17,9 @@ Returns the value of one or more specified board-level pin number (0-40). Stops 
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-\dontrun{ rpi_get(1) # produces error since pin #1 is not data }
+\dontrun{
+rpi_get(1) # produces error since pin #1 is not data
+}
 rpi_get(40) # returns a named vector of the state of GPIO21. i.e. return["GPIO21"] = 1
 rpi_get(c(7, 40)) # returns a named vector of values from pins 7 and 40
 \dontshow{\}) # examplesIf}

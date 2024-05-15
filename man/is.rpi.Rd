@@ -2,37 +2,23 @@
 % Please edit documentation in R/is_rpi.R
 \name{is.rpi}
 \alias{is.rpi}
-\title{Provide information about the Operating System}
+\title{Confirm this code is running on a Raspberry Pi}
 \usage{
-is.rpi(onlyThis = "IsThisRPI")
+is.rpi(tellme = FALSE)
 }
 \arguments{
-\item{onlyThis}{If no value is passed to onlyThis, is.rpi() will return a logical
-
-If 'onlyThis' is specified, 'is.rpi()' will return the value for that field in /etc/os-release. Here are some typical values found in os-release
-
-\itemize{
-  \item PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
-  \item NAME is the name of the OS, typically "Raspbian GNU/LINUX"
-  \item VERSION_ID is the version. Currently = 11
-  \item VERSION is a concatenation of VERSION_ID and (VERSION_CODENAME)
-  \item VERSION_CODENAME is the OS Name. Currently = "bullseye"
-  \item ID is the OS. Currently = "raspbian"
-  \item ID_LIKE is the OS base. Currently = "debian"
-  \item HOME_URL Currently = "http://www.raspbian.org"
-  \item SUPPORT_URL Currently = "http://www.raspbian.org/RaspbianForums"
-  \item BUG_REPORT Currently = "http://www.raspbian.org/RaspbianBugs"
-}}
+\item{tellme}{if TRUE the is.rpi will return the device-tree/model.
+This typically looks like "Raspberry Pi 5 Model B Rev 1.0"}
 }
 \value{
-If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running Raspbian
+TRUE if running on a Raspberry Pi.
+if tellme = TRUE, return the model string
 }
 \description{
-Returns TRUE if this code is running under Raspbian or return information about the operating system.
+Returns TRUE if this code is running on a Raspberry Pi
 }
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 is.rpi()
-is.rpi("NAME")
 \dontshow{\}) # examplesIf}
 }

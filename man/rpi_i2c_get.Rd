@@ -22,6 +22,6 @@ Return a byte from an i2c device
 \examples{
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 #' # get a byte from an i2c device located at 0x77
-rpi_i2c_get(chip_address = 0x77, data_address = 0xfa, data_size = 'b')
+rpi_i2c_get(chip_address = 0x77, data_address = 0xfa, data_size = "b")
 \dontshow{\}) # examplesIf}
 }

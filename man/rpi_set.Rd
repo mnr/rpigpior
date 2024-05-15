@@ -21,12 +21,12 @@ Turn lines on or off
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # turns pin 19 on, 21 off, and 23 on.
 # This corresponds to gpio09, gpio10, and gpio11
-rpi_set(pin_number = c(19, 21, 23), onOff = c(1,0,1))
+rpi_set(pin_number = c(19, 21, 23), onOff = c(1, 0, 1))
 
-toggleThesePins <- c(19,21,23)
+toggleThesePins <- c(19, 21, 23)
 rpi_set(toggleThesePins, 1) # turns all three pins on. onOff is recycled
 Sys.sleep(1)
-rpi_set(toggleThesePins, c(0,1,0)) # turns off pins 19 and 23
+rpi_set(toggleThesePins, c(0, 1, 0)) # turns off pins 19 and 23
 Sys.sleep(1)
 rpi_set(toggleThesePins, 0) # turns off all pins
 \dontshow{\}) # examplesIf}

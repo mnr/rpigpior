@@ -15,13 +15,13 @@ rpi_monitor(pin_number, numEvents = 0, edge = "both")
 }
 \value{
 a list of events
-  \itemize{
-     \item raw text of each event
-     \item event: RISING EDGE|FALLING EDGE
-     \item line: the bcm line (not board pin) exhibiting change
-     \item timestamp: seconds component
-     \item timestamp: nanoseconds component
-  }
+\itemize{
+\item raw text of each event
+\item event: RISING EDGE|FALLING EDGE
+\item line: the bcm line (not board pin) exhibiting change
+\item timestamp: seconds component
+\item timestamp: nanoseconds component
+}
 }
 \description{
 Watch a Raspberry pi GPIO pin (or pins) for changes.
@@ -30,7 +30,7 @@ Watch a Raspberry pi GPIO pin (or pins) for changes.
 \dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 rpi_monitor(21)
-rpi_monitor(21, numEvents=20)
+rpi_monitor(21, numEvents = 20)
 }
 \dontshow{\}) # examplesIf}
 }
