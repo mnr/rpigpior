@@ -30,6 +30,7 @@
     <a class="dropdown-item" href="../articles/R_and_RPi.html">R_and_RPi</a>
     <a class="dropdown-item" href="../articles/rpi_i2c.html">rpi_i2c</a>
     <a class="dropdown-item" href="../articles/rpi_pwm.html">Raspberry Pi and PWM</a>
+    <a class="dropdown-item" href="../articles/test_setup.html">How to set up the RPi Test Rig</a>
   </div>
 </li>
 <li class="nav-item">
@@ -83,9 +84,7 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a list of events</p>
-<p></p>
-<ul><li><p>raw text of each event</p></li>
+<p>a list of events</p><ul><li><p>raw text of each event</p></li>
 <li><p>event: RISING EDGE|FALLING EDGE</p></li>
 <li><p>line: the bcm line (not board pin) exhibiting change</p></li>
 <li><p>timestamp: seconds component</p></li>
@@ -97,7 +96,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># is.rpi()</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">rpi_monitor</span><span class="op">(</span><span class="fl">21</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rpi_monitor</span><span class="op">(</span><span class="fl">21</span>, numEvents<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rpi_monitor</span><span class="op">(</span><span class="fl">21</span>, numEvents <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

@@ -30,6 +30,7 @@
     <a class="dropdown-item" href="../articles/R_and_RPi.html">R_and_RPi</a>
     <a class="dropdown-item" href="../articles/rpi_i2c.html">rpi_i2c</a>
     <a class="dropdown-item" href="../articles/rpi_pwm.html">Raspberry Pi and PWM</a>
+    <a class="dropdown-item" href="../articles/test_setup.html">How to set up the RPi Test Rig</a>
   </div>
 </li>
 <li class="nav-item">
@@ -94,17 +95,15 @@ If two pins are selected, they must be one of these combinations: (12,33), (32,3
     
 
 <p>void
-    `rpi_pwm()` provides extensive error checking. Possible errors include:</p>
-<p></p>
-<ul><li><p>Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.</p></li>
+<code>rpi_pwm()</code> provides extensive error checking. Possible errors include:</p><ul><li><p>Invalid PWM pin: Hardware PWM is only supplied to pins 12, 32, 33, or 35.</p></li>
 <li><p>Invalid PWM pin combination: The combination of pins both select PWM0 or PWM1</p></li>
 <li><p>PWM not enabled: This PWM channel is not enabled</p></li>
 <li><p>(see https://mnr.github.io/rpigpior/articles/rpi_pwm.html for fixing errors)</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Only two PWM lines are available on the Raspberry Pi - pwm0 and pwm1. Although it is possible to create software PWM, this isn't advised due to latency of linux and R.
-    It might be helpful to read the article on `rpi_pwm()` located at the [rpigpior website](https://mnr.github.io/rpigpior/articles/rpi_pwm.html).</p>
+    <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>Only two PWM lines are available on the Raspberry Pi <span class="sc">-</span> pwm0 and pwm1. Although it is possible to create software PWM, this isn<span class="st">'t advised due to latency of linux and R.</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="st">It might be helpful to read the article on `rpi_pwm()` located at the [rpigpior website](https://mnr.github.io/rpigpior/articles/rpi_pwm.html).</span></span></code></pre><p></p></div>
     </div>
 
     <div class="section level2">
@@ -113,7 +112,7 @@ If two pins are selected, they must be one of these combinations: (12,33), (32,3
 <span class="r-in"><span><span class="fu">rpi_pwm</span><span class="op">(</span><span class="fl">12</span><span class="op">)</span> <span class="co"># provides 50% PWM to pin 12 (PWM0)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#' # provides 20% PWM to pin 12 (PWM0) and pin 33 (PWM1)</span></span></span>
-<span class="r-in"><span><span class="fu">rpi_pwm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">33</span><span class="op">)</span>, pwm_period <span class="op">=</span> <span class="fl">50000</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rpi_pwm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">33</span><span class="op">)</span>, pwm_period <span class="op">=</span> <span class="fl">50000</span>, pwm_dutycycle <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

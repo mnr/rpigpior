@@ -30,6 +30,7 @@
     <a class="dropdown-item" href="../articles/R_and_RPi.html">R_and_RPi</a>
     <a class="dropdown-item" href="../articles/rpi_i2c.html">rpi_i2c</a>
     <a class="dropdown-item" href="../articles/rpi_pwm.html">Raspberry Pi and PWM</a>
+    <a class="dropdown-item" href="../articles/test_setup.html">How to set up the RPi Test Rig</a>
   </div>
 </li>
 <li class="nav-item">
@@ -81,7 +82,9 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># is.rpi()</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>  <span class="fu">rpi_get</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="co"># produces error since pin #1 is not data </span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">rpi_get</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="co"># produces error since pin #1 is not data</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu">rpi_get</span><span class="op">(</span><span class="fl">40</span><span class="op">)</span> <span class="co"># returns a named vector of the state of GPIO21. i.e. return["GPIO21"] = 1</span></span></span>
 <span class="r-in"><span><span class="fu">rpi_get</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span> <span class="co"># returns a named vector of values from pins 7 and 40</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
