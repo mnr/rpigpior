@@ -85,11 +85,11 @@ rpi_pwm <- function(pin_number = 12, pwm_period = 50000, pwm_dutycycle = 25000, 
       )
     }
 
-    # is dtoverlayString already in /boot/config.txt ?
+    # is dtoverlayString already in /boot/firmware/config.txt ?
     # There might be no version or a different version...
-    if (!any(grepl(dtoverlayString, readLines("/boot/config.txt")))) {
+    if (!any(grepl(dtoverlayString, readLines("/boot/firmware/config.txt")))) {
       # dtoverlayString contains the string to place in /boot/config.txt
-      message(paste("Add this string to /boot/config:", dtoverlayString))
+      message(paste("Add this string to /boot/firmware/config:", dtoverlayString))
       message("Refer to https://mnr.github.io/rpigpior/articles/rpi_pwm.html#handling-errors")
 
       stop(paste("PWM not enabled"))
