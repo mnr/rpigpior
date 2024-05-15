@@ -1,35 +1,20 @@
-#' Provide information about the Operating System
+#' Confirm this code is running on a Raspberry Pi
 #'
-#' Returns TRUE if this code is running under Raspbian or return information about the operating system.
+#' Returns TRUE if this code is running on a Raspberry Pi
 #'
-#' @param onlyThis If no value is passed to onlyThis, is.rpi() will return a logical
+#' @param tellme
 #'
-#' If 'onlyThis' is specified, 'is.rpi()' will return the value for that field in /etc/os-release. Here are some typical values found in os-release
-#'
-#' \itemize{
-#'   \item PRETTY_NAME is a concatenation of NAME, VERSION_ID, VERSION
-#'   \item NAME is the name of the OS, typically "Raspbian GNU/LINUX"
-#'   \item VERSION_ID is the version. Currently = 11
-#'   \item VERSION is a concatenation of VERSION_ID and (VERSION_CODENAME)
-#'   \item VERSION_CODENAME is the OS Name. Currently = "bullseye"
-#'   \item ID is the OS. Currently = "raspbian"
-#'   \item ID_LIKE is the OS base. Currently = "debian"
-#'   \item HOME_URL Currently = "http://www.raspbian.org"
-#'   \item SUPPORT_URL Currently = "http://www.raspbian.org/RaspbianForums"
-#'   \item BUG_REPORT Currently = "http://www.raspbian.org/RaspbianBugs"
-#' }
-#'
-#' @return If `onlyThis` is specified, returns that value. Otherwise returns TRUE if running Raspbian
+#' @return TRUE if running on a Raspberry Pi.
+#'          if tellme = TRUE, return the model string
 #' @export
 #'
 #' @examplesIf is.rpi()
 #' is.rpi()
-#' is.rpi("NAME")
-is.rpi <- function(onlyThis = "IsThisRPI") {
-  # First, test for presence of /etc/os-release
+is.rpi <- function(tellme = FALSE) {
+  # First, test for presence of /proc/device-tree/model
   theResult <- tryCatch(
     {
-      utils::read.table("/etc/os-release", sep = "=")
+      readLines("/proc/device-tree/model", warn = FALSE)
     },
     warning = function(w) {
       FALSE
@@ -42,25 +27,23 @@ is.rpi <- function(onlyThis = "IsThisRPI") {
     }
   )
 
-  if (onlyThis == "IsThisRPI") {
+  if (tellme == FALSE) {
     if (isFALSE(theResult)) {
-      # /etc/os-release wasn't found so this isn't Raspbian
+      # /proc/device-tree/model wasn't found so this isn't Raspbian
       theReturnValue <- FALSE
     } else {
-      # /etc/os-release was found, so this is at least debian
-      osname <- theResult[theResult[1] == "ID", 2]
-      if (osname == "raspbian") {
-        # /etc/os-release is present and this is raspbian
+      # /proc/device-tree/model ?= Raspberry
+      if (grepl("Raspberry", theResult)) {
         theReturnValue <- TRUE
       } else {
-        # /etc/os-release is present, but this isn't raspbian
+        # /proc/device-tree/model is present, but this isn't Raspberry Pi
         # It might be a different version of debian
         theReturnValue <- FALSE
       }
     }
   } else {
     # someone wants to know specifics about this RPi
-    theReturnValue <- theResult[theResult[1] == onlyThis, 2]
+    theReturnValue <- theResult
   }
 
   return(theReturnValue)
