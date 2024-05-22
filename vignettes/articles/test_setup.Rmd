@@ -20,7 +20,7 @@ To run the unit tests on this package, you'll need to connect circuits to specif
 |     Connect to...      | Board Pin | Board Pin |     ...connects to      |
 |:----------------------:|:---------:|:---------:|:-----------------------:|
 |      bme 280 vcc       |     1     |     2     |                         |
-|       bme 280 SDA      |     3     |     4     |                         |
+|      bme 280 SDA       |     3     |     4     |                         |
 |      bme 280 SCL       |     5     |     6     |                         |
 |                        |     7     |     8     |                         |
 |      bme 280 gnd       |     9     |    10     |                         |
