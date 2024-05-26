@@ -1,3 +1,5 @@
+#' DEPRECATED. Use rpi_whatami() instead.
+#'
 #' Confirm this code is running on a Raspberry Pi
 #'
 #' Returns TRUE if this code is running on a Raspberry Pi
