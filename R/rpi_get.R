@@ -1,4 +1,4 @@
-#' Retrieve the value of a RPi Pin
+#' Retrieve the value of an RPi Pin
 #'
 #' Returns the value of one or more specified board-level pin number (0-40). Stops if the pin is not a valid data line.
 #'
@@ -7,27 +7,26 @@
 #' @return named vector with the value of each pin number.
 #' @export
 #'
-#' @examplesIf is.rpi()
+#' @examplesIf rpigpior::rpi_whatami()$is_rpi
 #' \dontrun{
 #' rpi_get(1) # produces error since pin #1 is not data
 #' }
 #' rpi_get(40) # returns a named vector of the state of GPIO21. i.e. return["GPIO21"] = 1
 #' rpi_get(c(7, 40)) # returns a named vector of values from pins 7 and 40
-rpi_get <- function(pin_number) {
+rpi_get <- function(pin_number, whatami = rpi_whatami()) {
+
   bcm_line <- rpigpior::rpi_pinToBCM(pin_number)
   pin_name <- names(bcm_line)
 
   gpio_sysCall <- paste(
-    "gpioget gpiochip0",
+    "gpioget", whatami$gpiochip,
     paste(bcm_line, collapse = " ")
   )
 
-  # I wish |> was available on RPi!
-  pin_value <- system(gpio_sysCall, intern = TRUE)
-
-  pin_value <- unlist(strsplit(pin_value, split = " "))
-
-  pin_value <- as.numeric(pin_value)
+  pin_value <- system(gpio_sysCall, intern = TRUE) |>
+    strsplit(split = " ") |>
+    unlist() |>
+    as.numeric()
 
   names(pin_value) <- pin_name
 
