@@ -16,6 +16,7 @@
 #' * ...$gpiochip normally gpiochip0. For RPi 5, returns gpiochip4
 #' * ...$i2c_enabled TRUE if i2c is enabled on this RPi
 #' * ...$spi_enabled TRUE if spi is enabled on this RPi
+#' * ...$gpiod_enabled TRUE if gpiod is installed on this RPi
 #'
 #' @export
 #'
@@ -44,7 +45,13 @@ rpi_whatami <- function() {
 
       thisIsMe$i2c_enabled <- file.exists("/dev/i2c-1")
       thisIsMe$spi_enabled <- file.exists("/dev/spidev0.0")
+
+      thisIsMe$gpiod_enabled <- system("gpiodetect", intern = TRUE) |>
+        (\(x) grepl("pinctrl", x))() |>
+        any()
+
       thisIsMe$fault <- ""
+
     },
     warning = function(w) {
       thisIsMe$is_rpi <- FALSE
