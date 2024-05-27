@@ -14,13 +14,17 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 <!-- badges: end -->
 
+Documentation can be found at <https://mnr.github.io/rpigpior/>
+
 `rpigpior` allows the R programming language access to the Raspberry Pi
-GPIO using libgpiod. Because libgpiod is already included in Raspbian,
-there is nothing else to install.
+GPIO using libgpiod. It relies on the gpiod command line interface,
+which may need to be installed on your system.
 
 `rpigpior` provides these tools:
 
-- `is.rpi` - Returns TRUE if this code is running under Raspbian
+- rpi_whatami - Returns a data.frame with lots of useful information
+  about the Raspberry Pi this code is running on. It will complain if
+  this isn’t running on a Raspberry Pi.
 - `rpi_get` - Returns the value of a board level pin (1-40) or an error
   if the pin isn’t a data line (3.3v, 5v, or GROUND)
 - `rpi_set` - Sets a pin to on or off
@@ -34,18 +38,10 @@ there is nothing else to install.
 
 `rpigpior` is hosted on github. Until it arrives at cran, you can
 install the development version of rpigpior from
-[GitHub](https://github.com/mnr/rpigpior) with:
+[GitHub](https://github.com/mnr/rpigpior)
 
-``` r
-library(remotes)
-remotes::install_github("mnr/rpigpior")
-```
-
-Most documentation will tell you to use devtools, but
-`install.packages("devtools")` on a Raspberry Pi is an onerous task.
-
-*However*…if you installed R on your Raspberry Pi using
-[r4pi](https://r4pi.org/), you can use devtools just like normal.
+If you installed R on your Raspberry Pi using [r4pi](https://r4pi.org/),
+you can use devtools just like normal.
 
 ``` r
 # Start R with "sudo R" to install packages
@@ -67,9 +63,9 @@ library(rpigpior)
 It’s helpful to check if your code is running on a Raspberry Pi.
 
 ``` r
-if ( is.rpi() ) {
+if ( rpi_whatami()$is_rpi ) {
    print("Yes, this is a RPi")
-} else {
+  } else {
    print ("No, this is not a RPi")
 }
 ```
@@ -110,19 +106,22 @@ turn them on, then one of them off, then all of them off
 
 ``` r
 citation("rpigpior")
+#> Warning in citation("rpigpior"): no date field in DESCRIPTION file of package
+#> 'rpigpior'
 #> 
-#> To cite rpigpior in publications use:
+#> To cite package 'rpigpior' in publications use:
 #> 
-#>   Niemann-Ross M (2024). "rpigpior: Provides R with Access to the
-#>   Raspberry Pi." <https://mnr.github.io/rpigpior/>.
+#>   Niemann-Ross M (2024). _rpigpior: Provides R with Access to the
+#>   Raspberry Pi_. https://github.com/mnr/rpigpior,
+#>   https://mnr.github.io/rpigpior/.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
-#>   @Misc{Article,
-#>     url = {https://mnr.github.io/rpigpior/},
-#>     author = {Mark Niemann-Ross},
+#>   @Manual{,
 #>     title = {rpigpior: Provides R with Access to the Raspberry Pi},
+#>     author = {Mark Niemann-Ross},
 #>     year = {2024},
+#>     note = {https://github.com/mnr/rpigpior, https://mnr.github.io/rpigpior/},
 #>   }
 ```
 
