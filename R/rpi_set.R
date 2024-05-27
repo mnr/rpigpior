@@ -8,7 +8,7 @@
 #' @return no value is returned
 #' @export
 #'
-#' @examplesIf is.rpi()
+#' @examplesIf rpigpior::rpi_whatami()$is_rpi
 #' # turns pin 19 on, 21 off, and 23 on.
 #' # This corresponds to gpio09, gpio10, and gpio11
 #' rpi_set(pin_number = c(19, 21, 23), onOff = c(1, 0, 1))
@@ -19,7 +19,7 @@
 #' rpi_set(toggleThesePins, c(0, 1, 0)) # turns off pins 19 and 23
 #' Sys.sleep(1)
 #' rpi_set(toggleThesePins, 0) # turns off all pins
-rpi_set <- function(pin_number, onOff) {
+rpi_set <- function(pin_number, onOff, whatami = rpi_whatami()) {
   if (is.logical(onOff)) {
     onOff <- ifelse(onOff, 1, 0)
   }
@@ -29,7 +29,7 @@ rpi_set <- function(pin_number, onOff) {
   pinAndValue <- paste0(bcm_line, "=", onOff)
 
   gpio_sysCall <- paste(
-    "gpioset gpiochip0",
+    "gpioset", whatami$gpiochip,
     paste(pinAndValue, collapse = " ")
   )
 
