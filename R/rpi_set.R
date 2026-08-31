@@ -38,8 +38,7 @@ rpi_set <- function(pin_number, onOff, whatami = rpi_whatami()) {
   pinAndValue <- paste0(bcm_line, "=", onOff)
 
   gpio_sysCall <- paste(
-    "gpioset", whatami$gpiochip,
-    paste(pinAndValue, collapse = " ")
+    "gpioset", "-c", whatami$gpiochip, paste(pinAndValue, collapse = " ")
   )
 
   system(gpio_sysCall, intern = TRUE)
