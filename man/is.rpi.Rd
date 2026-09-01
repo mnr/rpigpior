@@ -2,19 +2,20 @@
 % Please edit documentation in R/is_rpi.R
 \name{is.rpi}
 \alias{is.rpi}
-\title{Confirm this code is running on a Raspberry Pi}
+\title{DEPRECATED. Use rpi_whatami()$is_rpi instead.}
 \usage{
-is.rpi(tellme = FALSE)
+is.rpi(whatami = rpi_whatami())
 }
 \arguments{
-\item{tellme}{if TRUE the is.rpi will return the device-tree/model.
-This typically looks like "Raspberry Pi 5 Model B Rev 1.0"}
+\item{whatami}{defaults to the data.frame returned by rpi_whatami()}
 }
 \value{
 TRUE if running on a Raspberry Pi.
-if tellme = TRUE, return the model string
 }
 \description{
+Confirm this code is running on a Raspberry Pi
+}
+\details{
 Returns TRUE if this code is running on a Raspberry Pi
 }
 \examples{

@@ -4,12 +4,17 @@
 \alias{rpi_set}
 \title{Turn lines on or off}
 \usage{
-rpi_set(pin_number, onOff)
+rpi_set(pin_number, onOff, whatami = rpi_whatami())
 }
 \arguments{
 \item{pin_number}{one or more pin numbers as found on the Raspberry pi GPIO. Use the actual pin numbers (i.e. 1:40)}
 
 \item{onOff}{a vector the same length of pin_number with values of 0 or 1 to turn the line off or on}
+
+\item{whatami}{a data.frame of configuration data as supplied by rpi_whatami().
+The default value is a call to rpi_whatami(). If you make frequent calls to
+to this function, consider saving the result of rpi_whatami() and pass that saved
+data.frame instead.}
 }
 \value{
 no value is returned
@@ -18,7 +23,7 @@ no value is returned
 Turn lines on or off
 }
 \examples{
-\dontshow{if (is.rpi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rpigpior::rpi_whatami()$is_rpi) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # turns pin 19 on, 21 off, and 23 on.
 # This corresponds to gpio09, gpio10, and gpio11
 rpi_set(pin_number = c(19, 21, 23), onOff = c(1, 0, 1))
@@ -29,5 +34,9 @@ Sys.sleep(1)
 rpi_set(toggleThesePins, c(0, 1, 0)) # turns off pins 19 and 23
 Sys.sleep(1)
 rpi_set(toggleThesePins, 0) # turns off all pins
+
+# consider this for multiple calls to rpi_set()
+mywhatami <- rpi_whatami()
+rpi_set(19, whatami = mywhatami)
 \dontshow{\}) # examplesIf}
 }
