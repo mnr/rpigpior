@@ -31,10 +31,15 @@ rpi_get <- function(pin_number, whatami = rpi_whatami()) {
     paste(bcm_line, collapse = " ")
   )
 
-  pin_value <- system(gpio_sysCall, intern = TRUE) |>
-    strsplit(split = " ") |>
-    unlist() |>
-    as.numeric()
+  pin_value <- as.numeric(
+    unlist(
+      strsplit(
+        system(gpio_sysCall, intern = TRUE) ,
+        split = " ")))
+# pin_value <- system(gpio_sysCall, intern = TRUE) |>
+#     strsplit(split = " ") |>
+#    unlist() |>
+#    as.numeric()
 
   names(pin_value) <- pin_name
 
