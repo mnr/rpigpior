@@ -18,12 +18,11 @@
 #' * ...$spi_enabled TRUE if spi is enabled on this RPi
 #' * ...$gpiod_enabled TRUE if gpiod is installed on this RPi
 #'
-#' @export
-#'
 #' @examplesIf rpigpior::rpi_whatami()$is_rpi
 #' rpigpior::rpi_whatami()
 #'
-#'
+#' @export
+
 rpi_whatami <- function() {
   thisIsMe <- list()
 
