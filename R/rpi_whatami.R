@@ -25,12 +25,12 @@
 #'
 #'
 rpi_whatami <- function() {
-  thisIsMe <- data.frame()
+  thisIsMe <- list()
 
   theResult <- tryCatch(
     {
-      readLines("/proc/device-tree/model", warn = FALSE)
-      resultPieces <- unlist(strsplit(theResult," "))
+      rpiID <- readLines("/proc/device-tree/model", warn = FALSE)
+      resultPieces <- unlist(strsplit(rpiID," "))
       thisIsMe$is_rpi <- ifelse(resultPieces[1] == "Raspberry",TRUE,FALSE)
       thisIsMe$rpi_Version <- resultPieces[3] # model
 
