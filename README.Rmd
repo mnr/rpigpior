@@ -38,18 +38,20 @@ which may need to be installed on your system.
 
 `rpigpior` provides these tools:
 
--   rpi_whatami - Returns a data.frame with lots of useful information
-    about the Raspberry Pi this code is running on. It will complain if
-    this isn't running on a Raspberry Pi.
--   `rpi_get` - Returns the value of a board level pin (1-40) or an
-    error if the pin isn't a data line (3.3v, 5v, or GROUND)
--   `rpi_set` - Sets a pin to on or off
--   `rpi_monitor` - watches a pin for a number of rising or falling
-    events
--   `rpi_pwm` - provides diagnostics and support for hardware pulse
-    width modulation
--   `rpi_i2c_get` - retrieve a value from an i2c connection
--   `rpi_i2c_set` - set an i2c register to a value
+- `rpi_whatami` - Returns a data.frame with lots of useful information
+  about the Raspberry Pi this code is running on. It will complain if
+  this isn't running on a Raspberry Pi.
+- `is.rpi` - Is this a Raspberry Pi: true or false. Shortcut for
+  `rpi_whatami()$is_rpi` . Only included for backwards compatibility and
+  convenience. May be deprecated in the future.
+- `rpi_get` - Returns the value of a board level pin (1-40) or an error
+  if the pin isn't a data line (3.3v, 5v, or GROUND)
+- `rpi_set` - Sets a pin to on or off
+- `rpi_monitor` - watches a pin for a number of rising or falling events
+- `rpi_pwm` - provides diagnostics and support for hardware pulse width
+  modulation
+- `rpi_i2c_get` - retrieve a value from an i2c connection
+- `rpi_i2c_set` - set an i2c register to a value
 
 ## Installation
 

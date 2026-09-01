@@ -4,6 +4,7 @@
 # rpigpior
 
 <!--  <a href="https://mnr.github.io/rpigpior/"><img src="man/figures/logo.png" align="right" height="138"></a> -->
+
 <!-- badges: start -->
 
 [![Project Status: Active – The project has reached a stable, usable
@@ -22,9 +23,12 @@ which may need to be installed on your system.
 
 `rpigpior` provides these tools:
 
-- rpi_whatami - Returns a data.frame with lots of useful information
+- `rpi_whatami` - Returns a data.frame with lots of useful information
   about the Raspberry Pi this code is running on. It will complain if
   this isn’t running on a Raspberry Pi.
+- `is.rpi` - Is this a Raspberry Pi: true or false. Shortcut for
+  `rpi_whatami()$is_rpi` . Only included for backwards compatibility and
+  convenience. May be deprecated in the future.
 - `rpi_get` - Returns the value of a board level pin (1-40) or an error
   if the pin isn’t a data line (3.3v, 5v, or GROUND)
 - `rpi_set` - Sets a pin to on or off
