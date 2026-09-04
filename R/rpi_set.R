@@ -1,5 +1,5 @@
-#' Turn lines on or off
-#'
+#' Turn gpio lines on or off
+#' documentation at https://libgpiod.readthedocs.io/en/v2.2.4/index.html
 #'
 #'
 #' @param pin_number one or more pin numbers as found on the Raspberry pi GPIO. Use the actual pin numbers (i.e. 1:40)
@@ -37,9 +37,10 @@ rpi_set <- function(pin_number, onOff, whatami = rpi_whatami()) {
 
   pinAndValue <- paste0(bcm_line, "=", onOff)
 
-    # added "-c" in front of gpiochip
+    # add "-c" in front of gpiochip
+  # add -t0 to stop gpioset from hanging
   gpio_sysCall <- paste(
-    "gpioset", "-c", whatami$gpiochip, paste(pinAndValue, collapse = " ")
+    "gpioset", "-t0 -c", whatami$gpiochip, paste(pinAndValue, collapse = " ")
   )
 
   system(gpio_sysCall, intern = TRUE)
