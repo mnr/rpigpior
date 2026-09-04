@@ -46,11 +46,8 @@ rpi_whatami <- function() {
       thisIsMe$spi_enabled <- file.exists("/dev/spidev0.0")
 
       thisIsMe$gpiod_enabled < any(
-        grepl("pinctrl", system("gpiodetect, intern = TRUE") )
+        grepl("pinctrl", system("gpiodetect", intern = TRUE) )
         )
-     # thisIsMe$gpiod_enabled <- system("gpiodetect", intern = TRUE) |>
-     #   (\(x) grepl("pinctrl", x))() |>
-     #   any()
 
       thisIsMe$fault <- ""
 
